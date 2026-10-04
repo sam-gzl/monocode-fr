@@ -1,3 +1,4 @@
+import { useIntl } from "react-intl";
 import {
   ArrowUp,
   AiIdea,
@@ -583,6 +584,7 @@ export function Composer({
   onEditingLastTurnChange,
   children,
 }: Props) {
+  const { formatMessage: t } = useIntl();
   const ref = useRef<HTMLTextAreaElement>(null);
   const boxRef = useRef<HTMLDivElement>(null);
   const plusRef = useRef<HTMLDivElement>(null);
@@ -2308,17 +2310,14 @@ export function Composer({
               defaultValue={initialDraft}
               placeholder={
                 worktreeRemoved
-                  ? "Select a branch or worktree to continue…"
+                  ? t({ id: "composer.placeholder.worktreeRemoved" })
                   : inboxCard
-                    ? "Add a note, or send to start…"
+                    ? t({ id: "composer.placeholder.inboxCard" })
                     : noteCard
-                      ? "Add a message, or send…"
+                      ? t({ id: "composer.placeholder.noteCard" })
                       : handoffCard
-                        ? "Add context, or send to continue…"
-                        : (placeholder ??
-                          (shell
-                            ? "Ask, build, / for commands, @ for references... "
-                            : "Ask, build, / for commands, @ for references... "))
+                        ? t({ id: "composer.placeholder.handoffCard" })
+                        : (placeholder ?? t({ id: "composer.placeholder" }))
               }
               aria-label={inputAriaLabel}
               disabled={disabled}

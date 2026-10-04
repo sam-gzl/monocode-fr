@@ -1,3 +1,4 @@
+import { useIntl, type IntlShape } from "react-intl";
 import { NO_BRANCH_LABEL } from "../../features/source-control/model/worktrees";
 import {
   type WorktreeFocus,
@@ -195,12 +196,16 @@ let rememberedWidth = DEFAULT_WIDTH;
 
 type SidebarTab = SidebarTabId;
 
-const TAB_LABELS: Record<SidebarTab, string> = {
-  sessions: "Sessions",
-  inbox: "Inbox",
-  files: "Explorer",
-  changes: "Changes",
+const TAB_MESSAGE_IDS: Record<SidebarTab, string> = {
+  sessions: "workspace.tab.sessions",
+  inbox: "rail.inbox",
+  files: "workspace.tab.explorer",
+  changes: "workspace.tab.changes",
 };
+
+function tabLabel(t: IntlShape["formatMessage"], itemId: SidebarTab): string {
+  return t({ id: TAB_MESSAGE_IDS[itemId] });
+}
 
 const COMPACT_TAB_ICONS: Record<SidebarTab, typeof PanelLeft> = {
   sessions: Chatting,
@@ -418,6 +423,7 @@ function SidebarComponent({
   onOpenWhatsNew,
   onDismissUpdate,
 }: Props) {
+  const { formatMessage: t } = useIntl();
   const remoteProject = isRemoteProjectPath(cwd);
   const tab: SidebarTabId = requestedTab;
   const remote = useRemoteProjectSessions(cwd, remoteProject);
@@ -1533,8 +1539,8 @@ function SidebarComponent({
       ref={searchInputRef}
       type="text"
       value={searchQuery}
-      placeholder="Search conversations..."
-      aria-label="Search conversations"
+      placeholder={t({ id: "workspace.searchConversations" })}
+      aria-label={t({ id: "workspace.searchConversations" })}
       spellCheck={false}
       autoComplete="off"
       autoCorrect="off"
@@ -1608,7 +1614,7 @@ function SidebarComponent({
             <DiffStat additions={changeAdditions} deletions={changeDeletions} />
           ) : (
             <span className="block truncate leading-label">
-              {TAB_LABELS[itemId]}
+              {tabLabel(t, itemId)}
             </span>
           )}
         </button>
@@ -2336,6 +2342,7 @@ function SidebarProjectPicker({
   automationsActive?: boolean;
   inboxUnseen?: boolean;
 }) {
+  const { formatMessage: t } = useIntl();
   const [inboxMenu, setInboxMenu] = useState<{ x: number; y: number } | null>(
     null,
   );
@@ -2372,7 +2379,7 @@ function SidebarProjectPicker({
         ) : null}
         {onOpenInbox ? (
           <IconButton
-            label={inboxUnseen ? "Inbox, new items" : "Inbox"}
+            label={inboxUnseen ? t({ id: "rail.inboxNewItems" }) : t({ id: "rail.inbox" })}
             active={inboxActive}
             onClick={onOpenInbox}
             onOpenContextMenu={(x, y) => {
@@ -2395,13 +2402,13 @@ function SidebarProjectPicker({
           </IconButton>
         ) : null}
         {onOpenNotes ? (
-          <IconButton label="Notes" active={notesActive} onClick={onOpenNotes}>
+          <IconButton label={t({ id: "rail.notes" })} active={notesActive} onClick={onOpenNotes}>
             <StickyNote className="size-3.5" strokeWidth={1.75} />
           </IconButton>
         ) : null}
         {onOpenAutomations ? (
           <IconButton
-            label="Automations"
+            label={t({ id: "rail.automations" })}
             active={automationsActive}
             onClick={onOpenAutomations}
           >
@@ -2479,6 +2486,7 @@ function CompactProjectRail({
   onLeaveActive?: () => void;
   titleBarAbove: boolean;
 }) {
+  const { formatMessage: t } = useIntl();
   const [inboxMenu, setInboxMenu] = useState<{ x: number; y: number } | null>(
     null,
   );
@@ -2543,7 +2551,7 @@ function CompactProjectRail({
             <CompactRailAction
               key={itemId}
               tab
-              label={itemId === "changes" ? changesLabel : TAB_LABELS[itemId]}
+              label={itemId === "changes" ? changesLabel : tabLabel(t, itemId)}
               icon={COMPACT_TAB_ICONS[itemId]}
               active={workspaceActive && tabShown && activeTab === itemId}
               dot={itemId === "changes" && hasChanges}
@@ -2558,7 +2566,7 @@ function CompactProjectRail({
           onClick={action(searchActive, onSearch)}
         />
         <CompactRailAction
-          label={inboxUnseen ? "Inbox, new items" : "Inbox"}
+          label={inboxUnseen ? t({ id: "rail.inboxNewItems" }) : t({ id: "rail.inbox" })}
           icon={Inbox}
           active={inboxActive}
           dot={inboxUnseen}
@@ -2573,14 +2581,14 @@ function CompactProjectRail({
         />
         {onOpenNotes ? (
           <CompactRailAction
-            label="Notes"
+            label={t({ id: "rail.notes" })}
             icon={StickyNote}
             active={notesActive}
             onClick={action(notesActive, onOpenNotes)}
           />
         ) : null}
         <CompactRailAction
-          label="Automations"
+          label={t({ id: "rail.automations" })}
           icon={Zap}
           active={automationsActive}
           onClick={action(automationsActive, onOpenAutomations)}

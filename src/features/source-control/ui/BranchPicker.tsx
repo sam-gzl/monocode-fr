@@ -1,3 +1,4 @@
+import { useIntl } from "react-intl";
 import { Check, GitBranch, Plus, Search } from "../../../shared/ui/icons";
 import {
   useEffect,
@@ -61,6 +62,7 @@ export function BranchPicker({
   onOpenChange,
   popoverSide = "top",
 }: Props) {
+  const { formatMessage: t } = useIntl();
   const [open, setOpen] = useState(initialOpen);
   const [query, setQuery] = useState("");
   const [active, setActive] = useState(0);
@@ -283,11 +285,11 @@ export function BranchPicker({
     ? detached
       ? `detached ${current}`
       : current
-    : "No repo";
+    : t({ id: "branchPicker.noRepo" });
   const title = awaitingBranch
-    ? "Loading branch…"
+    ? t({ id: "branchPicker.loadingBranch" })
     : missingGit
-      ? "No git repository"
+      ? t({ id: "branchPicker.noGitRepository" })
       : label;
   const interactive = enabled && !awaitingBranch && !missingGit;
 

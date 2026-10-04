@@ -1,3 +1,4 @@
+import { useIntl } from "react-intl";
 import { NativePopupHost } from "../../../shared/ui/NativePopupHost";
 import {
   useCallback,
@@ -133,8 +134,9 @@ export function WorkspacePicker({
 
 /** A started conversation owns its working copy; only its branch stays mutable. */
 export function WorkspaceIdentity({ worktree }: { worktree: boolean }) {
+  const { formatMessage: t } = useIntl();
   const Icon = worktree ? FolderTree : Folder;
-  const label = worktree ? "Worktree" : "Current checkout";
+  const label = worktree ? "Worktree" : t({ id: "workspace.currentCheckout" });
   return (
     <div
       title={`Workspace: ${label}`}
@@ -170,6 +172,7 @@ function WorkspaceModePicker({
   onOpenChange?: (open: boolean) => void;
   popoverSide?: "top" | "bottom";
 }) {
+  const { formatMessage: t } = useIntl();
   const host = useContext(NativePopupHost);
   const [open, setOpen] = useState(initialOpen);
   useEffect(() => {
@@ -253,7 +256,10 @@ function WorkspaceModePicker({
       setPickError(undefined);
     }, HOVER_CLOSE_MS);
   };
-  const label = mode === "worktree" ? "New worktree" : "Current checkout";
+  const label =
+    mode === "worktree"
+      ? t({ id: "workspace.newWorktree" })
+      : t({ id: "workspace.currentCheckout" });
   const shortcut = keybindingShortcutLabel(
     "Composer: Toggle Workspace",
     WORKSPACE_MODE_SHORTCUT,
@@ -303,7 +309,7 @@ function WorkspaceModePicker({
           className="overflow-hidden p-1.5"
         >
           <div className="flex items-center justify-between gap-3 px-2 py-1 text-[11px] font-medium text-content/45">
-            <span>Workspace</span>
+            <span>{t({ id: "settings.general.workspace.title" })}</span>
             {shortcut ? (
               <kbd className="font-sans text-[10px] font-normal text-content/35">
                 {shortcut}
@@ -312,8 +318,8 @@ function WorkspaceModePicker({
           </div>
           {(
             [
-              ["current", "Current checkout", Folder],
-              ["worktree", "New worktree", FolderTree],
+              ["current", t({ id: "workspace.currentCheckout" }), Folder],
+              ["worktree", t({ id: "workspace.newWorktree" }), FolderTree],
             ] as const
           ).map(([value, text, RowIcon]) => (
             <button

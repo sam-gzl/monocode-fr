@@ -93,4 +93,32 @@ export const fr: Record<MessageKey, string> = {
     "Fermer une fenêtre la cache dans la barre système au lieu de quitter, pour que les agents en cours continuent de tourner. Rouvrez depuis l'icône de la barre système, et quittez réellement depuis son menu. Désactivez pour que fermer termine la fenêtre.",
 
   "settings.general.about.title": "À propos",
+
+  "rail.search": "Rechercher",
+  "rail.inbox": "Boîte de réception",
+  "rail.inboxNewItems": "Boîte de réception, nouveaux éléments",
+  "rail.notes": "Notes",
+  "rail.automations": "Automatisations",
+  "rail.projects": "Projets",
+  "rail.noProjectsYet": "Pas encore de projet",
+
+  "workspace.tab.sessions": "Sessions",
+  "workspace.tab.explorer": "Explorateur",
+  "workspace.tab.changes": "Modifications",
+  "workspace.tab.stagedChanges": "Modifications indexées",
+  "workspace.searchConversations": "Rechercher dans les conversations...",
+
+  "workspace.currentCheckout": "Checkout actuel",
+  "workspace.newWorktree": "Nouveau worktree",
+
+  "branchPicker.noRepo": "Pas de dépôt",
+  "branchPicker.noGitRepository": "Pas de dépôt git",
+  "branchPicker.loadingBranch": "Chargement de la branche…",
+
+  "composer.placeholder": "Demandez, construisez, / pour les commandes, @ pour les références... ",
+  "composer.placeholder.worktreeRemoved":
+    "Sélectionnez une branche ou un worktree pour continuer…",
+  "composer.placeholder.inboxCard": "Ajoutez une note, ou envoyez pour commencer…",
+  "composer.placeholder.noteCard": "Ajoutez un message, ou envoyez…",
+  "composer.placeholder.handoffCard": "Ajoutez du contexte, ou envoyez pour continuer…",
 };

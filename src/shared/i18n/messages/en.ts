@@ -90,6 +90,34 @@ export const en = {
     "Closing a window hides it to the system tray instead of quitting, so running agents keep going. Reopen from the tray icon, and quit for real from its menu. Turn this off to have close end the window.",
 
   "settings.general.about.title": "About",
+
+  "rail.search": "Search",
+  "rail.inbox": "Inbox",
+  "rail.inboxNewItems": "Inbox, new items",
+  "rail.notes": "Notes",
+  "rail.automations": "Automations",
+  "rail.projects": "Projects",
+  "rail.noProjectsYet": "No projects yet",
+
+  "workspace.tab.sessions": "Sessions",
+  "workspace.tab.explorer": "Explorer",
+  "workspace.tab.changes": "Changes",
+  "workspace.tab.stagedChanges": "Staged Changes",
+  "workspace.searchConversations": "Search conversations...",
+
+  "workspace.currentCheckout": "Current checkout",
+  "workspace.newWorktree": "New worktree",
+
+  "branchPicker.noRepo": "No repo",
+  "branchPicker.noGitRepository": "No git repository",
+  "branchPicker.loadingBranch": "Loading branch…",
+
+  "composer.placeholder": "Ask, build, / for commands, @ for references... ",
+  "composer.placeholder.worktreeRemoved":
+    "Select a branch or worktree to continue…",
+  "composer.placeholder.inboxCard": "Add a note, or send to start…",
+  "composer.placeholder.noteCard": "Add a message, or send…",
+  "composer.placeholder.handoffCard": "Add context, or send to continue…",
 } satisfies Record<string, string>;
 
 export type MessageKey = keyof typeof en;
