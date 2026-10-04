@@ -1,6 +1,8 @@
 // @vitest-environment happy-dom
 import { act, createElement, type ComponentProps } from "react";
-import { createRoot, type Root } from "react-dom/client";
+import { createRoot as reactCreateRoot, type Root } from "react-dom/client";
+import { IntlProvider } from "react-intl";
+import { en } from "../../../shared/i18n/messages/en";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { invoke } from "@tauri-apps/api/core";
 import { ask } from "@tauri-apps/plugin-dialog";
@@ -19,10 +21,7 @@ import {
   clearCachedRateLimits,
   setCachedRateLimits,
 } from "../../providers/model/rateLimitsCache";
-import {
-  HARNESSES,
-  HARNESS_TITLE,
-} from "../../sessions/model/session";
+import { HARNESSES, HARNESS_TITLE } from "../../sessions/model/session";
 import { saveMaskEmails, saveShowRemainingUsage } from "../model/displayPrefs";
 
 vi.mock("@tauri-apps/api/core", () => ({
@@ -48,6 +47,16 @@ vi.mock("../../../integrations/harness/core/availability", () => ({
 
 let container: HTMLDivElement;
 let root: Root;
+
+function createRoot(container: HTMLDivElement): Root {
+  const root = reactCreateRoot(container);
+  const render = root.render.bind(root);
+  root.render = (children) =>
+    render(
+      createElement(IntlProvider, { locale: "en", messages: en }, children),
+    );
+  return root;
+}
 let onSelectSection: ReturnType<typeof vi.fn>;
 
 function mockLocalStorage() {
@@ -411,7 +420,9 @@ describe("settings pages", () => {
     const save = async (provider: "Codex" | "OpenCode", path: string) => {
       const id = `${provider.toLowerCase()}-binary-path`;
       if (!document.querySelector(`#${id}`)) {
-        if (!document.querySelector(`[aria-label="Edit ${provider} CLI path"]`)) {
+        if (
+          !document.querySelector(`[aria-label="Edit ${provider} CLI path"]`)
+        ) {
           await act(async () =>
             container
               .querySelector<HTMLButtonElement>(
@@ -473,11 +484,13 @@ describe("settings pages", () => {
       ).codex,
     ).toBe("/opt/codex/bin/codex");
     await act(async () =>
-      Array.from(document.querySelectorAll<HTMLButtonElement>("button")).find(
-        (button) => button.textContent === "Cancel",
-      )!.click(),
+      Array.from(document.querySelectorAll<HTMLButtonElement>("button"))
+        .find((button) => button.textContent === "Cancel")!
+        .click(),
     );
-    expect(document.querySelector('[aria-label="Retry Codex configured path"]')).not.toBeNull();
+    expect(
+      document.querySelector('[aria-label="Retry Codex configured path"]'),
+    ).not.toBeNull();
 
     failAutoCodex = true;
     await save("Codex", "");
@@ -742,7 +755,9 @@ describe("settings pages", () => {
   it("shows path details for every Agent CLI", async () => {
     await render("providers");
     expect(
-      vi.mocked(invoke).mock.calls.some(([command]) => command === "harness_exec"),
+      vi
+        .mocked(invoke)
+        .mock.calls.some(([command]) => command === "harness_exec"),
     ).toBe(false);
     for (const harness of HARNESSES) {
       expect(
@@ -772,7 +787,8 @@ describe("settings pages", () => {
     vi.mocked(invoke).mockImplementation(async (command) => {
       if (command === "harness_resolve_codex") return { path: "/auto/codex" };
       if (command === "harness_exec") return "codex-cli 0.156.1";
-      if (command === "reveal_path") throw new Error("File manager unavailable");
+      if (command === "reveal_path")
+        throw new Error("File manager unavailable");
       return undefined;
     });
     await render("providers");

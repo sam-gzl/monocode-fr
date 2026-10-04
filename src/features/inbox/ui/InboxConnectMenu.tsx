@@ -2,6 +2,7 @@ import {
   INBOX_SOURCE_LABELS,
   type ConnectableInboxSource,
 } from "../model/inboxFilters";
+import { useIntl } from "react-intl";
 import { InboxProviderMark } from "./InboxProviderMark";
 import { Popover, type PopoverAnchor } from "../../../shared/ui/Popover";
 
@@ -18,6 +19,7 @@ export function InboxConnectMenu({
   onConnect: (source: ConnectableInboxSource) => void;
   onClose: () => void;
 }) {
+  const { formatMessage: t } = useIntl();
   return (
     <Popover
       anchor={anchor}
@@ -25,12 +27,12 @@ export function InboxConnectMenu({
       width={WIDTH}
       onDismiss={onClose}
       role="menu"
-      aria-label="Connect an inbox source"
+      aria-label={t({ id: "inbox.connectSource" })}
       onContextMenu={(event) => event.preventDefault()}
       className="p-1"
     >
       <div className="px-2 pb-1 pt-1 text-[10px] font-semibold uppercase tracking-[0.08em] text-content/40">
-        Not connected
+        {t({ id: "inbox.notConnected" })}
       </div>
       {sources.map((source) => (
         <button
@@ -49,7 +51,10 @@ export function InboxConnectMenu({
             className="block size-3.5 shrink-0"
           />
           <span className="min-w-0 flex-1 truncate">
-            Connect {INBOX_SOURCE_LABELS[source]}
+            {t(
+              { id: "inbox.connectNamed" },
+              { source: INBOX_SOURCE_LABELS[source] },
+            )}
           </span>
         </button>
       ))}

@@ -1,12 +1,17 @@
 // @vitest-environment happy-dom
 import { act, createElement, Profiler } from "react";
-import { createRoot, type Root } from "react-dom/client";
+import { createRoot as reactCreateRoot, type Root } from "react-dom/client";
+import { IntlProvider } from "react-intl";
+import { en } from "../../../shared/i18n/messages/en";
 import { invoke } from "@tauri-apps/api/core";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { SkillsPage } from "./SkillsPage";
 import { SettingsView } from "../../settings/ui/SettingsView";
 import type { DiscoveredSkill } from "../../../platform/tauri/fs";
-import { loadDisabledSkillPaths, saveDisabledSkillPaths } from "../model/skills";
+import {
+  loadDisabledSkillPaths,
+  saveDisabledSkillPaths,
+} from "../model/skills";
 
 vi.mock("@tauri-apps/api/core", () => ({ invoke: vi.fn() }));
 vi.mock("@tauri-apps/api/window", () => ({
@@ -43,6 +48,16 @@ const markdown =
   "---\nname: guide\n---\n\n# Full instructions\n\nRead **everything**.\n\nLast paragraph.\n";
 let container: HTMLDivElement;
 let root: Root;
+
+function createRoot(container: HTMLDivElement): Root {
+  const root = reactCreateRoot(container);
+  const render = root.render.bind(root);
+  root.render = (children) =>
+    render(
+      createElement(IntlProvider, { locale: "en", messages: en }, children),
+    );
+  return root;
+}
 
 function button(
   label: string,
@@ -85,6 +100,13 @@ function deferred<T>() {
 
 beforeEach(() => {
   vi.stubGlobal("IS_REACT_ACT_ENVIRONMENT", true);
+  const storage = new Map<string, string>();
+  vi.stubGlobal("localStorage", {
+    getItem: (key: string) => storage.get(key) ?? null,
+    setItem: (key: string, value: string) => storage.set(key, value),
+    removeItem: (key: string) => storage.delete(key),
+    clear: () => storage.clear(),
+  });
   localStorage.clear();
   vi.mocked(invoke).mockReset();
   vi.mocked(invoke).mockImplementation(async (command) => {

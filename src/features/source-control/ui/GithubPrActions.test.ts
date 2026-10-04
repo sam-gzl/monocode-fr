@@ -1,5 +1,7 @@
 // @vitest-environment happy-dom
 import { act, createElement } from "react";
+import { IntlProvider } from "react-intl";
+import { en } from "../../../shared/i18n/messages/en";
 import { createRoot, type Root } from "react-dom/client";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
@@ -79,12 +81,16 @@ describe("GitHub pull request actions", () => {
     const onChange = vi.fn();
     act(() =>
       root.render(
-        createElement(GithubPrActions, {
-          item,
-          baseRef: "main",
-          headRef: "feature/inbox",
-          onChange,
-        }),
+        createElement(
+          IntlProvider,
+          { locale: "en", messages: en },
+          createElement(GithubPrActions, {
+            item,
+            baseRef: "main",
+            headRef: "feature/inbox",
+            onChange,
+          }),
+        ),
       ),
     );
 
@@ -136,11 +142,15 @@ describe("GitHub pull request actions", () => {
     );
     act(() =>
       root.render(
-        createElement(GithubPrActions, {
-          item: pr(),
-          baseRef: "main",
-          headRef: "feature/inbox",
-        }),
+        createElement(
+          IntlProvider,
+          { locale: "en", messages: en },
+          createElement(GithubPrActions, {
+            item: pr(),
+            baseRef: "main",
+            headRef: "feature/inbox",
+          }),
+        ),
       ),
     );
 

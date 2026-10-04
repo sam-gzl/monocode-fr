@@ -15,6 +15,7 @@ import {
 } from "../settings/model/appearance";
 import { QuickGitPopup } from "./ui/QuickGitPopup";
 import { QuickComposer } from "./ui/QuickComposer";
+import { IntlRoot } from "../../shared/i18n/IntlRoot";
 import "../../styles/index.css";
 
 /**
@@ -39,10 +40,12 @@ applyAppearance();
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    {new URLSearchParams(window.location.search).get("popup") === "git" ? (
-      <QuickGitPopup onShown={applyAppearance} />
-    ) : (
-      <QuickComposer onShown={applyAppearance} />
-    )}
+    <IntlRoot>
+      {new URLSearchParams(window.location.search).get("popup") === "git" ? (
+        <QuickGitPopup onShown={applyAppearance} />
+      ) : (
+        <QuickComposer onShown={applyAppearance} />
+      )}
+    </IntlRoot>
   </React.StrictMode>,
 );

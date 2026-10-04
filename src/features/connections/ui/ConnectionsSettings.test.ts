@@ -1,9 +1,12 @@
 // @vitest-environment happy-dom
 import { act, createElement } from "react";
 import { createRoot, type Root } from "react-dom/client";
+import { IntlProvider } from "react-intl";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { invoke } from "@tauri-apps/api/core";
 import { ConnectionsSettings } from "./ConnectionsSettings";
+import { en } from "../../../shared/i18n/messages/en";
+import { fr } from "../../../shared/i18n/messages/fr";
 import {
   REMOTE_PROVIDERS,
   type RemoteMachine,
@@ -57,8 +60,16 @@ const button = (name: string) =>
   [...container.querySelectorAll("button")].find(
     (button) => button.textContent?.trim() === name,
   )!;
-async function render() {
-  await act(async () => root.render(createElement(ConnectionsSettings)));
+async function render(locale: "en" | "fr" = "en") {
+  await act(async () =>
+    root.render(
+      createElement(
+        IntlProvider,
+        { locale, messages: locale === "fr" ? fr : en },
+        createElement(ConnectionsSettings),
+      ),
+    ),
+  );
 }
 async function fill(selector: string, value: string) {
   const input = container.querySelector<HTMLInputElement>(selector)!;
@@ -261,7 +272,23 @@ it("keeps the connection when the host cannot revoke its credential", async () =
     machineId: "machine",
   });
   expect(container.textContent).toContain("Could not revoke access");
+  expect(container.textContent).toContain("monocode-host revoke <device-id>");
   expect(button("Remove from this desktop only")).toBeTruthy();
+});
+
+it("shows the machine setup and removal controls in French", async () => {
+  machines = [machine];
+  await render("fr");
+  expect(container.textContent).toContain("Vos machines");
+  await act(async () => button("Ajouter une machine").click());
+  expect(container.textContent).toContain("Se connecter via SSH");
+  expect(container.textContent).toContain("loginctl enable-linger");
+  await act(async () =>
+    container
+      .querySelector<HTMLButtonElement>('[aria-label="Supprimer Home Mac"]')!
+      .click(),
+  );
+  expect(button("Révoquer l'accès et supprimer")).toBeTruthy();
 });
 
 it("does not spellcheck or autocorrect the machine name", async () => {

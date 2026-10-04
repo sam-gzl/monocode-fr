@@ -103,8 +103,10 @@ export const SETTINGS_SECTIONS: SettingsSection[] = [
     id: "mcp",
     group: "agents",
     label: "MCP",
-    description: "Find MCP servers across providers and manage their connections.",
-    keywords: "tools servers connections oauth authenticate login claude codex cursor opencode",
+    description:
+      "Find MCP servers across providers and manage their connections.",
+    keywords:
+      "tools servers connections oauth authenticate login claude codex cursor opencode",
   },
   {
     id: "skills",
@@ -162,7 +164,18 @@ export type SettingsEntry = {
 };
 
 export const SETTINGS_INDEX: SettingsEntry[] = [
-  { id: "remote-machines", section: "connections", label: "Your machines", keywords: "ssh remote connect host server environment" },
+  {
+    id: "language",
+    section: "general",
+    label: "Language",
+    keywords: "locale english french traduction langue français",
+  },
+  {
+    id: "remote-machines",
+    section: "connections",
+    label: "Your machines",
+    keywords: "ssh remote connect host server environment",
+  },
   {
     id: "mcp-servers",
     section: "mcp",
@@ -369,7 +382,8 @@ export const SETTINGS_INDEX: SettingsEntry[] = [
     id: "agent-clis",
     section: "providers",
     label: "Agent CLIs",
-    keywords: "codex opencode cursor grok pi omp fx hermes antigravity binary path",
+    keywords:
+      "codex opencode cursor grok pi omp fx hermes antigravity binary path",
   },
   {
     id: "provider-accounts",
@@ -465,39 +479,56 @@ function matchScore(
 export function searchSettings(
   query: string,
   limit = 8,
+  localize?: (
+    section: SettingsSectionId,
+    settingId: string | null,
+    label: string,
+  ) => string,
 ): SettingsSearchResult[] {
   const needle = query.trim().toLowerCase();
   if (!needle) return [];
   const scored: { score: number; result: SettingsSearchResult }[] = [];
 
   for (const entry of SETTINGS_INDEX) {
-    const score = matchScore(needle, entry.label, entry.keywords);
+    const label =
+      localize?.(entry.section, entry.id, entry.label) ?? entry.label;
+    const score = matchScore(
+      needle,
+      label,
+      `${entry.label} ${entry.keywords ?? ""}`,
+    );
     if (score == null) continue;
     scored.push({
       score,
       result: {
         section: entry.section,
-        sectionLabel: settingsSectionLabel(entry.section),
+        sectionLabel:
+          localize?.(
+            entry.section,
+            null,
+            settingsSectionLabel(entry.section),
+          ) ?? settingsSectionLabel(entry.section),
         settingId: entry.id,
-        label: entry.label,
+        label,
       },
     });
   }
 
   for (const section of SETTINGS_SECTIONS) {
+    const label = localize?.(section.id, null, section.label) ?? section.label;
     const score = matchScore(
       needle,
-      section.label,
-      `${section.description} ${section.keywords ?? ""}`,
+      label,
+      `${section.label} ${section.description} ${section.keywords ?? ""}`,
     );
     if (score == null) continue;
     scored.push({
       score: score + 0.5,
       result: {
         section: section.id,
-        sectionLabel: section.label,
+        sectionLabel: label,
         settingId: null,
-        label: section.label,
+        label,
       },
     });
   }
@@ -1138,9 +1169,7 @@ function defaultShortcutsFor(command: string): string[] {
     return value ? [value] : [];
   };
   if (row.keys.includes("…")) {
-    return [1, 2, 3, 4, 5, 6, 7, 8].flatMap((digit) =>
-      chords(`Digit${digit}`),
-    );
+    return [1, 2, 3, 4, 5, 6, 7, 8].flatMap((digit) => chords(`Digit${digit}`));
   }
   if (/^[A-Za-z]$/.test(rest)) return chords(`Key${rest.toUpperCase()}`);
   if (/^[0-9]$/.test(rest)) return chords(`Digit${rest}`);
@@ -1160,9 +1189,7 @@ function shortcutOwners(): Map<string, string> {
         : defaultShortcutsFor(row.command);
     for (const chord of chords) owners.set(chord, row.command);
   }
-  for (const [command, override] of Object.entries(
-    loadKeybindingOverrides(),
-  )) {
+  for (const [command, override] of Object.entries(loadKeybindingOverrides())) {
     if (override.shortcut) owners.set(override.shortcut, command);
   }
   return owners;
@@ -1313,9 +1340,7 @@ export function keybindingShortcutTokens(
 ): string | null {
   const override = loadKeybindingOverrides()[command];
   if (override?.disabled) return null;
-  return override?.shortcut
-    ? shortcutTokens(override.shortcut)
-    : fallback;
+  return override?.shortcut ? shortcutTokens(override.shortcut) : fallback;
 }
 
 export function subscribeKeybindings(onStoreChange: () => void) {

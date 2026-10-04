@@ -352,6 +352,7 @@ function MessageQueue({
   onSteer?: (messageId: string) => void;
   onResume?: () => void;
 }) {
+  const { formatMessage: t } = useIntl();
   const [editingId, setEditingId] = useState<string>();
   const [editDraft, setEditDraft] = useState("");
   const onEditingChangeRef = useRef(onEditingChange);
@@ -393,7 +394,7 @@ function MessageQueue({
           <div className="flex h-7 items-center gap-2 border-b border-stroke text-[12px]">
             <Pause className="size-3.5" />
             <span className="min-w-0 flex-1 truncate">
-              Queue paused because you interrupted
+              {t({ id: "composer.queue.paused" })}
             </span>
             <button
               type="button"
@@ -401,7 +402,7 @@ function MessageQueue({
               className="flex h-6 shrink-0 items-center gap-1.5 rounded-md px-1.5 hover:bg-content/10 hover:text-content"
             >
               <Play className="size-3.5" />
-              Resume
+              {t({ id: "composer.queue.resume" })}
             </button>
           </div>
         ) : null}
@@ -409,7 +410,10 @@ function MessageQueue({
           const editing = editingId === message.id;
           const label =
             message.text.trim() ||
-            `${message.attachments.length} attachment${message.attachments.length === 1 ? "" : "s"}`;
+            t(
+              { id: "composer.queue.attachments" },
+              { count: message.attachments.length },
+            );
           return (
             <div
               key={message.id}
@@ -422,7 +426,7 @@ function MessageQueue({
                 <>
                   <textarea
                     autoFocus
-                    aria-label="Edit queued message"
+                    aria-label={t({ id: "composer.queue.edit" })}
                     value={editDraft}
                     rows={1}
                     onChange={(event) => setEditDraft(event.target.value)}
@@ -440,8 +444,8 @@ function MessageQueue({
                   />
                   <button
                     type="button"
-                    title="Save queued message"
-                    aria-label="Save queued message"
+                    title={t({ id: "composer.queue.save" })}
+                    aria-label={t({ id: "composer.queue.save" })}
                     disabled={
                       !editDraft.trim() && message.attachments.length === 0
                     }
@@ -452,8 +456,8 @@ function MessageQueue({
                   </button>
                   <button
                     type="button"
-                    title="Cancel queued message edit"
-                    aria-label="Cancel queued message edit"
+                    title={t({ id: "composer.queue.cancelEdit" })}
+                    aria-label={t({ id: "composer.queue.cancelEdit" })}
                     onClick={cancelEdit}
                     className="grid size-6 shrink-0 place-items-center rounded-md hover:bg-content/10 hover:text-content"
                   >
@@ -471,12 +475,12 @@ function MessageQueue({
                     className="flex h-6 shrink-0 items-center gap-1.5 rounded-md px-1.5 hover:bg-content/10 hover:text-content"
                   >
                     <CornerDownRight className="size-3.5" />
-                    Steer
+                    {t({ id: "composer.queue.steer" })}
                   </button>
                   <button
                     type="button"
-                    title="Edit queued message"
-                    aria-label="Edit queued message"
+                    title={t({ id: "composer.queue.edit" })}
+                    aria-label={t({ id: "composer.queue.edit" })}
                     onClick={() => startEdit(message)}
                     className="grid size-6 shrink-0 place-items-center rounded-md hover:bg-content/10 hover:text-content"
                   >
@@ -484,8 +488,8 @@ function MessageQueue({
                   </button>
                   <button
                     type="button"
-                    title="Remove queued message"
-                    aria-label="Remove queued message"
+                    title={t({ id: "composer.queue.remove" })}
+                    aria-label={t({ id: "composer.queue.remove" })}
                     onClick={() => onDelete?.(message.id)}
                     className="grid size-6 shrink-0 place-items-center rounded-md hover:bg-content/10 hover:text-content"
                   >
@@ -2364,7 +2368,7 @@ export function Composer({
               className={compact ? "hidden" : "relative shrink-0"}
             >
               <ToolButton
-                label="Add files or choose a mode"
+                label={t({ id: "composer.addFilesOrMode" })}
                 active={plusOpen}
                 onClick={() => setPlusOpen((open) => !open)}
               >
@@ -2381,7 +2385,7 @@ export function Composer({
                   className="p-1.5"
                 >
                   <p className="px-2 pb-1 pt-0.5 text-[10px] font-medium uppercase tracking-wide text-content/40">
-                    Add to message
+                    {t({ id: "composer.addToMessage" })}
                   </p>
                   <button
                     type="button"
@@ -2395,13 +2399,18 @@ export function Composer({
                   >
                     <FilePlus className="mt-0.5 size-4 shrink-0" />
                     <span className="min-w-0">
-                      <span className="block text-[13px]">Upload file</span>
+                      <span className="block text-[13px]">
+                        {t({ id: "composer.uploadFile" })}
+                      </span>
                       <span className="block truncate whitespace-nowrap text-[11px] leading-4 text-content/45">
                         {attachmentsSupported
-                          ? "Attach files or images"
+                          ? t({ id: "composer.attachFiles" })
                           : remote && !remoteFeatures?.attachments
-                            ? "Update this machine’s host to attach files"
-                            : `${HARNESS_TITLE[harness]} does not support attachments`}
+                            ? t({ id: "composer.updateHostAttachments" })
+                            : t(
+                                { id: "composer.unsupportedAttachments" },
+                                { provider: HARNESS_TITLE[harness] },
+                              )}
                       </span>
                     </span>
                   </button>
@@ -2423,9 +2432,11 @@ export function Composer({
                     >
                       <AiIdea className="mt-0.5 size-4 shrink-0 text-yellow-300/80" />
                       <span className="min-w-0 flex-1">
-                        <span className="block text-[13px]">Plan mode</span>
+                        <span className="block text-[13px]">
+                          {t({ id: "composer.planMode" })}
+                        </span>
                         <span className="block truncate whitespace-nowrap text-[11px] leading-4 text-content/45">
-                          Review a plan before building
+                          {t({ id: "composer.planHint" })}
                         </span>
                       </span>
                       {planActive ? (
@@ -2455,7 +2466,7 @@ export function Composer({
                       <span className="min-w-0 flex-1">
                         <span className="block text-[13px]">Operator</span>
                         <span className="block truncate whitespace-nowrap text-[11px] leading-4 text-content/45">
-                          Give this thread access to MonoCode
+                          {t({ id: "composer.operatorHint" })}
                         </span>
                       </span>
                       {operatorActive ? (
@@ -2490,7 +2501,7 @@ export function Composer({
                           </span>
                         </span>
                         <span className="block truncate whitespace-nowrap text-[11px] leading-4 text-content/45">
-                          Plan and coordinate agent work
+                          {t({ id: "composer.orchestratorHint" })}
                         </span>
                       </span>
                       {orchestrationActive && (
@@ -2516,9 +2527,11 @@ export function Composer({
                     >
                       <CircleDashed className="mt-0.5 size-4 shrink-0 text-content/60" />
                       <span className="min-w-0 flex-1">
-                        <span className="block text-[13px]">Draft</span>
+                        <span className="block text-[13px]">
+                          {t({ id: "composer.draft" })}
+                        </span>
                         <span className="block truncate whitespace-nowrap text-[11px] leading-4 text-content/45">
-                          Save this message without starting the agent
+                          {t({ id: "composer.draftHint" })}
                         </span>
                       </span>
                       {draftActive ? (
@@ -2625,14 +2638,14 @@ export function Composer({
             {resendEdited ? (
               <button
                 type="button"
-                title="Stop editing last message"
-                aria-label="Stop editing last message"
+                title={t({ id: "composer.stopEditing" })}
+                aria-label={t({ id: "composer.stopEditing" })}
                 onMouseDown={(event) => event.preventDefault()}
                 onClick={exitEditMode}
                 className="edit-last-turn-button flex h-6.5 shrink-0 items-center gap-1 rounded-md border border-current/20 px-2 text-[11px] font-medium transition-[background-color,color,border-color] hover:border-current/35 hover:bg-content/15 hover:text-content focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent"
               >
                 <X className="size-3" strokeWidth={1.8} />
-                <span>Cancel edit</span>
+                <span>{t({ id: "composer.cancelEdit" })}</span>
               </button>
             ) : null}
             <div className="flex shrink-0 items-center gap-1">

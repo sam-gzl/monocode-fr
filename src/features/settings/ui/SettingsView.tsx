@@ -129,8 +129,6 @@ import {
   DIFF_PALETTE_DEFAULT,
   type DiffPalette,
   NEW_THREAD_BACKGROUND_EFFECTS,
-  NEW_THREAD_BACKGROUND_EFFECT_LABELS,
-  NEW_THREAD_BACKGROUND_EFFECT_DESCRIPTIONS,
   NEW_THREAD_BACKGROUND_EFFECT_DEFAULT,
   type NewThreadBackgroundEffect,
   type TranscriptLayout,
@@ -238,7 +236,11 @@ import {
   useMaskEmails,
   useShowRemainingUsage,
 } from "../model/displayPrefs";
-import { saveLocale, useLocale, type Locale } from "../../../shared/i18n/locale";
+import {
+  saveLocale,
+  useLocale,
+  type Locale,
+} from "../../../shared/i18n/locale";
 import {
   accountStatus,
   accountUsageKey,
@@ -638,12 +640,23 @@ function SettingsSearch({
 }: {
   onReveal: (section: SettingsSectionId, settingId: string | null) => void;
 }) {
+  const { formatMessage: t } = useIntl();
   const [query, setQuery] = useState("");
   const [active, setActive] = useState(0);
   const root = useRef<HTMLDivElement>(null);
   const input = useRef<HTMLInputElement>(null);
   const listId = useId();
-  const results = useMemo(() => searchSettings(query), [query]);
+  const results = useMemo(
+    () =>
+      searchSettings(query, 8, (section, settingId) =>
+        t({
+          id: settingId
+            ? `settings.search.row.${settingId}`
+            : SECTION_MESSAGE_IDS[section],
+        }),
+      ),
+    [query, t],
+  );
   const open = query.trim().length > 0;
 
   useEffect(() => setActive(0), [query]);
@@ -682,8 +695,8 @@ function SettingsSearch({
           value={query}
           onChange={(event) => setQuery(event.target.value)}
           onKeyDown={onKeyDown}
-          placeholder="Search settings"
-          aria-label="Search settings"
+          placeholder={t({ id: "settings.search.placeholder" })}
+          aria-label={t({ id: "settings.search.placeholder" })}
           aria-expanded={open}
           aria-controls={listId}
           spellCheck={false}
@@ -693,7 +706,7 @@ function SettingsSearch({
         {query ? (
           <button
             type="button"
-            aria-label="Clear settings search"
+            aria-label={t({ id: "settings.search.clear" })}
             onMouseDown={(event) => event.preventDefault()}
             onClick={() => {
               setQuery("");
@@ -718,12 +731,12 @@ function SettingsSearch({
           }}
           id={listId}
           role="listbox"
-          aria-label="Settings search results"
+          aria-label={t({ id: "settings.search.results" })}
           className="overflow-y-auto overscroll-contain p-1"
         >
           {results.length === 0 ? (
             <p className="px-2 py-1.5 text-[12px] text-content/45">
-              No matching settings
+              {t({ id: "settings.search.noMatches" })}
             </p>
           ) : (
             results.map((result, index) => (
@@ -743,7 +756,9 @@ function SettingsSearch({
               >
                 <span className="min-w-0 flex-1 truncate">{result.label}</span>
                 <span className="shrink-0 text-[11px] text-content/40">
-                  {result.settingId ? result.sectionLabel : "Page"}
+                  {result.settingId
+                    ? result.sectionLabel
+                    : t({ id: "settings.search.page" })}
                 </span>
               </button>
             ))
@@ -1117,7 +1132,10 @@ function ChatPage() {
             value={modelControls}
             options={[
               { value: "menu", label: t({ id: "chat.modelControls.menu" }) },
-              { value: "beside", label: t({ id: "chat.modelControls.beside" }) },
+              {
+                value: "beside",
+                label: t({ id: "chat.modelControls.beside" }),
+              },
             ]}
             onChange={onModelControls}
           />
@@ -1292,6 +1310,7 @@ function InboxPage({
 }
 
 function GithubSettings() {
+  const { formatMessage: t } = useIntl();
   const [status, setStatus] = useState<GithubStatus | null>(null);
   const [checking, setChecking] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -1321,21 +1340,24 @@ function GithubSettings() {
   }, [checkStatus]);
 
   const description = status?.connected
-    ? "GitHub CLI is installed and authenticated. MonoCode uses it for GitHub inbox items."
+    ? t({ id: "inbox.github.connected" })
     : status?.installed
-      ? "Run gh auth login in a terminal, complete the sign-in flow, then check again."
-      : "Install GitHub CLI from cli.github.com, run gh auth login in a terminal, then check again.";
+      ? t({ id: "inbox.github.signInHint" })
+      : t({ id: "inbox.github.installHint" });
   const label = checking
-    ? "Checking"
+    ? t({ id: "inbox.connection.checking" })
     : status?.connected
-      ? "Connected"
+      ? t({ id: "inbox.connection.connected" })
       : status?.installed
-        ? "Sign in required"
-        : "Not installed";
+        ? t({ id: "inbox.github.signInRequired" })
+        : t({ id: "inbox.github.notInstalled" });
 
   return (
     <>
-      <Row label="Connection" description={description}>
+      <Row
+        label={t({ id: "inbox.connection.label" })}
+        description={description}
+      >
         <span className="text-[12px] text-content/50">{label}</span>
         {!checking && !status?.installed ? (
           <SecondaryButton
@@ -1343,11 +1365,15 @@ function GithubSettings() {
               void openUrl("https://cli.github.com/").catch(() => {});
             }}
           >
-            Installation guide
+            {t({ id: "inbox.github.installGuide" })}
           </SecondaryButton>
         ) : null}
         <SecondaryButton onClick={() => void checkStatus()} disabled={checking}>
-          {checking ? "Checking" : "Check again"}
+          {t({
+            id: checking
+              ? "inbox.connection.checking"
+              : "inbox.connection.checkAgain",
+          })}
         </SecondaryButton>
       </Row>
       {error ? (
@@ -1360,6 +1386,7 @@ function GithubSettings() {
 }
 
 function GitlabSettings() {
+  const { formatMessage: t } = useIntl();
   const [url, setUrl] = useState("https://gitlab.com");
   const [token, setToken] = useState("");
   const [connected, setConnected] = useState(false);
@@ -1420,8 +1447,8 @@ function GitlabSettings() {
   return (
     <>
       <Row
-        label="Connection"
-        description="Connect GitLab.com or a self-managed GitLab instance. Use a personal access token with API access; the token is stored locally and Disconnect deletes it."
+        label={t({ id: "inbox.connection.label" })}
+        description={t({ id: "inbox.gitlab.connectionHint" })}
       >
         {connected ? (
           <div className="flex min-w-0 max-w-full flex-wrap items-center gap-2">
@@ -1432,7 +1459,7 @@ function GitlabSettings() {
               onClick={() => void onDisconnect()}
               disabled={busy}
             >
-              Disconnect
+              {t({ id: "inbox.connection.disconnect" })}
             </SecondaryButton>
           </div>
         ) : (
@@ -1458,7 +1485,7 @@ function GitlabSettings() {
                   if (event.key === "Enter") void onSave();
                 }}
                 placeholder="glpat-…"
-                aria-label="GitLab access token"
+                aria-label={t({ id: "inbox.gitlab.tokenLabel" })}
                 autoComplete="off"
                 spellCheck={false}
                 className="min-w-0 flex-1 bg-transparent text-[12px] text-content outline-none placeholder:text-content/35"
@@ -1468,7 +1495,11 @@ function GitlabSettings() {
               onClick={() => void onSave()}
               disabled={busy || !token.trim()}
             >
-              {busy ? "Saving" : "Connect"}
+              {t({
+                id: busy
+                  ? "inbox.connection.saving"
+                  : "inbox.connection.connect",
+              })}
             </SecondaryButton>
           </div>
         )}
@@ -1483,6 +1514,7 @@ function GitlabSettings() {
 }
 
 function AzureDevOpsSettings() {
+  const { formatMessage: t } = useIntl();
   const [url, setUrl] = useState("https://dev.azure.com/myorg");
   const [token, setToken] = useState("");
   const [connected, setConnected] = useState(false);
@@ -1543,8 +1575,8 @@ function AzureDevOpsSettings() {
   return (
     <>
       <Row
-        label="Connection"
-        description="Connect your ADO organization with a personal access token (Boards + Repos read & write for comments). The token is stored locally and Disconnect deletes it."
+        label={t({ id: "inbox.connection.label" })}
+        description={t({ id: "inbox.ado.connectionHint" })}
       >
         {connected ? (
           <div className="flex min-w-0 max-w-full flex-wrap items-center gap-2">
@@ -1555,7 +1587,7 @@ function AzureDevOpsSettings() {
               onClick={() => void onDisconnect()}
               disabled={busy}
             >
-              Disconnect
+              {t({ id: "inbox.connection.disconnect" })}
             </SecondaryButton>
           </div>
         ) : (
@@ -1581,7 +1613,7 @@ function AzureDevOpsSettings() {
                   if (event.key === "Enter") void onSave();
                 }}
                 placeholder="PAT…"
-                aria-label="Azure DevOps personal access token"
+                aria-label={t({ id: "inbox.ado.tokenLabel" })}
                 autoComplete="off"
                 spellCheck={false}
                 className="min-w-0 flex-1 bg-transparent text-[12px] text-content outline-none placeholder:text-content/35"
@@ -1591,7 +1623,11 @@ function AzureDevOpsSettings() {
               onClick={() => void onSave()}
               disabled={busy || !token.trim()}
             >
-              {busy ? "Saving" : "Connect"}
+              {t({
+                id: busy
+                  ? "inbox.connection.saving"
+                  : "inbox.connection.connect",
+              })}
             </SecondaryButton>
           </div>
         )}
@@ -1606,6 +1642,7 @@ function AzureDevOpsSettings() {
 }
 
 function LinearSettings() {
+  const { formatMessage: t } = useIntl();
   const [token, setToken] = useState("");
   const [connected, setConnected] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -1694,12 +1731,12 @@ function LinearSettings() {
   return (
     <>
       <Row
-        label="API key"
-        description="Create a personal API key in Linear → Settings → Security & Access. Disconnect deletes it."
+        label={t({ id: "inbox.linear.apiKey" })}
+        description={t({ id: "inbox.linear.apiKeyHint" })}
       >
         {connected ? (
           <SecondaryButton onClick={() => void onDisconnect()} disabled={busy}>
-            Disconnect
+            {t({ id: "inbox.connection.disconnect" })}
           </SecondaryButton>
         ) : (
           <div className="flex max-w-full flex-wrap items-center gap-2">
@@ -1712,7 +1749,7 @@ function LinearSettings() {
                   if (event.key === "Enter") void onSave();
                 }}
                 placeholder="lin_api_…"
-                aria-label="Linear API key"
+                aria-label={t({ id: "inbox.linear.apiKeyLabel" })}
                 autoComplete="off"
                 spellCheck={false}
                 className="min-w-0 flex-1 bg-transparent text-[12px] text-content outline-none placeholder:text-content/35"
@@ -1722,7 +1759,11 @@ function LinearSettings() {
               onClick={() => void onSave()}
               disabled={busy || !token.trim()}
             >
-              {busy ? "Saving" : "Connect"}
+              {t({
+                id: busy
+                  ? "inbox.connection.saving"
+                  : "inbox.connection.connect",
+              })}
             </SecondaryButton>
           </div>
         )}
@@ -1734,9 +1775,11 @@ function LinearSettings() {
       ) : null}
       {connected && teams.length > 0 ? (
         <div className="border-b border-content/5 px-4 py-3.5 last:border-b-0">
-          <div className="text-[13px] font-medium text-content">Teams</div>
+          <div className="text-[13px] font-medium text-content">
+            {t({ id: "inbox.linear.teams" })}
+          </div>
           <p className="mt-1 text-[12px] leading-relaxed text-content/45">
-            Unchecked teams stay out of the inbox.
+            {t({ id: "inbox.linear.teamsHint" })}
           </p>
           <div className="-mx-2 mt-2 flex flex-col gap-0.5">
             {teams.map((team) => {
@@ -1772,6 +1815,7 @@ function UpdateRow({
 }: {
   onOpenWhatsNew: (version: string) => void;
 }) {
+  const { formatMessage: t } = useIntl();
   const [snapshot, setSnapshot] = useState<UpdaterSnapshot>({
     phase: "idle",
     currentVersion: "…",
@@ -1803,23 +1847,32 @@ function UpdateRow({
 
   const status =
     snapshot.phase === "available"
-      ? `Version ${snapshot.availableVersion} is available.`
+      ? t(
+          { id: "settings.update.available" },
+          { version: snapshot.availableVersion },
+        )
       : snapshot.phase === "downloading"
-        ? `Downloading${snapshot.progress != null ? ` ${snapshot.progress}%` : "…"}`
+        ? t(
+            { id: "settings.update.downloading" },
+            {
+              progress:
+                snapshot.progress != null ? ` ${snapshot.progress}%` : "…",
+            },
+          )
         : snapshot.phase === "checking"
-          ? "Checking for updates…"
+          ? t({ id: "settings.update.checking" })
           : snapshot.phase === "current"
-            ? "You're on the latest version."
+            ? t({ id: "settings.update.current" })
             : snapshot.phase === "error"
-              ? (snapshot.error ?? "Update check failed.")
-              : "MonoCode updates itself from the release feed.";
+              ? (snapshot.error ?? t({ id: "settings.update.failed" }))
+              : t({ id: "settings.update.description" });
 
   return (
     <Row
       id="update"
       label={
         <span className="flex items-baseline gap-2">
-          Version
+          {t({ id: "settings.update.version" })}
           <span className="font-mono text-[12px] text-content/45">
             {snapshot.currentVersion}
           </span>
@@ -1832,7 +1885,7 @@ function UpdateRow({
           onClick={() => onOpenWhatsNew(snapshot.currentVersion)}
           disabled={snapshot.currentVersion === "…"}
         >
-          What's new
+          {t({ id: "settings.update.whatsNew" })}
         </SecondaryButton>
         <SecondaryButton onClick={() => void onClick()} disabled={busy}>
           {busy ? (
@@ -1842,7 +1895,9 @@ function UpdateRow({
           ) : (
             <RefreshCw className="size-3.5" strokeWidth={1.75} aria-hidden />
           )}
-          {hasUpdate ? "Download" : "Check for updates"}
+          {hasUpdate
+            ? t({ id: "settings.update.download" })
+            : t({ id: "settings.update.check" })}
         </SecondaryButton>
       </div>
     </Row>
@@ -2343,6 +2398,7 @@ function ChatBackgroundCard({
 }: {
   appearance: AppearanceSettings;
 }) {
+  const { formatMessage: t } = useIntl();
   const src = chatBackgroundSrc(appearance.chatBackgroundPath);
   const hasImage = Boolean(appearance.chatBackgroundPath && src);
   const emptyVisibility = Math.round(
@@ -2356,8 +2412,8 @@ function ChatBackgroundCard({
   return (
     <Group
       id="chat-background"
-      title="Chat background"
-      description="An image behind your chat panes. It stays on this device."
+      title={t({ id: "settings.chatBackground.title" })}
+      description={t({ id: "settings.chatBackground.description" })}
     >
       <div className="border-b border-content/5 p-4 last:border-b-0">
         <div className="overflow-hidden rounded-lg border border-content/10">
@@ -2381,7 +2437,10 @@ function ChatBackgroundCard({
                 />
               )}
               <span className="pointer-events-none absolute bottom-2 left-2 text-[11px] text-content/40">
-                Empty chat preview at {emptyVisibility}%
+                {t(
+                  { id: "settings.chatBackground.preview" },
+                  { percent: emptyVisibility },
+                )}
               </span>
             </div>
           ) : (
@@ -2396,7 +2455,9 @@ function ChatBackgroundCard({
               ) : (
                 <ImagePlus className="size-5" aria-hidden />
               )}
-              <span className="text-[12px]">Choose an image</span>
+              <span className="text-[12px]">
+                {t({ id: "settings.chatBackground.choose" })}
+              </span>
             </button>
           )}
         </div>
@@ -2409,14 +2470,14 @@ function ChatBackgroundCard({
               {busy ? (
                 <Loader className="size-3.5 animate-spin" aria-hidden />
               ) : null}
-              Change
+              {t({ id: "settings.chatBackground.change" })}
             </SecondaryButton>
             <SecondaryButton
               onClick={() => void appearance.onClearChatBackground()}
               disabled={busy}
               danger
             >
-              Remove
+              {t({ id: "settings.chatBackground.remove" })}
             </SecondaryButton>
           </div>
         ) : null}
@@ -2429,44 +2490,52 @@ function ChatBackgroundCard({
       {hasImage ? (
         <>
           <Row
-            label="Background effect"
-            description={
-              NEW_THREAD_BACKGROUND_EFFECT_DESCRIPTIONS[
-                appearance.newThreadBackgroundEffect
-              ]
-            }
+            label={t({ id: "settings.chatBackground.effect" })}
+            description={t({
+              id: `settings.chatBackground.effectDescription.${appearance.newThreadBackgroundEffect}`,
+            })}
           >
             <Segmented
-              label="Background effect"
+              label={t({ id: "settings.chatBackground.effect" })}
               value={appearance.newThreadBackgroundEffect}
               options={NEW_THREAD_BACKGROUND_EFFECTS.map((effect) => ({
                 value: effect,
-                label: NEW_THREAD_BACKGROUND_EFFECT_LABELS[effect],
+                label: t({
+                  id: `settings.chatBackground.effectName.${effect}`,
+                }),
               }))}
               onChange={appearance.onNewThreadBackgroundEffect}
               optionIdPrefix="new-thread-background-effect"
             />
           </Row>
           <Row
-            label="Show on"
-            description="Empty sessions only, or every conversation."
+            label={t({ id: "settings.chatBackground.showOn" })}
+            description={t({ id: "settings.chatBackground.showOnDescription" })}
           >
             <Segmented
-              label="Show background on"
+              label={t({ id: "settings.chatBackground.showBackgroundOn" })}
               value={appearance.chatBackgroundScope}
               options={[
-                { value: "empty", label: "Empty only" },
-                { value: "all", label: "All sessions" },
+                {
+                  value: "empty",
+                  label: t({ id: "settings.chatBackground.emptyOnly" }),
+                },
+                {
+                  value: "all",
+                  label: t({ id: "settings.chatBackground.allSessions" }),
+                },
               ]}
               onChange={appearance.onChatBackgroundScope}
             />
           </Row>
           <Row
-            label="Empty chat visibility"
-            description="Background strength before a chat has messages."
+            label={t({ id: "settings.chatBackground.emptyVisibility" })}
+            description={t({
+              id: "settings.chatBackground.emptyVisibilityDescription",
+            })}
           >
             <Slider
-              label="Empty chat background visibility"
+              label={t({ id: "settings.chatBackground.emptyVisibility" })}
               value={emptyVisibility}
               display={`${emptyVisibility}%`}
               min={Math.round(CHAT_BACKGROUND_OPACITY_MIN * 100)}
@@ -2475,11 +2544,13 @@ function ChatBackgroundCard({
             />
           </Row>
           <Row
-            label="Session visibility"
-            description="Background strength once the conversation has messages."
+            label={t({ id: "settings.chatBackground.sessionVisibility" })}
+            description={t({
+              id: "settings.chatBackground.sessionVisibilityDescription",
+            })}
           >
             <Slider
-              label="Session background visibility"
+              label={t({ id: "settings.chatBackground.sessionVisibility" })}
               value={sessionVisibility}
               display={`${sessionVisibility}%`}
               min={Math.round(CHAT_BACKGROUND_OPACITY_MIN * 100)}
@@ -2520,6 +2591,7 @@ function ShortcutEditor({
   onDisable: () => void | Promise<void>;
   onReset: () => void | Promise<void>;
 }) {
+  const { formatMessage: t } = useIntl();
   const [recording, setRecording] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -2626,11 +2698,13 @@ function ShortcutEditor({
         <input
           type="text"
           readOnly
-          aria-label={`Change ${name} shortcut`}
+          aria-label={t({ id: "settings.shortcuts.change" }, { name })}
           data-shortcut-recorder-active={recording ? "true" : undefined}
           aria-busy={busy || undefined}
           value={
-            recording || busy ? preview || "Record…" : (display ?? "Disabled")
+            recording || busy
+              ? preview || t({ id: "settings.shortcuts.record" })
+              : (display ?? t({ id: "settings.shortcuts.disabled" }))
           }
           onFocus={beginRecording}
           onClick={beginRecording}
@@ -2646,7 +2720,7 @@ function ShortcutEditor({
         {resetVisible ? (
           <button
             type="button"
-            aria-label={`Reset ${name} shortcut`}
+            aria-label={t({ id: "settings.shortcuts.reset" }, { name })}
             disabled={busy}
             onClick={() => void run(onReset)}
             className="rounded-md px-1 py-1 text-content/35 hover:bg-content/10 hover:text-content disabled:opacity-50"
@@ -2660,7 +2734,7 @@ function ShortcutEditor({
           className="pointer-events-none absolute top-1/2 right-full z-40 mr-3 -translate-y-1/2 text-[10px] whitespace-nowrap text-content/50"
           aria-live="polite"
         >
-          Del disables · Esc cancels
+          {t({ id: "settings.shortcuts.recordHint" })}
         </p>
       ) : null}
       {error ? (
@@ -2676,11 +2750,12 @@ function ShortcutEditor({
 }
 
 function QuickComposerShortcutEditor() {
+  const { formatMessage: t } = useIntl();
   const [shortcut, setShortcut] = useState(loadQuickComposerShortcut);
   const [enabled, setEnabled] = useState(loadQuickComposerEnabled);
   const apply = async (next: string) => {
     if (!isGlobalShortcut(next))
-      throw new Error("Quick Composer needs ⌘ or Ctrl as a global hotkey");
+      throw new Error(t({ id: "settings.shortcuts.quickComposerModifier" }));
     // Validate before the native call: a rejected chord must not leave the OS
     // holding a registered global hotkey that settings does not know about.
     validateKeybindingShortcut("App: Quick Composer", next);
@@ -2794,9 +2869,15 @@ function KeybindingsPage() {
       }
     >
       <div className="flex items-center border-b border-stroke bg-content/5 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.08em] text-content/40">
-        <span className="min-w-0 flex-1">{t({ id: "keybindings.column.command" })}</span>
-        <span className="w-40 shrink-0">{t({ id: "keybindings.column.keybinding" })}</span>
-        <span className="w-28 shrink-0">{t({ id: "keybindings.column.when" })}</span>
+        <span className="min-w-0 flex-1">
+          {t({ id: "keybindings.column.command" })}
+        </span>
+        <span className="w-40 shrink-0">
+          {t({ id: "keybindings.column.keybinding" })}
+        </span>
+        <span className="w-28 shrink-0">
+          {t({ id: "keybindings.column.when" })}
+        </span>
       </div>
       {rows.length === 0 ? (
         <p className="px-4 py-3 text-[12px] text-content/45">
@@ -2842,16 +2923,23 @@ const GLOBAL_PROVIDER_SCOPE = "global";
 function binaryInspectionError(
   provider: ConfigurableBinaryProvider,
   inspection: HarnessBinaryInspection,
+  t: ReturnType<typeof useIntl>["formatMessage"],
 ): string | null {
   if (inspection.error) return inspection.error;
-  if (provider === "codex" && !/^codex-cli\s+\d+\.\d+\.\d+/.test(inspection.version ?? "")) {
-    return "Codex CLI returned an invalid version.";
+  if (
+    provider === "codex" &&
+    !/^codex-cli\s+\d+\.\d+\.\d+/.test(inspection.version ?? "")
+  ) {
+    return t({ id: "settings.cli.codexInvalidVersion" });
   }
   if (provider === "opencode") {
     const version = parseOpenCodeVersion(inspection.version ?? "");
-    if (!version) return "OpenCode CLI returned an invalid version.";
+    if (!version) return t({ id: "settings.cli.openCodeInvalidVersion" });
     if (compareSemver(version, MINIMUM_OPENCODE_VERSION) < 0) {
-      return `OpenCode v${version} is too old. Upgrade to v${MINIMUM_OPENCODE_VERSION} or newer.`;
+      return t(
+        { id: "settings.cli.openCodeTooOld" },
+        { version, minimum: MINIMUM_OPENCODE_VERSION },
+      );
     }
   }
   return null;
@@ -2862,6 +2950,7 @@ function ProviderBinaryControl({
 }: {
   provider: ConfigurableBinaryProvider;
 }) {
+  const { formatMessage: t } = useIntl();
   const root = useRef<HTMLSpanElement>(null);
   const trigger = useRef<HTMLButtonElement>(null);
   const editInput = useRef<HTMLInputElement>(null);
@@ -2892,7 +2981,7 @@ function ProviderBinaryControl({
           ...next,
           overridden: Boolean(binaryPath?.trim()),
         });
-        setError(binaryInspectionError(provider, next));
+        setError(binaryInspectionError(provider, next, t));
         return next;
       } catch (cause) {
         const message = cause instanceof Error ? cause.message : String(cause);
@@ -2902,7 +2991,7 @@ function ProviderBinaryControl({
         setWorking(false);
       }
     },
-    [provider],
+    [provider, t],
   );
 
   useEffect(() => {
@@ -2925,14 +3014,14 @@ function ProviderBinaryControl({
     }
     const next = await inspect(value);
     if (!next) return;
-    const validationError = binaryInspectionError(provider, next);
+    const validationError = binaryInspectionError(provider, next, t);
     if (validationError) {
       setError(validationError);
       return;
     }
     if (!saveProviderBinaryPath(provider, value)) {
       setInspection(undefined);
-      setError("Could not save the binary path.");
+      setError(t({ id: "settings.cli.savePathError" }));
       return;
     }
     setOverridden(true);
@@ -2942,10 +3031,10 @@ function ProviderBinaryControl({
   const useAuto = async () => {
     if (working) return;
     const next = await inspect(null);
-    if (!next || binaryInspectionError(provider, next)) return;
+    if (!next || binaryInspectionError(provider, next, t)) return;
     if (!saveProviderBinaryPath(provider, null)) {
       setInspection(undefined);
-      setError("Could not save the binary path.");
+      setError(t({ id: "settings.cli.savePathError" }));
       return;
     }
     setDraft("");
@@ -2963,13 +3052,20 @@ function ProviderBinaryControl({
         type="button"
         aria-label={
           restartRequired
-            ? `Show ${title} CLI details, restart required`
-            : `Show ${title} CLI details`
+            ? t({ id: "settings.cli.showDetailsRestart" }, { provider: title })
+            : t({ id: "settings.cli.showDetails" }, { provider: title })
         }
         aria-expanded={open}
         aria-controls={`${provider}-binary-popover`}
         aria-haspopup="dialog"
-        title={`${title} CLI path${restartRequired ? " — restart required" : ""}`}
+        title={t(
+          {
+            id: restartRequired
+              ? "settings.cli.pathRestart"
+              : "settings.cli.path",
+          },
+          { provider: title },
+        )}
         onClick={() => {
           if (!open && !inspection && !working && !error) {
             void inspect(loadProviderBinaryPath(provider));
@@ -2978,7 +3074,9 @@ function ProviderBinaryControl({
           setEditing(false);
         }}
         className={`grid size-6 place-items-center rounded hover:bg-content/10 focus-visible:outline-2 focus-visible:outline-accent ${
-          restartRequired ? "text-amber-300" : "text-content/35 hover:text-content"
+          restartRequired
+            ? "text-amber-300"
+            : "text-content/35 hover:text-content"
         }`}
       >
         <FolderOpen className="size-3.5" strokeWidth={1.75} />
@@ -2987,7 +3085,10 @@ function ProviderBinaryControl({
         <Popover
           id={`${provider}-binary-popover`}
           role="dialog"
-          aria-label={`${title} CLI details`}
+          aria-label={t(
+            { id: "settings.cli.showDetails" },
+            { provider: title },
+          )}
           aria-busy={working}
           tabIndex={-1}
           anchor={root}
@@ -3022,16 +3123,16 @@ function ProviderBinaryControl({
             </span>
             <div className="flex items-center gap-1.5">
               <span className="rounded-full bg-content/10 px-1.5 py-0.5 text-[10px] text-content/50">
-                Global path
+                {t({ id: "settings.cli.globalPath" })}
               </span>
               <span className="rounded-full bg-content/10 px-1.5 py-0.5 text-[10px] text-content/50">
                 {error
-                  ? "Needs attention"
+                  ? t({ id: "settings.cli.needsAttention" })
                   : restartRequired
-                    ? "Restart required"
+                    ? t({ id: "settings.cli.restartRequired" })
                     : overridden
-                      ? "Configured"
-                      : "Auto-detected"}
+                      ? t({ id: "settings.cli.configured" })
+                      : t({ id: "settings.cli.autoDetected" })}
               </span>
             </div>
           </div>
@@ -3041,21 +3142,23 @@ function ProviderBinaryControl({
                 htmlFor={`${provider}-binary-path`}
                 className="text-[11px] text-content/50"
               >
-                CLI path
+                {t({ id: "settings.cli.pathLabel" })}
               </label>
               <input
                 id={`${provider}-binary-path`}
                 ref={editInput}
                 type="text"
                 value={draft}
-                placeholder={inspection?.path ?? "Auto-detected path"}
+                placeholder={
+                  inspection?.path ?? t({ id: "settings.cli.autoDetectedPath" })
+                }
                 disabled={working}
                 autoFocus
                 onChange={(event) => setDraft(event.target.value)}
                 className="mt-1.5 h-8 w-full rounded-md border border-content/10 bg-content/[0.04] px-2 font-mono text-[11px] text-content outline-none placeholder:font-sans placeholder:text-content/35 focus:border-accent/45 disabled:opacity-50"
               />
               <p className="mt-1.5 text-[10px] text-content/40">
-                Enter the absolute path to the CLI executable. Changes apply after restarting MonoCode.
+                {t({ id: "settings.cli.pathHint" })}
               </p>
               {error ? (
                 <span
@@ -3074,18 +3177,18 @@ function ProviderBinaryControl({
                     queueMicrotask(() => trigger.current?.focus());
                   }}
                 >
-                  Cancel
+                  {t({ id: "settings.accounts.cancel" })}
                 </SecondaryButton>
                 {overridden ? (
                   <SecondaryButton
                     disabled={working}
                     onClick={() => void useAuto()}
                   >
-                    Use auto-detected path
+                    {t({ id: "settings.cli.useAutoPath" })}
                   </SecondaryButton>
                 ) : null}
                 <SecondaryButton type="submit" disabled={working}>
-                  Save path
+                  {t({ id: "settings.cli.savePath" })}
                 </SecondaryButton>
               </div>
             </form>
@@ -3094,68 +3197,90 @@ function ProviderBinaryControl({
               <div className="mt-2 rounded-md border border-content/10 bg-content/[0.03] px-2.5 py-2">
                 <span className="block max-h-12 overflow-y-auto whitespace-pre-wrap break-all font-mono text-[10px] text-content/65">
                   {inspection?.path ??
-                    (error ? "CLI could not be resolved" : "Checking the selected CLI…")}
+                    (error
+                      ? t({ id: "settings.cli.notResolved" })
+                      : t({ id: "settings.cli.checkingSelected" }))}
                 </span>
                 <span className="mt-1 block max-h-10 overflow-y-auto whitespace-pre-wrap break-words text-[10px] text-content/40">
                   {inspection?.version ??
-                    (error ? "Retry to check this CLI" : "Checking version…")}
+                    (error
+                      ? t({ id: "settings.cli.retryCheck" })
+                      : t({ id: "settings.cli.checkingVersion" }))}
                 </span>
               </div>
-               {error ? (
-                 <span
-                   role="alert"
-                   title={error}
-                   className="mt-1.5 block max-h-20 overflow-y-auto whitespace-pre-wrap break-words text-[10px] leading-4 text-red-400"
-                 >
-                   {error}
-                 </span>
-               ) : null}
-               {revealError ? (
-                 <span
-                   role="alert"
-                   className="mt-1.5 block max-h-20 overflow-y-auto whitespace-pre-wrap break-words text-[10px] leading-4 text-red-400"
-                 >
-                   Could not open the CLI location: {revealError}
-                 </span>
-               ) : null}
-               <div className="mt-3 flex justify-end gap-2">
+              {error ? (
+                <span
+                  role="alert"
+                  title={error}
+                  className="mt-1.5 block max-h-20 overflow-y-auto whitespace-pre-wrap break-words text-[10px] leading-4 text-red-400"
+                >
+                  {error}
+                </span>
+              ) : null}
+              {revealError ? (
+                <span
+                  role="alert"
+                  className="mt-1.5 block max-h-20 overflow-y-auto whitespace-pre-wrap break-words text-[10px] leading-4 text-red-400"
+                >
+                  {t(
+                    { id: "settings.cli.openLocationError" },
+                    { error: revealError },
+                  )}
+                </span>
+              ) : null}
+              <div className="mt-3 flex justify-end gap-2">
                 {error ? (
                   <SecondaryButton
                     disabled={working}
-                    aria-label={`Retry ${title} ${
-                      overridden ? "configured path" : "auto-detect"
-                    }`}
+                    aria-label={t(
+                      {
+                        id: overridden
+                          ? "settings.cli.retryConfiguredNamed"
+                          : "settings.cli.retryAutoNamed",
+                      },
+                      { provider: title },
+                    )}
                     onClick={() =>
                       void inspect(overridden ? draft.trim() || null : null)
                     }
                   >
                     <RefreshCw className="size-3.5" strokeWidth={1.75} />
-                    {overridden ? "Retry configured path" : "Retry auto-detect"}
+                    {overridden
+                      ? t({ id: "settings.cli.retryConfigured" })
+                      : t({ id: "settings.cli.retryAuto" })}
                   </SecondaryButton>
                 ) : null}
                 <SecondaryButton
-                  aria-label={`Open ${title} CLI location`}
+                  aria-label={t(
+                    { id: "settings.cli.openNamedLocation" },
+                    { provider: title },
+                  )}
                   disabled={!inspection}
                   onClick={() => {
                     if (inspection) {
                       void revealPath(inspection.path).catch((cause) => {
                         setRevealError(
-                          cause instanceof Error ? cause.message : String(cause),
+                          cause instanceof Error
+                            ? cause.message
+                            : String(cause),
                         );
                       });
                     }
                   }}
                 >
                   <ExternalLink className="size-3.5" strokeWidth={1.75} />
-                  Open location
+                  {t({ id: "settings.cli.openLocation" })}
                 </SecondaryButton>
                 <SecondaryButton
-                  aria-label={`Edit ${title} CLI path`}
+                  aria-label={t(
+                    { id: "settings.cli.editNamedPath" },
+                    { provider: title },
+                  )}
                   disabled={working}
                   onClick={() => setEditing(true)}
                 >
                   <Pencil className="size-3.5" strokeWidth={1.75} />
-                  Edit path
+                  {t({ id: "settings.cli.editPath" })}
                 </SecondaryButton>
               </div>
             </>
@@ -3392,28 +3517,29 @@ function LanguageSettings() {
 }
 
 function UsageDisplaySettings() {
+  const { formatMessage: t } = useIntl();
   const showRemainingUsage = useShowRemainingUsage();
   const maskEmails = useMaskEmails();
   return (
-    <Group title="Usage and privacy">
+    <Group title={t({ id: "settings.usagePrivacy.title" })}>
       <Row
         id="show-remaining-usage"
-        label="Show remaining usage"
-        description="Fill usage meters with what is left in each limit instead of what has been used."
+        label={t({ id: "settings.usagePrivacy.remaining" })}
+        description={t({ id: "settings.usagePrivacy.remainingDescription" })}
       >
         <Toggle
-          label="Show remaining usage"
+          label={t({ id: "settings.usagePrivacy.remaining" })}
           on={showRemainingUsage}
           onChange={saveShowRemainingUsage}
         />
       </Row>
       <Row
         id="mask-emails"
-        label="Mask account emails"
-        description="Blur account emails in Settings and the usage popover until you click one, so they stay out of screenshots."
+        label={t({ id: "settings.usagePrivacy.maskEmails" })}
+        description={t({ id: "settings.usagePrivacy.maskEmailsDescription" })}
       >
         <Toggle
-          label="Mask account emails"
+          label={t({ id: "settings.usagePrivacy.maskEmails" })}
           on={maskEmails}
           onChange={saveMaskEmails}
         />
@@ -3429,6 +3555,7 @@ type AccountEditor = {
 };
 
 function ProviderAccountsSettings() {
+  const { formatMessage: t } = useIntl();
   const [version, setVersion] = useState(0);
   const [editor, setEditor] = useState<AccountEditor | null>(null);
   const [working, setWorking] = useState<string | null>(null);
@@ -3474,7 +3601,7 @@ function ProviderAccountsSettings() {
       setError(
         caught instanceof Error
           ? caught.message
-          : "Could not save this account",
+          : t({ id: "settings.accounts.saveError" }),
       );
     } finally {
       setWorking(null);
@@ -3484,12 +3611,15 @@ function ProviderAccountsSettings() {
   const removeAccount = async (account: ProviderAccount) => {
     if (account.isDefault || working) return;
     const confirmed = await ask(
-      `Remove “${account.label}”? Its stored credentials will be deleted and any running turns for this account will stop. Existing conversations stay in history, but cannot continue until you switch accounts.`,
+      t({ id: "settings.accounts.removeConfirm" }, { account: account.label }),
       {
-        title: `Remove ${HARNESS_TITLE[account.provider]} account`,
+        title: t(
+          { id: "settings.accounts.removeProvider" },
+          { provider: HARNESS_TITLE[account.provider] },
+        ),
         kind: "warning",
-        okLabel: "Remove account",
-        cancelLabel: "Cancel",
+        okLabel: t({ id: "settings.accounts.remove" }),
+        cancelLabel: t({ id: "settings.accounts.cancel" }),
       },
     );
     if (!confirmed) return;
@@ -3510,7 +3640,7 @@ function ProviderAccountsSettings() {
       setError(
         caught instanceof Error
           ? caught.message
-          : "Could not remove this account",
+          : t({ id: "settings.accounts.removeError" }),
       );
     } finally {
       setWorking(null);
@@ -3526,8 +3656,8 @@ function ProviderAccountsSettings() {
   return (
     <Group
       id="provider-accounts"
-      title="Accounts"
-      description="Create isolated sign-ins for providers that support account profiles. Account switching stays available from the usage control in the footer."
+      title={t({ id: "settings.accounts.title" })}
+      description={t({ id: "settings.accounts.description" })}
       action={<AccountUsageRefresh usage={usage} />}
     >
       {PROVIDER_ACCOUNT_PROVIDERS.map((provider) => {
@@ -3549,7 +3679,10 @@ function ProviderAccountsSettings() {
                   </div>
                   <div className="mt-0.5 text-[11px] text-content/40">
                     {accounts.length}{" "}
-                    {accounts.length === 1 ? "account" : "accounts"}
+                    {t(
+                      { id: "settings.accounts.count" },
+                      { count: accounts.length },
+                    )}
                   </div>
                 </div>
               </div>
@@ -3560,7 +3693,7 @@ function ProviderAccountsSettings() {
                 className="flex shrink-0 items-center gap-1.5 rounded-md border border-content/10 px-2.5 py-1 text-[12px] text-content/70 transition-transform duration-150 hover:bg-content/10 hover:text-content active:scale-[0.97] disabled:cursor-default disabled:opacity-40"
               >
                 <Plus className="size-3.5" strokeWidth={1.75} aria-hidden />
-                Add account
+                {t({ id: "settings.accounts.add" })}
               </button>
             </div>
             <div className="border-t border-content/5 bg-content/[0.015] pl-10">
@@ -3610,8 +3743,10 @@ function ProviderAccountsSettings() {
                           identity={identity}
                           fallback={
                             account.isDefault
-                              ? "Provider CLI profile"
-                              : "Isolated profile"
+                              ? t({
+                                  id: "settings.accounts.providerCliProfile",
+                                })
+                              : t({ id: "settings.accounts.isolatedProfile" })
                           }
                           className="truncate text-content/30"
                         />
@@ -3621,14 +3756,17 @@ function ProviderAccountsSettings() {
                     <div className="flex w-24 shrink-0 items-center justify-end gap-1">
                       {account.isDefault ? (
                         <span className="mr-1 text-[10px] font-medium uppercase tracking-wide text-content/30">
-                          Default
+                          {t({ id: "settings.accounts.default" })}
                         </span>
                       ) : null}
                       <button
                         type="button"
                         disabled={Boolean(working)}
-                        aria-label={`Rename ${account.label}`}
-                        title="Rename account"
+                        aria-label={t(
+                          { id: "settings.accounts.renameNamed" },
+                          { account: account.label },
+                        )}
+                        title={t({ id: "settings.accounts.rename" })}
                         onClick={() => startRename(account)}
                         className="grid size-7 place-items-center rounded-md text-content/40 transition-transform duration-150 hover:bg-content/10 hover:text-content active:scale-[0.96] disabled:opacity-35"
                       >
@@ -3638,8 +3776,11 @@ function ProviderAccountsSettings() {
                         <button
                           type="button"
                           disabled={Boolean(working)}
-                          aria-label={`Remove ${account.label}`}
-                          title="Remove account"
+                          aria-label={t(
+                            { id: "settings.accounts.removeNamed" },
+                            { account: account.label },
+                          )}
+                          title={t({ id: "settings.accounts.remove" })}
                           onClick={() => void removeAccount(account)}
                           className="grid size-7 place-items-center rounded-md text-content/35 transition-transform duration-150 hover:bg-red-400/10 hover:text-red-400 active:scale-[0.96] disabled:opacity-35"
                         >
@@ -3696,6 +3837,7 @@ function ProviderAccountEditor({
   onCancel: () => void;
   onSubmit: (event: FormEvent<HTMLFormElement>) => void;
 }) {
+  const { formatMessage: t } = useIntl();
   const adding = !editor.accountId;
   return (
     <form
@@ -3707,15 +3849,22 @@ function ProviderAccountEditor({
         className="flex items-center pr-1 h-8 min-w-0 flex-1 overflow-hidden rounded-md border border-content/10 bg-content/[0.04] focus-within:border-accent/45"
       >
         <label className="h-full min-w-0 flex-1">
-          <span className="sr-only">Account name</span>
+          <span className="sr-only">{t({ id: "settings.accounts.name" })}</span>
           <input
             autoFocus
             type="text"
             maxLength={48}
             value={editor.label}
             disabled={working}
-            placeholder="Work or Personal"
-            aria-label={`${adding ? "New" : "Rename"} ${HARNESS_TITLE[editor.provider]} account`}
+            placeholder={t({ id: "settings.accounts.namePlaceholder" })}
+            aria-label={t(
+              {
+                id: adding
+                  ? "settings.accounts.newProvider"
+                  : "settings.accounts.renameProvider",
+              },
+              { provider: HARNESS_TITLE[editor.provider] },
+            )}
             onChange={(event) => onLabel(event.target.value)}
             className="h-full w-full bg-transparent px-2.5 text-[12px] text-content outline-none placeholder:text-content/25 disabled:opacity-50"
           />
@@ -3726,7 +3875,7 @@ function ProviderAccountEditor({
           onClick={onCancel}
           className="flex h-6 shrink-0 items-center rounded-[4.5px] bg-content/[0.05] px-2.5 text-[11px] text-content/45 transition-transform duration-150 hover:bg-content/10 hover:text-content active:scale-[0.97] disabled:opacity-40"
         >
-          Cancel
+          {t({ id: "settings.accounts.cancel" })}
         </button>
         <button
           type="submit"
@@ -3736,9 +3885,9 @@ function ProviderAccountEditor({
           {working ? <Loader className="size-3 animate-spin" /> : null}
           {adding
             ? working
-              ? "Waiting for browser…"
-              : "Sign in and add"
-            : "Save"}
+              ? t({ id: "settings.accounts.waitingBrowser" })
+              : t({ id: "settings.accounts.signInAdd" })
+            : t({ id: "settings.accounts.save" })}
         </button>
       </div>
     </form>
@@ -3793,6 +3942,7 @@ function ProviderRow({
   onModelChange: (harness: HarnessId, model: string) => void;
   onPickerVisible: (visible: boolean) => void;
 }) {
+  const { formatMessage: t } = useIntl();
   const models = modelsFor(harness);
   const available = isHarnessAvailable(harness);
   const current =
@@ -3812,20 +3962,26 @@ function ProviderRow({
           <ProviderBinaryControl provider={harness} />
           {isDefault ? (
             <span className="rounded-full bg-content/10 px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide text-content/60">
-              Default
+              {t({ id: "settings.accounts.default" })}
             </span>
           ) : null}
         </span>
       }
       description={
         available
-          ? `${models.length} ${models.length === 1 ? "model" : "models"} available.`
+          ? t(
+              { id: "settings.providers.availableModels" },
+              { count: models.length },
+            )
           : harnessUnavailableHint(harness)
       }
     >
       {current ? (
         <Select
-          label={`${HARNESS_TITLE[harness]} model`}
+          label={t(
+            { id: "settings.providers.modelLabel" },
+            { provider: HARNESS_TITLE[harness] },
+          )}
           value={current.id}
           onChange={(next) => onModelChange(harness, next)}
           options={models.map((item) => ({
@@ -3838,15 +3994,22 @@ function ProviderRow({
         onClick={() => current && onDefault(harness, current.id)}
         disabled={isDefault || !current}
       >
-        {isDefault ? "Default" : "Use by default"}
+        {isDefault
+          ? t({ id: "settings.accounts.default" })
+          : t({ id: "settings.providers.useByDefault" })}
       </SecondaryButton>
       {available ? (
         <div className="flex items-center gap-2">
           <span className="text-[12px] text-content/50">
-            {pickerLocked ? "Hidden globally" : "Show in picker"}
+            {pickerLocked
+              ? t({ id: "settings.providers.hiddenGlobally" })
+              : t({ id: "settings.providers.showInPicker" })}
           </span>
           <Toggle
-            label={`Show ${HARNESS_TITLE[harness]} in the model picker`}
+            label={t(
+              { id: "settings.providers.showNamedInPicker" },
+              { provider: HARNESS_TITLE[harness] },
+            )}
             on={inPicker}
             onChange={onPickerVisible}
             disabled={pickerLocked}
@@ -3951,7 +4114,10 @@ function ArchivePage({
       <Group
         title={
           looksLikeProject(cwd)
-            ? t({ id: "archive.conversations.titleIn" }, { project: projectName(cwd) })
+            ? t(
+                { id: "archive.conversations.titleIn" },
+                { project: projectName(cwd) },
+              )
             : t({ id: "archive.conversations.title" })
         }
       >
@@ -4252,6 +4418,7 @@ function AccentColorPicker({
   value: string | null;
   onChange: (value: string | null) => void;
 }) {
+  const { formatMessage: t } = useIntl();
   const [open, setOpen] = useState(false);
   const root = useRef<HTMLDivElement>(null);
   const colorIndex = value
@@ -4265,7 +4432,15 @@ function AccentColorPicker({
     <div ref={root} className="w-48">
       <ColorSwatchRow
         colors={["var(--color-content)", ...ACCENT_COLOR_PRESETS]}
-        labels={["Default", "Blue", "Violet", "Pink", "Red", "Orange", "Green"]}
+        labels={[
+          t({ id: "settings.color.default" }),
+          t({ id: "settings.color.blue" }),
+          t({ id: "settings.color.violet" }),
+          t({ id: "settings.color.pink" }),
+          t({ id: "settings.color.red" }),
+          t({ id: "settings.color.orange" }),
+          t({ id: "settings.color.green" }),
+        ]}
         colorIndex={presetIndex >= 0 ? presetIndex : undefined}
         customColor={presetIndex < 0 ? (value ?? undefined) : undefined}
         customPickerOpen={open}

@@ -1,5 +1,7 @@
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
+import { IntlProvider } from "react-intl";
+import { en } from "../../../shared/i18n/messages/en";
 import { describe, expect, it, vi } from "vitest";
 import { SkillPicker } from "./SkillPicker";
 import { ompCommandsFromRpcData } from "../../../integrations/harness/providers/pi/piSkills";
@@ -32,23 +34,27 @@ describe("native command picker", () => {
       ],
     }).map((command) => ({ ...command, kind: "native" }));
     const html = renderToStaticMarkup(
-      createElement(SkillPicker, {
-        skills: [
-          SESSION_FOLDER_COMMAND,
-          PLAN_COMMAND,
-          COMPACT_COMMAND,
-          ...native,
-        ],
-        query: "",
-        active: 0,
-        creating: false,
-        cwd: "/repo",
-        onActive: vi.fn(),
-        onPick: vi.fn(),
-        onStartCreate: vi.fn(),
-        onCancelCreate: vi.fn(),
-        onCreate: vi.fn(),
-      }),
+      createElement(
+        IntlProvider,
+        { locale: "en", messages: en },
+        createElement(SkillPicker, {
+          skills: [
+            SESSION_FOLDER_COMMAND,
+            PLAN_COMMAND,
+            COMPACT_COMMAND,
+            ...native,
+          ],
+          query: "",
+          active: 0,
+          creating: false,
+          cwd: "/repo",
+          onActive: vi.fn(),
+          onPick: vi.fn(),
+          onStartCreate: vi.fn(),
+          onCancelCreate: vi.fn(),
+          onCreate: vi.fn(),
+        }),
+      ),
     );
     expect(html).toContain("/omp:plan");
     expect(html).toContain("/omp:compact");

@@ -1,5 +1,7 @@
 // @vitest-environment happy-dom
 import { act, createElement } from "react";
+import { IntlProvider } from "react-intl";
+import { en } from "../../../shared/i18n/messages/en";
 import { createRoot, type Root } from "react-dom/client";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
@@ -186,13 +188,17 @@ afterEach(() => {
 async function renderPanel(cwd = "/repo") {
   act(() =>
     root.render(
-      createElement(GitChangesPanel, {
-        cwd,
-        enabled: true,
-        onOpenFile: vi.fn(),
-        onOpenAllChanges: vi.fn(),
-        onOpenCommit: vi.fn(),
-      }),
+      createElement(
+        IntlProvider,
+        { locale: "en", messages: en },
+        createElement(GitChangesPanel, {
+          cwd,
+          enabled: true,
+          onOpenFile: vi.fn(),
+          onOpenAllChanges: vi.fn(),
+          onOpenCommit: vi.fn(),
+        }),
+      ),
     ),
   );
   await act(async () => {});

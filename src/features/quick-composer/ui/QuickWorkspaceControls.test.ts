@@ -4,6 +4,8 @@ import { createRoot, type Root } from "react-dom/client";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { invoke } from "@tauri-apps/api/core";
 import { QuickWorkspaceControls } from "./QuickWorkspaceControls";
+import { IntlProvider } from "react-intl";
+import { en } from "../../../shared/i18n/messages/en";
 import type { QuickGitResult } from "../model/quickGitPopup";
 
 const bridge = vi.hoisted(() => ({
@@ -35,14 +37,18 @@ const onError = vi.fn();
 async function render() {
   await act(async () =>
     root.render(
-      createElement(QuickWorkspaceControls, {
-        value: { cwd: "/repo", mode: "current" },
-        enabled: true,
-        onChange,
-        onOpenChange,
-        onClose,
-        onError,
-      }),
+      createElement(
+        IntlProvider,
+        { locale: "en", messages: en },
+        createElement(QuickWorkspaceControls, {
+          value: { cwd: "/repo", mode: "current" },
+          enabled: true,
+          onChange,
+          onOpenChange,
+          onClose,
+          onError,
+        }),
+      ),
     ),
   );
 }

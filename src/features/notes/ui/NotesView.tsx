@@ -1,4 +1,12 @@
-import { LoaderCircle, Plus, Search, File, Trash2, X } from "../../../shared/ui/icons";
+import {
+  LoaderCircle,
+  Plus,
+  Search,
+  File,
+  Trash2,
+  X,
+} from "../../../shared/ui/icons";
+import { useIntl } from "react-intl";
 import { getCurrentWebview } from "@tauri-apps/api/webview";
 import {
   Fragment,
@@ -43,7 +51,10 @@ import {
 } from "../noteImages";
 import { projectKey, projectName } from "../../../shared/lib/paths";
 import { IS_MAC } from "../../../platform/tauri/platform";
-import { looksLikeProject, type RecentProject } from "../../projects/model/recents";
+import {
+  looksLikeProject,
+  type RecentProject,
+} from "../../projects/model/recents";
 import {
   loadTabGroupColors,
   loadTabGroupCustomColors,
@@ -52,7 +63,10 @@ import {
   resolveTabGroupLogo,
   resolveTabGroupMascot,
 } from "../../workspace/model/tabGroups";
-import { AgentMarkdown, MarkdownSourceHighlight } from "../../sessions/ui/AgentMarkdown";
+import {
+  AgentMarkdown,
+  MarkdownSourceHighlight,
+} from "../../sessions/ui/AgentMarkdown";
 
 const MIN_WIDTH = 240;
 const MAX_WIDTH = 420;
@@ -101,6 +115,7 @@ export function NotesView({
   onClose,
   onToggleSidebar,
 }: Props) {
+  const { formatMessage: t } = useIntl();
   const onCloseRef = useRef(onClose);
   onCloseRef.current = onClose;
   const listLock = useLockOverscroll<HTMLDivElement>();
@@ -250,8 +265,8 @@ export function NotesView({
           <input
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="Filter notes"
-            aria-label="Filter notes"
+            placeholder={t({ id: "notes.filter" })}
+            aria-label={t({ id: "notes.filter" })}
             spellCheck={false}
             autoComplete="off"
             className="h-7 w-full rounded-md bg-transparent pl-7 pr-2 text-[12px] text-content outline-none placeholder:text-content/40"
@@ -259,8 +274,8 @@ export function NotesView({
         </div>
         <button
           type="button"
-          title="New note"
-          aria-label="New note"
+          title={t({ id: "notes.new" })}
+          aria-label={t({ id: "notes.new" })}
           disabled={creating}
           onClick={() => void onCreate()}
           className="grid size-6 shrink-0 place-items-center rounded-md text-content/45 hover:bg-content/10 hover:text-content disabled:opacity-40"
@@ -288,8 +303,8 @@ export function NotesView({
         ) : visible.length === 0 ? (
           <p className="px-3 py-2 text-[12px] text-content/50">
             {query.trim()
-              ? "No matching notes"
-              : "No notes yet. Save a turn from the transcript, or create one here."}
+              ? t({ id: "notes.noMatches" })
+              : t({ id: "notes.empty" })}
           </p>
         ) : (
           <ul className="flex flex-col gap-0.5 p-1.5">
@@ -312,7 +327,7 @@ export function NotesView({
       <div
         role="separator"
         aria-orientation="vertical"
-        aria-label="Resize notes list"
+        aria-label={t({ id: "notes.resizeList" })}
         className={`absolute inset-y-0 -right-px z-10 w-1.5 cursor-col-resize touch-none ${
           resize.dragging ? "bg-content/15" : "hover:bg-content/10"
         }`}
@@ -325,7 +340,7 @@ export function NotesView({
   return (
     <div
       role="region"
-      aria-label="Notes"
+      aria-label={t({ id: "notes.title" })}
       data-app-notes
       className="flex min-h-0 min-w-0 flex-1 flex-col text-content"
     >
@@ -343,7 +358,9 @@ export function NotesView({
             className="size-3.5 shrink-0 text-content/45"
             strokeWidth={1.75}
           />
-          <span className="min-w-0 truncate text-content">Notes</span>
+          <span className="min-w-0 truncate text-content">
+            {t({ id: "notes.title" })}
+          </span>
         </div>
         {IS_MAC ? null : <WindowControls />}
       </div>
@@ -442,9 +459,14 @@ function NoteCard({
   active: boolean;
   onSelect: () => void;
 } & ProjectMarks) {
+  const { locale } = useIntl();
   const preview = notePreview(note.body, note.title);
   const project = noteSourceProject(note.sourceCwd);
-  const time = formatRelativeTime(new Date(note.updatedAt).toISOString());
+  const time = formatRelativeTime(
+    new Date(note.updatedAt).toISOString(),
+    Date.now(),
+    locale,
+  );
   const hint = [note.title, project].filter(Boolean).join(" · ");
   return (
     <button
@@ -522,11 +544,14 @@ function NoteDetail({
   onDelete: (id: string) => void | Promise<void>;
   onAddToChat: (note: Note) => void;
 }) {
+  const { formatMessage: t } = useIntl();
   if (!note) {
     return (
       <div className="flex h-full min-w-0 flex-1 flex-col items-center justify-center px-6 text-center">
         <File className="mb-3 size-6 text-content/30" strokeWidth={1.75} />
-        <p className="text-[13px] text-content/45">Select a note</p>
+        <p className="text-[13px] text-content/45">
+          {t({ id: "notes.select" })}
+        </p>
       </div>
     );
   }
@@ -558,6 +583,7 @@ function NoteEditor({
   onDelete: (id: string) => void | Promise<void>;
   onAddToChat: (note: Note) => void;
 }) {
+  const { formatMessage: t, locale } = useIntl();
   const lockOverscroll = useLockOverscroll<HTMLDivElement>();
   const blank = !note.body.trim() && note.title === "Untitled";
   const [mode, setMode] = useMarkdownMode(note.id);
@@ -587,7 +613,11 @@ function NoteEditor({
   bodyRef.current = body;
   noteRef.current = note;
   onSavedRef.current = onSaved;
-  const time = formatRelativeTime(new Date(note.updatedAt).toISOString());
+  const time = formatRelativeTime(
+    new Date(note.updatedAt).toISOString(),
+    Date.now(),
+    locale,
+  );
 
   useEffect(() => {
     if (blank) setMode("source");
@@ -801,7 +831,7 @@ function NoteEditor({
         <header className="flex flex-col gap-3">
           <div className="flex min-w-0 items-center gap-2 text-[12px] text-content/50">
             <File className="size-3.5 shrink-0" strokeWidth={1.75} />
-            <span>Note</span>
+            <span>{t({ id: "notes.singular" })}</span>
             {note.slug ? (
               <span className="min-w-0 truncate">{note.slug}</span>
             ) : null}
@@ -831,12 +861,14 @@ function NoteEditor({
               void saveNow();
             }}
             onKeyDown={onTitleKeyDown}
-            aria-label="Note title"
+            aria-label={t({ id: "notes.noteTitle" })}
             className="w-full border-0 bg-transparent p-0 text-[20px] font-semibold leading-tight text-content outline-none placeholder:text-content/35"
-            placeholder="Untitled"
+            placeholder={t({ id: "notes.untitled" })}
           />
           {time ? (
-            <div className="text-[12px] text-content/50">Updated {time}</div>
+            <div className="text-[12px] text-content/50">
+              {t({ id: "inbox.updated" }, { time })}
+            </div>
           ) : null}
           <NoteTagsEditor
             tags={tags}
@@ -852,7 +884,7 @@ function NoteEditor({
               onClick={() => onAddToChat(draft)}
               className="inline-flex items-center gap-1 rounded-md bg-content px-3 h-6.5 text-[12px] text-background-base hover:bg-content/80 disabled:cursor-default disabled:opacity-40"
             >
-              Add to chat
+              {t({ id: "sourceControl.addToChat" })}
             </button>
             <button
               type="button"
@@ -865,7 +897,7 @@ function NoteEditor({
               className="inline-flex items-center gap-1.5 rounded-md px-3 h-7 text-[12px] text-content/70 hover:bg-content/10 hover:text-red-400"
             >
               <Trash2 className="size-3.5" strokeWidth={1.75} />
-              Delete
+              {t({ id: "notes.delete" })}
             </button>
           </div>
           {saveError ? (
@@ -873,7 +905,7 @@ function NoteEditor({
               role="alert"
               className="flex items-center gap-2 text-[12px] text-red-400/90"
             >
-              <span>Could not save note: {saveError}</span>
+              <span>{t({ id: "notes.saveError" }, { error: saveError })}</span>
               <button
                 type="button"
                 onClick={() => {
@@ -882,23 +914,23 @@ function NoteEditor({
                 }}
                 className="shrink-0 underline hover:no-underline"
               >
-                Retry
+                {t({ id: "notes.retry" })}
               </button>
             </div>
           ) : null}
         </header>
         <div
           role="tablist"
-          aria-label="Note sections"
+          aria-label={t({ id: "notes.sections" })}
           className="flex h-9 items-stretch gap-4 border-b border-stroke"
         >
           <NoteDetailTab
-            label="Preview"
+            label={t({ id: "notes.preview" })}
             selected={mode === "preview"}
             onSelect={() => setMode("preview")}
           />
           <NoteDetailTab
-            label="Source"
+            label={t({ id: "notes.source" })}
             selected={mode === "source"}
             onSelect={() => setMode("source")}
           />
@@ -937,7 +969,9 @@ function NoteEditor({
         >
           {imageDrag || imageBusy ? (
             <div className="pointer-events-none absolute inset-0 z-20 grid place-items-center rounded-lg bg-background-base/80 text-[12px] text-content/70 backdrop-blur-sm">
-              {imageBusy ? "Adding images…" : "Drop images here"}
+              {imageBusy
+                ? t({ id: "notes.addingImages" })
+                : t({ id: "notes.dropImages" })}
             </div>
           ) : null}
           {mode === "source" ? (
@@ -953,7 +987,9 @@ function NoteEditor({
           ) : body.trim() ? (
             <AgentMarkdown text={body} cwd={sourceCwd} hardBreaks />
           ) : (
-            <p className="text-[13px] text-content/45">No description</p>
+            <p className="text-[13px] text-content/45">
+              {t({ id: "inbox.noDescription" })}
+            </p>
           )}
         </div>
       </div>
@@ -972,6 +1008,7 @@ function NoteSource({
   textareaRef: { current: HTMLTextAreaElement | null };
   autoFocus?: boolean;
 }) {
+  const { formatMessage: t } = useIntl();
   const lines = value.split("\n");
   const gutterWidth = `calc(${Math.max(String(lines.length).length, 2)}ch + 0.75rem)`;
   const textOffset = `calc(${gutterWidth} + 0.75rem)`;
@@ -1007,7 +1044,7 @@ function NoteSource({
         autoFocus={autoFocus}
         onChange={(event) => onChange(event.target.value)}
         spellCheck={false}
-        placeholder="Write markdown…"
+        placeholder={t({ id: "notes.writeMarkdown" })}
         className="markdown-source-field absolute inset-0 h-full w-full resize-none overflow-hidden border-0 bg-transparent py-0 pr-0 font-mono text-[13px] leading-5 whitespace-pre-wrap wrap-break-word outline-none"
         style={{ paddingLeft: textOffset }}
       />
@@ -1022,6 +1059,7 @@ function NoteTagsEditor({
   tags: string[];
   onChange: (tags: string[]) => void;
 }) {
+  const { formatMessage: t } = useIntl();
   const [value, setValue] = useState("");
 
   const addTag = (input = value) => {
@@ -1033,9 +1071,11 @@ function NoteTagsEditor({
   return (
     <div
       className="flex min-w-0 flex-wrap items-center gap-1.5"
-      aria-label="Tags"
+      aria-label={t({ id: "notes.tags" })}
     >
-      <span className="mr-0.5 text-[11px] text-content/45">Tags</span>
+      <span className="mr-0.5 text-[11px] text-content/45">
+        {t({ id: "notes.tags" })}
+      </span>
       {tags.map((tag) => (
         <span
           key={tag}
@@ -1044,8 +1084,8 @@ function NoteTagsEditor({
           <span className="truncate">#{tag}</span>
           <button
             type="button"
-            title={`Remove #${tag}`}
-            aria-label={`Remove #${tag}`}
+            title={t({ id: "notes.removeTag" }, { tag })}
+            aria-label={t({ id: "notes.removeTag" }, { tag })}
             onClick={() => onChange(tags.filter((item) => item !== tag))}
             className="grid size-4 shrink-0 place-items-center rounded text-content/40 hover:bg-content/10 hover:text-content"
           >
@@ -1074,8 +1114,8 @@ function NoteTagsEditor({
               onChange(tags.slice(0, -1));
             }
           }}
-          aria-label="Add note tag"
-          placeholder="Add tag…"
+          aria-label={t({ id: "notes.addTag" })}
+          placeholder={t({ id: "notes.addTagPlaceholder" })}
           spellCheck={false}
           autoComplete="off"
           className="h-6 min-w-20 flex-1 border-0 bg-transparent px-1 text-[11px] text-content outline-none placeholder:text-content/35"

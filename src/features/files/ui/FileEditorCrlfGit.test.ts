@@ -7,7 +7,9 @@ import { EditorView } from "@codemirror/view";
 import type * as TauriCore from "@tauri-apps/api/core";
 import { Storage } from "happy-dom";
 import { act, createElement } from "react";
-import { createRoot, type Root } from "react-dom/client";
+import { createRoot as reactCreateRoot, type Root } from "react-dom/client";
+import { IntlProvider } from "react-intl";
+import { en } from "../../../shared/i18n/messages/en";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { diffNavigablePositions, stageChunkAt } from "../editor/editorGit";
 import { FileEditor } from "./FileEditor";
@@ -22,6 +24,16 @@ vi.mock("@tauri-apps/api/core", async (original) => ({
   invoke: async (command: string, args?: Record<string, unknown>) =>
     bridge.invoke(command, args),
 }));
+
+function createRoot(container: HTMLDivElement): Root {
+  const root = reactCreateRoot(container);
+  const render = root.render.bind(root);
+  root.render = (children) =>
+    render(
+      createElement(IntlProvider, { locale: "en", messages: en }, children),
+    );
+  return root;
+}
 
 describe("CRLF editor Git boundaries", () => {
   let directory: string;

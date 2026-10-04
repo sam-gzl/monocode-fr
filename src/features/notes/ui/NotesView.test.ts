@@ -1,10 +1,21 @@
 // @vitest-environment happy-dom
 import { act, createElement } from "react";
+import { IntlProvider } from "react-intl";
+import { en } from "../../../shared/i18n/messages/en";
 import { createRoot, type Root } from "react-dom/client";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
-import { invalidateNotes, loadNotes, NOTES_CHANGED_EVENT, type Note, type NoteUpsert } from "../notes";
+import {
+  invalidateNotes,
+  loadNotes,
+  NOTES_CHANGED_EVENT,
+  type Note,
+  type NoteUpsert,
+} from "../notes";
 import { NotesView } from "./NotesView";
-import { savePinnedProjects, saveProjectRailOrder } from "../../projects/model/recents";
+import {
+  savePinnedProjects,
+  saveProjectRailOrder,
+} from "../../projects/model/recents";
 
 const invoke = vi.hoisted(() => vi.fn());
 vi.mock("@tauri-apps/api/core", async (original) => ({
@@ -77,11 +88,15 @@ afterEach(async () => {
 async function render(projects = recents, cwd = "/work/Edefyn") {
   await act(async () =>
     root.render(
-      createElement(NotesView, {
-        cwd,
-        recents: projects,
-        onClose,
-      }),
+      createElement(
+        IntlProvider,
+        { locale: "en", messages: en },
+        createElement(NotesView, {
+          cwd,
+          recents: projects,
+          onClose,
+        }),
+      ),
     ),
   );
 }
@@ -89,26 +104,39 @@ async function render(projects = recents, cwd = "/work/Edefyn") {
 it("shows a preloaded note immediately while refreshing in the background", async () => {
   await loadNotes();
   let finish!: (notes: Note[]) => void;
-  const refresh = new Promise<Note[]>((resolve) => { finish = resolve; });
+  const refresh = new Promise<Note[]>((resolve) => {
+    finish = resolve;
+  });
   invoke.mockReturnValue(refresh);
   await render();
-  expect(container.querySelector<HTMLInputElement>('[aria-label="Note title"]')?.value)
-    .toBe("Plan");
+  expect(
+    container.querySelector<HTMLInputElement>('[aria-label="Note title"]')
+      ?.value,
+  ).toBe("Plan");
   expect(container.textContent).toContain("Keep this text.");
   expect(container.textContent).not.toContain("Select a note");
   expect(container.querySelector(".animate-spin")).toBeNull();
 
   await act(async () => finish([{ ...stored, title: "Updated plan" }]));
-  expect(container.querySelector<HTMLInputElement>('[aria-label="Note title"]')?.value)
-    .toBe("Updated plan");
+  expect(
+    container.querySelector<HTMLInputElement>('[aria-label="Note title"]')
+      ?.value,
+  ).toBe("Updated plan");
 });
 
 it("refreshes an open note after an Operator write", async () => {
   await render();
-  stored = { ...stored, title: "Updated by Operator", body: "New text", updatedAt: 2 };
+  stored = {
+    ...stored,
+    title: "Updated by Operator",
+    body: "New text",
+    updatedAt: 2,
+  };
   await act(async () => window.dispatchEvent(new Event(NOTES_CHANGED_EVENT)));
-  expect(container.querySelector<HTMLInputElement>('[aria-label="Note title"]')?.value)
-    .toBe("Updated by Operator");
+  expect(
+    container.querySelector<HTMLInputElement>('[aria-label="Note title"]')
+      ?.value,
+  ).toBe("Updated by Operator");
   expect(container.textContent).toContain("New text");
 });
 
@@ -117,7 +145,9 @@ it("keeps a note's consecutive lines on their own lines", async () => {
   stored = { ...stored, body: "> first line\n> second line\n> third line" };
   await render();
 
-  const preview = container.querySelector<HTMLElement>('[data-streamdown="blockquote"]')!;
+  const preview = container.querySelector<HTMLElement>(
+    '[data-streamdown="blockquote"]',
+  )!;
   expect(preview.querySelector("p")?.innerHTML).toBe(
     "first line<br>second line<br>third line",
   );

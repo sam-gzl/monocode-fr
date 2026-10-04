@@ -2,7 +2,9 @@
 import { EditorView } from "@codemirror/view";
 import { Storage } from "happy-dom";
 import { act, createElement } from "react";
-import { createRoot, type Root } from "react-dom/client";
+import { createRoot as reactCreateRoot, type Root } from "react-dom/client";
+import { IntlProvider } from "react-intl";
+import { en } from "../../../shared/i18n/messages/en";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { FILE_EDITOR_AUTOSAVE_DELAY_MS, FileEditor } from "./FileEditor";
 import { saveAutosave } from "../../settings/model/settings";
@@ -28,6 +30,16 @@ vi.mock("@tauri-apps/api/core", async (original) => ({
 }));
 vi.mock("../../../shared/lib/format", () => ({ formatText }));
 const defaultInvoke = invoke.getMockImplementation()!;
+
+function createRoot(container: HTMLDivElement): Root {
+  const root = reactCreateRoot(container);
+  const render = root.render.bind(root);
+  root.render = (children) =>
+    render(
+      createElement(IntlProvider, { locale: "en", messages: en }, children),
+    );
+  return root;
+}
 
 describe("file editor line endings", () => {
   let root: Root;

@@ -3,6 +3,8 @@ import { act, createElement } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { QuickPermissions } from "./QuickPermissions";
+import { IntlProvider } from "react-intl";
+import { en } from "../../../shared/i18n/messages/en";
 
 let container: HTMLDivElement;
 let root: Root;
@@ -15,11 +17,15 @@ beforeEach(() => {
   root = createRoot(container);
   act(() =>
     root.render(
-      createElement(QuickPermissions, {
-        value: "supervised",
-        onChange,
-        onClose,
-      }),
+      createElement(
+        IntlProvider,
+        { locale: "en", messages: en },
+        createElement(QuickPermissions, {
+          value: "supervised",
+          onChange,
+          onClose,
+        }),
+      ),
     ),
   );
 });

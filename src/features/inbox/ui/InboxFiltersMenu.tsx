@@ -1,4 +1,5 @@
 import { Check, CircleDot, GitPullRequest } from "../../../shared/ui/icons";
+import { useIntl } from "react-intl";
 import { type ReactNode } from "react";
 import type { InboxKind } from "../model/githubTasks";
 import {
@@ -42,26 +43,23 @@ type Props = {
   onClose: () => void;
 };
 
-const TIME_OPTIONS: { id: InboxTimeFilter; label: string }[] = [
-  { id: "all", label: "All time" },
-  { id: "today", label: "Today" },
-  { id: "7d", label: "Last 7 days" },
-  { id: "30d", label: "Last 30 days" },
+const TIME_OPTIONS: { id: InboxTimeFilter }[] = [
+  { id: "all" },
+  { id: "today" },
+  { id: "7d" },
+  { id: "30d" },
 ];
 
 const KIND_OPTIONS: {
   id: InboxKind;
-  label: string;
   icon: ReactNode;
 }[] = [
   {
     id: "issue",
-    label: "Issues",
     icon: <CircleDot className="size-3.5 shrink-0" strokeWidth={1.75} />,
   },
   {
     id: "pr",
-    label: "Pull requests",
     icon: <GitPullRequest className="size-3.5 shrink-0" strokeWidth={1.75} />,
   },
 ];
@@ -82,6 +80,7 @@ export function InboxFiltersMenu({
   onJiraProjectsChange,
   onClose,
 }: Props) {
+  const { formatMessage: t } = useIntl();
   const hiddenProjects = new Set(filters.hiddenProjects);
   const hiddenLinearProjects = new Set(filters.hiddenLinearProjects);
   const hiddenTeams = new Set(hiddenLinearTeamIds);
@@ -150,51 +149,51 @@ export function InboxFiltersMenu({
       maxHeight={480}
       onDismiss={onClose}
       role="menu"
-      aria-label="Filter inbox"
+      aria-label={t({ id: "inbox.filter" })}
       onContextMenu={(event) => event.preventDefault()}
       className="overflow-y-auto overscroll-none p-1"
     >
       <FilterItem
         label={
           source === "gitlab" || source === "azuredevops"
-            ? "Needs attention"
-            : "Assigned to me"
+            ? t({ id: "inbox.filters.needsAttention" })
+            : t({ id: "inbox.filters.assignedToMe" })
         }
         checked={filters.assignedToMe}
         onClick={toggleAssigned}
       />
 
-      <SectionLabel>Status</SectionLabel>
+      <SectionLabel>{t({ id: "inbox.filters.status" })}</SectionLabel>
       <FilterItem
-        label="Open"
+        label={t({ id: "inbox.status.open" })}
         checked={filters.status.open}
         onClick={() => toggleStatus("open")}
       />
       {!tracker ? (
         <FilterItem
-          label="Draft"
+          label={t({ id: "inbox.status.draft" })}
           checked={filters.status.draft}
           onClick={() => toggleStatus("draft")}
         />
       ) : null}
       <FilterItem
-        label="Closed"
+        label={t({ id: "inbox.status.closed" })}
         checked={filters.status.closed}
         onClick={() => toggleStatus("closed")}
       />
       {!tracker ? (
         <FilterItem
-          label="Merged"
+          label={t({ id: "inbox.status.merged" })}
           checked={filters.status.merged}
           onClick={() => toggleStatus("merged")}
         />
       ) : null}
 
-      <SectionLabel>Time</SectionLabel>
+      <SectionLabel>{t({ id: "inbox.filters.time" })}</SectionLabel>
       {TIME_OPTIONS.map((option) => (
         <FilterItem
           key={option.id}
-          label={option.label}
+          label={t({ id: `inbox.filters.time.${option.id}` })}
           checked={filters.time === option.id}
           onClick={() => setTime(option.id)}
         />
@@ -202,14 +201,19 @@ export function InboxFiltersMenu({
 
       {!tracker ? (
         <>
-          <SectionLabel>Type</SectionLabel>
+          <SectionLabel>{t({ id: "inbox.filters.type" })}</SectionLabel>
           {KIND_OPTIONS.map((option) => (
             <FilterItem
               key={option.id}
               label={
                 source === "gitlab" && option.id === "pr"
-                  ? "Merge requests"
-                  : option.label
+                  ? t({ id: "inbox.filters.mergeRequests" })
+                  : t({
+                      id:
+                        option.id === "pr"
+                          ? "inbox.filters.pullRequests"
+                          : "inbox.filters.issues",
+                    })
               }
               checked={!hiddenKinds.has(option.id)}
               icon={option.icon}
@@ -221,7 +225,7 @@ export function InboxFiltersMenu({
 
       {source === "linear" && linearTeams.length > 0 ? (
         <>
-          <SectionLabel>Teams</SectionLabel>
+          <SectionLabel>{t({ id: "inbox.filters.teams" })}</SectionLabel>
           {linearTeams.map((team) => (
             <FilterItem
               key={team.id}
@@ -235,7 +239,7 @@ export function InboxFiltersMenu({
 
       {source === "linear" && linearProjects.length > 0 ? (
         <>
-          <SectionLabel>Projects</SectionLabel>
+          <SectionLabel>{t({ id: "inbox.filters.projects" })}</SectionLabel>
           {linearProjects.map((project) => (
             <FilterItem
               key={project.id}
@@ -249,7 +253,7 @@ export function InboxFiltersMenu({
 
       {source === "jira" && jiraProjects.length > 0 ? (
         <>
-          <SectionLabel>Projects</SectionLabel>
+          <SectionLabel>{t({ id: "inbox.filters.projects" })}</SectionLabel>
           {jiraProjects.map((project) => (
             <FilterItem
               key={project.id}
@@ -268,7 +272,7 @@ export function InboxFiltersMenu({
       ) &&
       projects.length > 0 ? (
         <>
-          <SectionLabel>Projects</SectionLabel>
+          <SectionLabel>{t({ id: "inbox.filters.projects" })}</SectionLabel>
           {projects.map((project) => (
             <FilterItem
               key={project.path}
@@ -308,7 +312,7 @@ export function InboxFiltersMenu({
             }}
             className="flex h-7 w-full items-center rounded-lg px-2 text-left text-[13px] leading-none text-content/70 hover:bg-content/5 hover:text-content"
           >
-            Clear filters
+            {t({ id: "inbox.filters.clear" })}
           </button>
         </>
       ) : null}
