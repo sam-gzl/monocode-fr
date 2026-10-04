@@ -265,6 +265,31 @@ export const en = {
   "chat.emptySessionGames.label": "Empty session games",
   "chat.emptySessionGames.description":
     "Pac-man and snake idle on the empty-session grid. Hover the band to take control of whichever is on screen. Turn this off to keep the pane still.",
+
+  "inbox.github.description":
+    "Pull requests, reviews, and issues, read through the GitHub CLI.",
+  "inbox.gitlab.description":
+    "Merge requests from GitLab.com or a self-managed instance.",
+  "inbox.ado.description":
+    "Pull requests and Boards work items from your ADO organization.",
+  "inbox.jira.description": "Jira Cloud issues from the projects you pick.",
+  "inbox.linear.description": "Issues assigned to you, from the teams you pick.",
+
+  "archive.projects.title": "Archived projects",
+  "archive.projects.description":
+    "Archive a project from the rail to keep its chats without listing it in the sidebar.",
+  "archive.projects.empty": "No archived projects.",
+  "archive.restore": "Restore",
+  "archive.delete": "Delete",
+  "archive.conversations.titleIn": "Archived in {project}",
+  "archive.conversations.title": "Archived conversations",
+  "archive.showArchived.label": "Show archived in the sidebar",
+  "archive.showArchived.description":
+    "Keep archived conversations listed alongside the active ones.",
+  "archive.conversations.openProject":
+    "Open a project to see its archived conversations.",
+  "archive.conversations.empty": "No archived conversations in this project.",
+  "archive.unarchive": "Unarchive",
 } satisfies Record<string, string>;
 
 export type MessageKey = keyof typeof en;

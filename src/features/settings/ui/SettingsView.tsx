@@ -1204,6 +1204,7 @@ function InboxPage({
   notificationProjectPath?: string | null;
   notificationSettingsRequest?: number;
 }) {
+  const { formatMessage: t } = useIntl();
   const revealed = useContext(RevealedSetting);
   return (
     <>
@@ -1227,7 +1228,7 @@ function InboxPage({
             GitHub
           </span>
         }
-        description="Pull requests, reviews, and issues, read through the GitHub CLI."
+        description={t({ id: "inbox.github.description" })}
       >
         <GithubSettings />
       </Group>
@@ -1240,7 +1241,7 @@ function InboxPage({
             GitLab
           </span>
         }
-        description="Merge requests from GitLab.com or a self-managed instance."
+        description={t({ id: "inbox.gitlab.description" })}
       >
         <GitlabSettings />
       </Group>
@@ -1256,7 +1257,7 @@ function InboxPage({
             ADO
           </span>
         }
-        description="Pull requests and Boards work items from your ADO organization."
+        description={t({ id: "inbox.ado.description" })}
       >
         <AzureDevOpsSettings />
       </Group>
@@ -1269,7 +1270,7 @@ function InboxPage({
             Jira
           </span>
         }
-        description="Jira Cloud issues from the projects you pick."
+        description={t({ id: "inbox.jira.description" })}
       >
         <JiraSettings />
       </Group>
@@ -1282,7 +1283,7 @@ function InboxPage({
             Linear
           </span>
         }
-        description="Issues assigned to you, from the teams you pick."
+        description={t({ id: "inbox.linear.description" })}
       >
         <LinearSettings />
       </Group>
@@ -3886,6 +3887,7 @@ function ArchivePage({
   onRestoreProject?: (path: string) => void;
   onDeleteProject?: (path: string) => void;
 }) {
+  const { formatMessage: t } = useIntl();
   const [filters, setFilters] = useState(loadSessionSidebarFilters);
   const [deleting, setDeleting] = useState<ArchivedProject | null>(null);
   const archivedProjects = useArchivedProjects();
@@ -3906,12 +3908,12 @@ function ArchivePage({
   return (
     <>
       <Group
-        title="Archived projects"
-        description="Archive a project from the rail to keep its chats without listing it in the sidebar."
+        title={t({ id: "archive.projects.title" })}
+        description={t({ id: "archive.projects.description" })}
       >
         {archivedProjects.length === 0 ? (
           <p className="px-4 py-3.5 text-[12px] text-content/45">
-            No archived projects.
+            {t({ id: "archive.projects.empty" })}
           </p>
         ) : (
           archivedProjects.map((project) => (
@@ -3929,12 +3931,12 @@ function ArchivePage({
               </div>
               {onRestoreProject ? (
                 <SecondaryButton onClick={() => onRestoreProject(project.path)}>
-                  Restore
+                  {t({ id: "archive.restore" })}
                 </SecondaryButton>
               ) : null}
               {onDeleteProject ? (
                 <SecondaryButton danger onClick={() => setDeleting(project)}>
-                  Delete
+                  {t({ id: "archive.delete" })}
                 </SecondaryButton>
               ) : null}
             </div>
@@ -3945,28 +3947,28 @@ function ArchivePage({
       <Group
         title={
           looksLikeProject(cwd)
-            ? `Archived in ${projectName(cwd)}`
-            : "Archived conversations"
+            ? t({ id: "archive.conversations.titleIn" }, { project: projectName(cwd) })
+            : t({ id: "archive.conversations.title" })
         }
       >
         <Row
           id="show-archived"
-          label="Show archived in the sidebar"
-          description="Keep archived conversations listed alongside the active ones."
+          label={t({ id: "archive.showArchived.label" })}
+          description={t({ id: "archive.showArchived.description" })}
         >
           <Toggle
-            label="Show archived in the sidebar"
+            label={t({ id: "archive.showArchived.label" })}
             on={filters.showArchived}
             onChange={onShowArchived}
           />
         </Row>
         {!looksLikeProject(cwd) ? (
           <p className="px-4 py-3.5 text-[12px] text-content/45">
-            Open a project to see its archived conversations.
+            {t({ id: "archive.conversations.openProject" })}
           </p>
         ) : archived.length === 0 ? (
           <p className="px-4 py-3.5 text-[12px] text-content/45">
-            No archived conversations in this project.
+            {t({ id: "archive.conversations.empty" })}
           </p>
         ) : (
           archived.map((session) => (
@@ -3991,13 +3993,13 @@ function ArchivePage({
               <SecondaryButton
                 onClick={() => onArchiveSession(session.id, false)}
               >
-                Unarchive
+                {t({ id: "archive.unarchive" })}
               </SecondaryButton>
               <SecondaryButton
                 danger
                 onClick={() => onDeleteSession(session.id)}
               >
-                Delete
+                {t({ id: "archive.delete" })}
               </SecondaryButton>
             </div>
           ))

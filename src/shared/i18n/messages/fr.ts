@@ -268,4 +268,31 @@ export const fr: Record<MessageKey, string> = {
   "chat.emptySessionGames.label": "Jeux de session vide",
   "chat.emptySessionGames.description":
     "Pac-man et snake tournent au repos sur la grille de session vide. Survolez la bande pour prendre le contrôle de celui affiché. Désactivez pour garder le panneau immobile.",
+
+  "inbox.github.description":
+    "Pull requests, revues et issues, lues via le CLI GitHub.",
+  "inbox.gitlab.description":
+    "Merge requests depuis GitLab.com ou une instance auto-hébergée.",
+  "inbox.ado.description":
+    "Pull requests et éléments de travail Boards de votre organisation ADO.",
+  "inbox.jira.description":
+    "Issues Jira Cloud des projets que vous choisissez.",
+  "inbox.linear.description":
+    "Issues qui vous sont assignées, des équipes que vous choisissez.",
+
+  "archive.projects.title": "Projets archivés",
+  "archive.projects.description":
+    "Archivez un projet depuis la barre pour garder ses discussions sans le lister dans la barre latérale.",
+  "archive.projects.empty": "Aucun projet archivé.",
+  "archive.restore": "Restaurer",
+  "archive.delete": "Supprimer",
+  "archive.conversations.titleIn": "Archivées dans {project}",
+  "archive.conversations.title": "Conversations archivées",
+  "archive.showArchived.label": "Afficher les archives dans la barre latérale",
+  "archive.showArchived.description":
+    "Garder les conversations archivées listées avec les conversations actives.",
+  "archive.conversations.openProject":
+    "Ouvrez un projet pour voir ses conversations archivées.",
+  "archive.conversations.empty": "Aucune conversation archivée dans ce projet.",
+  "archive.unarchive": "Désarchiver",
 };
