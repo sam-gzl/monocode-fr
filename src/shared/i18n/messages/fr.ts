@@ -53,6 +53,31 @@ export const fr: Record<MessageKey, string> = {
   "settings.nav.worktrees": "Worktrees",
   "settings.nav.back": "Retour",
 
+  "settings.page.general.description":
+    "La version que vous utilisez, comment MonoCode vous contacte, et les panneaux affichés.",
+  "settings.page.connections.description":
+    "Connectez vos machines et lancez des agents à distance via SSH.",
+  "settings.page.appearance.description":
+    "Thème, teinte, translucidité, mise en page de l'espace de travail et arrière-plans des conversations.",
+  "settings.page.keybindings.description":
+    "Tous les raccourcis gérés par l'espace de travail, depuis le menu de l'app et le gestionnaire de touches.",
+  "settings.page.chat.description":
+    "Comment les transcriptions s'affichent, ce que fait le compositeur avec un suivi, comment les fichiers s'enregistrent et comment les différences s'ouvrent.",
+  "settings.page.providers.description":
+    "Comptes fournisseurs, CLI d'agents que MonoCode peut piloter, et le modèle avec lequel les nouvelles sessions démarrent.",
+  "settings.page.mcp.description":
+    "Trouvez les serveurs MCP de tous les fournisseurs et gérez leurs connexions.",
+  "settings.page.skills.description":
+    "Découvrez et gérez les compétences de fichiers depuis les dossiers du projet, personnels et du harnais.",
+  "settings.page.inbox.description":
+    "Gérez les services de la boîte de réception et les préférences de notification pour chaque projet.",
+  "settings.page.archive.description":
+    "Projets et conversations que vous avez archivés.",
+  "settings.page.worktrees.description":
+    "Gérez les worktrees supplémentaires pour chaque projet.",
+
+  "settings.restoreDefaults": "Réinitialiser",
+
   "settings.general.language.title": "Langue",
   "settings.general.language.description":
     "Choisissez la langue utilisée dans toute l'application.",
@@ -181,4 +206,16 @@ export const fr: Record<MessageKey, string> = {
   "appearance.showExcludedFiles.label": "Afficher les fichiers exclus",
   "appearance.showExcludedFiles.description":
     "Afficher les fichiers et dossiers exclus par Git, comme les fichiers de build et les dépendances, dans l'explorateur.",
+
+  "keybindings.title": "Raccourcis",
+  "keybindings.description":
+    "Cliquez sur un raccourci pour enregistrer de nouvelles touches. Appuyez sur Suppr pendant l'enregistrement pour le désactiver.",
+  "keybindings.bindingCount.one": "raccourci",
+  "keybindings.bindingCount.other": "raccourcis",
+  "keybindings.filter.placeholder": "Filtrer",
+  "keybindings.filter.ariaLabel": "Filtrer les raccourcis",
+  "keybindings.column.command": "Commande",
+  "keybindings.column.keybinding": "Raccourci",
+  "keybindings.column.when": "Quand",
+  "keybindings.noMatches": "Aucun raccourci correspondant",
 };

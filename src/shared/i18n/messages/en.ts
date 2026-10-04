@@ -51,6 +51,31 @@ export const en = {
   "settings.nav.worktrees": "Worktrees",
   "settings.nav.back": "Back",
 
+  "settings.page.general.description":
+    "The build you are running, how MonoCode reaches you, and the panels it shows.",
+  "settings.page.connections.description":
+    "Connect your machines and run agents remotely through SSH.",
+  "settings.page.appearance.description":
+    "Theme, tint, translucency, workspace layout, and conversation backgrounds.",
+  "settings.page.keybindings.description":
+    "Every shortcut the workspace handles, from the app menu and the key handler.",
+  "settings.page.chat.description":
+    "How transcripts read, what the composer does with a follow-up, how files save, and how diffs open.",
+  "settings.page.providers.description":
+    "Provider accounts, agent CLIs MonoCode can drive, and the model new sessions start with.",
+  "settings.page.mcp.description":
+    "Find MCP servers across providers and manage their connections.",
+  "settings.page.skills.description":
+    "Discover and manage file skills from project, personal, and harness folders.",
+  "settings.page.inbox.description":
+    "Manage Inbox services and notification preferences for each project.",
+  "settings.page.archive.description":
+    "Projects and conversations you have archived.",
+  "settings.page.worktrees.description":
+    "Manage additional worktrees for each project.",
+
+  "settings.restoreDefaults": "Restore defaults",
+
   "settings.general.language.title": "Language",
   "settings.general.language.description": "Choose the language used across the app.",
 

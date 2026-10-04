@@ -444,6 +444,7 @@ export function SettingsView({
   collapsedProjectRailMode,
   onCollapsedProjectRailModeChange,
 }: Props) {
+  const { formatMessage: t } = useIntl();
   const lockOverscroll = useLockOverscroll<HTMLDivElement>();
   const [revealed, setRevealed] = useState<string | null>(anchor);
   const onCloseRef = useRef(onClose);
@@ -2715,6 +2716,7 @@ function KeybindingShortcutEditor({
 }
 
 function KeybindingsPage() {
+  const { formatMessage: t } = useIntl();
   const [query, setQuery] = useState("");
   const [overrides, setOverrides] = useState(loadKeybindingOverrides);
   useEffect(
@@ -2733,20 +2735,26 @@ function KeybindingsPage() {
 
   return (
     <Group
-      title="Shortcuts"
-      description="Click a shortcut to record new keys. Press Delete while recording to disable it."
+      title={t({ id: "keybindings.title" })}
+      description={t({ id: "keybindings.description" })}
       action={
         <div className="flex items-center gap-3">
           <span className="shrink-0 text-[12px] text-content/40 tabular-nums">
-            {rows.length} {rows.length === 1 ? "binding" : "bindings"}
+            {rows.length}{" "}
+            {t({
+              id:
+                rows.length === 1
+                  ? "keybindings.bindingCount.one"
+                  : "keybindings.bindingCount.other",
+            })}
           </span>
           <label className="flex h-7 w-44 shrink-0 items-center gap-2 rounded-md border border-content/10 px-2 text-content/45 focus-within:border-content/20">
             <Search className="size-3.5 shrink-0" strokeWidth={1.75} />
             <input
               value={query}
               onChange={(event) => setQuery(event.target.value)}
-              placeholder="Filter"
-              aria-label="Filter keybindings"
+              placeholder={t({ id: "keybindings.filter.placeholder" })}
+              aria-label={t({ id: "keybindings.filter.ariaLabel" })}
               spellCheck={false}
               autoComplete="off"
               className="min-w-0 flex-1 bg-transparent text-[12px] text-content outline-none placeholder:text-content/35"
@@ -2756,13 +2764,13 @@ function KeybindingsPage() {
       }
     >
       <div className="flex items-center border-b border-stroke bg-content/5 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.08em] text-content/40">
-        <span className="min-w-0 flex-1">Command</span>
-        <span className="w-40 shrink-0">Keybinding</span>
-        <span className="w-28 shrink-0">When</span>
+        <span className="min-w-0 flex-1">{t({ id: "keybindings.column.command" })}</span>
+        <span className="w-40 shrink-0">{t({ id: "keybindings.column.keybinding" })}</span>
+        <span className="w-28 shrink-0">{t({ id: "keybindings.column.when" })}</span>
       </div>
       {rows.length === 0 ? (
         <p className="px-4 py-3 text-[12px] text-content/45">
-          No matching bindings
+          {t({ id: "keybindings.noMatches" })}
         </p>
       ) : (
         rows.map((row) => {
