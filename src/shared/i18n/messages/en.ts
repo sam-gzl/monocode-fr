@@ -341,6 +341,45 @@ export const en = {
     "Claude Code status comes from its CLI. Other providers show configured entries. Sign in opens your browser when supported.",
   "mcp.removeConfirm": "Remove {name} from {scope} scope?",
   "mcp.removeServer.title": "Remove MCP server",
+
+  "worktrees.create": "Create worktree",
+  "worktrees.hint":
+    "Sessions can share a worktree. Deleting one keeps its sessions by default and discards uncommitted changes. Its branch and commits are kept.",
+  "worktrees.refresh": "Refresh",
+  "worktrees.refresh.title": "Refresh worktrees",
+  "worktrees.refreshFailed": "Refresh failed: {error}. Click to retry.",
+  "worktrees.addProject": "Add a project to manage its worktrees.",
+  "worktrees.loading": "Loading worktrees…",
+  "worktrees.none.title": "No additional worktrees",
+  "worktrees.none.description":
+    "Create a worktree to work on another branch in a separate folder.",
+  "worktrees.selectedProjectFolder": "Selected project folder",
+  "worktrees.currentBranch": "Current branch: {branch}",
+  "worktrees.detachedAt": "Detached at {sha}",
+  "worktrees.sessionCount":
+    "{count, plural, one {# session} other {# sessions}} in this worktree",
+  "worktrees.missingFolder": "Missing folder",
+  "worktrees.statusUnavailable": "Status unavailable",
+  "worktrees.uncommittedChanges": "Uncommitted changes",
+  "worktrees.clean": "Clean",
+  "worktrees.unpublishedCommits":
+    "{count, plural, one {# unpublished commit} other {# unpublished commits}}",
+  "worktrees.locked": "Locked",
+  "worktrees.reveal": "Reveal {branch}",
+  "worktrees.reveal.title": "Reveal folder",
+  "worktrees.unlockFirst": "Unlock this worktree in Git first",
+  "worktrees.createBranchFirst":
+    "Create a branch before deleting this detached worktree",
+  "worktrees.delete": "Delete {branch}",
+  "worktrees.delete.title": "Delete worktree",
+  "worktrees.newRoot": "New worktrees are created in {root}.",
+  "worktrees.sessionsStillUse":
+    "Sessions still use this worktree and could not be deleted.",
+  "worktrees.someSessionsFailed":
+    "Some sessions could not be deleted, so the worktree was kept.",
+  "worktrees.sessionsDeletedButKept":
+    "The sessions were deleted, but the worktree was kept. {error}",
+  "worktrees.worktreeFallback": "worktree",
 } satisfies Record<string, string>;
 
 export type MessageKey = keyof typeof en;

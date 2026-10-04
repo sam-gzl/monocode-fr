@@ -347,4 +347,43 @@ export const fr: Record<MessageKey, string> = {
     "Le statut de Claude Code provient de son CLI. Les autres fournisseurs affichent les entrées configurées. Se connecter ouvre votre navigateur quand c'est possible.",
   "mcp.removeConfirm": "Supprimer {name} de la portée {scope} ?",
   "mcp.removeServer.title": "Supprimer le serveur MCP",
+
+  "worktrees.create": "Créer un worktree",
+  "worktrees.hint":
+    "Les sessions peuvent partager un worktree. En supprimer un garde ses sessions par défaut et abandonne les modifications non commitées. Sa branche et ses commits sont conservés.",
+  "worktrees.refresh": "Actualiser",
+  "worktrees.refresh.title": "Actualiser les worktrees",
+  "worktrees.refreshFailed": "Échec de l'actualisation : {error}. Cliquez pour réessayer.",
+  "worktrees.addProject": "Ajoutez un projet pour gérer ses worktrees.",
+  "worktrees.loading": "Chargement des worktrees…",
+  "worktrees.none.title": "Aucun worktree supplémentaire",
+  "worktrees.none.description":
+    "Créez un worktree pour travailler sur une autre branche dans un dossier séparé.",
+  "worktrees.selectedProjectFolder": "Dossier du projet sélectionné",
+  "worktrees.currentBranch": "Branche actuelle : {branch}",
+  "worktrees.detachedAt": "Détaché à {sha}",
+  "worktrees.sessionCount":
+    "{count, plural, one {# session} other {# sessions}} dans ce worktree",
+  "worktrees.missingFolder": "Dossier manquant",
+  "worktrees.statusUnavailable": "Statut indisponible",
+  "worktrees.uncommittedChanges": "Modifications non commitées",
+  "worktrees.clean": "Propre",
+  "worktrees.unpublishedCommits":
+    "{count, plural, one {# commit non publié} other {# commits non publiés}}",
+  "worktrees.locked": "Verrouillé",
+  "worktrees.reveal": "Révéler {branch}",
+  "worktrees.reveal.title": "Révéler le dossier",
+  "worktrees.unlockFirst": "Déverrouillez d'abord ce worktree dans Git",
+  "worktrees.createBranchFirst":
+    "Créez une branche avant de supprimer ce worktree détaché",
+  "worktrees.delete": "Supprimer {branch}",
+  "worktrees.delete.title": "Supprimer le worktree",
+  "worktrees.newRoot": "Les nouveaux worktrees sont créés dans {root}.",
+  "worktrees.sessionsStillUse":
+    "Des sessions utilisent encore ce worktree et n'ont pas pu être supprimées.",
+  "worktrees.someSessionsFailed":
+    "Certaines sessions n'ont pas pu être supprimées, le worktree a donc été conservé.",
+  "worktrees.sessionsDeletedButKept":
+    "Les sessions ont été supprimées, mais le worktree a été conservé. {error}",
+  "worktrees.worktreeFallback": "worktree",
 };
