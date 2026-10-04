@@ -122,4 +122,63 @@ export const fr: Record<MessageKey, string> = {
   "composer.placeholder.inboxCard": "Ajoutez une note, ou envoyez pour commencer…",
   "composer.placeholder.noteCard": "Ajoutez un message, ou envoyez…",
   "composer.placeholder.handoffCard": "Ajoutez du contexte, ou envoyez pour continuer…",
+
+  "appearance.theme.title": "Thème",
+  "appearance.theme.description":
+    "Les thèmes sombre et clair partagent la même teinte, donc les réglages de couleur ci-dessous s'appliquent aux deux.",
+  "appearance.theme.label": "Thème",
+  "appearance.theme.description.row": "Système suit l'apparence du système d'exploitation.",
+  "appearance.theme.system": "Système",
+  "appearance.theme.dark": "Sombre",
+  "appearance.theme.light": "Clair",
+  "appearance.accentColor.label": "Couleur d'accent",
+  "appearance.accentColor.description":
+    "Utilisée pour le bouton d'envoi du compositeur et vos bulles de message.",
+  "appearance.diffColors.label": "Couleurs des différences",
+  "appearance.diffColors.description":
+    "Couleurs pour les lignes ajoutées et supprimées. Daltonien et Contraste élevé utilisent du bleu et de l'orange au lieu du vert et du rouge ; Contraste élevé ajoute des teintes et du texte plus marqués.",
+  "appearance.diffColors.default": "Par défaut",
+  "appearance.diffColors.colorblind": "Daltonien",
+  "appearance.diffColors.highContrast": "Contraste élevé",
+
+  "appearance.color.title": "Couleur",
+  "appearance.color.description":
+    "La teinte et la saturation colorent chaque surface. La luminosité n'affecte que le thème sombre.",
+  "appearance.hue.label": "Teinte",
+  "appearance.hue.description": "Teinte de base pour les accents et les surfaces colorées.",
+  "appearance.saturation.label": "Saturation",
+  "appearance.saturation.description":
+    "À quel point la teinte colore l'interface. Zéro la garde neutre.",
+  "appearance.darkLightness.label": "Luminosité du mode sombre",
+  "appearance.darkLightness.description.glassDisabled":
+    "Ceci n'affecte que le mode sombre. Votre valeur du mode sombre est préservée.",
+  "appearance.darkLightness.description":
+    "Luminosité de base du thème sombre. Des valeurs plus basses sont plus sombres ; zéro est noir pur.",
+
+  "appearance.translucency.title": "Translucidité",
+  "appearance.translucency.description.glassDisabled":
+    "Le mode clair utilise toujours une fenêtre opaque, donc ces réglages sont désactivés. Vos valeurs du mode sombre sont préservées.",
+  "appearance.translucency.description":
+    "Quelle part du bureau transparaît à travers MonoCode. Le flou coûte plus cher à afficher plus il est élevé.",
+  "appearance.sidebarOpacity.label": "Opacité de la barre latérale",
+  "appearance.sidebarOpacity.description":
+    "S'applique à la barre des projets et aux autres surfaces vitrées.",
+  "appearance.blur.label": "Rayon de flou",
+  "appearance.blur.description": "Flou d'arrière-plan derrière la fenêtre.",
+  "appearance.mainPaneGlass.label": "Verre du panneau principal",
+  "appearance.mainPaneGlass.description":
+    "Étend l'effet translucide au panneau principal derrière les sessions et les éditeurs.",
+
+  "appearance.layout.title": "Mise en page",
+  "appearance.collapsedProjectRail.label": "Barre de projets repliée",
+  "appearance.collapsedProjectRail.description":
+    "Garder la navigation des projets disponible sous forme de barre d'icônes compacte, ou masquer complètement la barre.",
+  "appearance.collapsedProjectRail.iconRail": "Barre d'icônes",
+  "appearance.collapsedProjectRail.hidden": "Masquée",
+  "appearance.interfaceScale.label": "Échelle de l'interface",
+  "appearance.interfaceScale.description":
+    "Zoome toute l'interface. Vous pouvez aussi utiliser Ctrl+=, Ctrl+- et Ctrl+0 (Cmd sur macOS).",
+  "appearance.showExcludedFiles.label": "Afficher les fichiers exclus",
+  "appearance.showExcludedFiles.description":
+    "Afficher les fichiers et dossiers exclus par Git, comme les fichiers de build et les dépendances, dans l'explorateur.",
 };

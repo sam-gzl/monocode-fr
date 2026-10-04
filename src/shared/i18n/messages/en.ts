@@ -119,6 +119,77 @@ export const en = {
   "composer.placeholder.inboxCard": "Add a note, or send to start…",
   "composer.placeholder.noteCard": "Add a message, or send…",
   "composer.placeholder.handoffCard": "Add context, or send to continue…",
+
+  "appearance.theme.title": "Theme",
+  "appearance.theme.description":
+    "Dark and light share the same tint, so the color settings below apply to both.",
+  "appearance.theme.label": "Theme",
+  "appearance.theme.description.row": "System follows the OS appearance.",
+  "appearance.theme.system": "System",
+  "appearance.theme.dark": "Dark",
+  "appearance.theme.light": "Light",
+  "appearance.accentColor.label": "Accent color",
+  "appearance.accentColor.description":
+    "Used for the composer send button and your message bubbles.",
+  "appearance.diffColors.label": "Diff colors",
+  "appearance.diffColors.description":
+    "Colors for added and removed lines. Colorblind and High contrast use blue and orange instead of green and red; High contrast adds stronger tints and text.",
+  "appearance.diffColors.default": "Default",
+  "appearance.diffColors.colorblind": "Colorblind",
+  "appearance.diffColors.highContrast": "High contrast",
+
+  "appearance.color.title": "Color",
+  "appearance.color.description":
+    "Hue and saturation tint every surface. Lightness only moves the dark theme.",
+  "appearance.hue.label": "Hue",
+  "appearance.hue.description": "Base hue for accents and tinted surfaces.",
+  "appearance.saturation.label": "Saturation",
+  "appearance.saturation.description":
+    "How strongly the hue tints the interface. Zero keeps it neutral.",
+  "appearance.darkLightness.label": "Dark-mode lightness",
+  "appearance.darkLightness.description.glassDisabled":
+    "This only affects dark mode. Your dark-mode value is preserved.",
+  "appearance.darkLightness.description":
+    "Base brightness of the dark theme. Lower values are darker; zero is true black.",
+
+  "appearance.translucency.title": "Translucency",
+  "appearance.translucency.description.glassDisabled":
+    "Light mode always uses an opaque window, so these are off. Your dark-mode values are preserved.",
+  "appearance.translucency.description":
+    "How much of the desktop shows through MonoCode. Blur costs more to composite the higher it goes.",
+  "appearance.sidebarOpacity.label": "Sidebar opacity",
+  "appearance.sidebarOpacity.description":
+    "Applies to the project rail and the other glass panes.",
+  "appearance.blur.label": "Blur radius",
+  "appearance.blur.description": "Background blur behind the window.",
+  "appearance.mainPaneGlass.label": "Main pane glass",
+  "appearance.mainPaneGlass.description":
+    "Extend the translucent treatment to the main pane behind sessions and editors.",
+
+  "appearance.layout.title": "Layout",
+  "appearance.collapsedProjectRail.label": "Collapsed project rail",
+  "appearance.collapsedProjectRail.description":
+    "Keep project navigation available as a compact icon rail, or hide the rail completely.",
+  "appearance.collapsedProjectRail.iconRail": "Icon rail",
+  "appearance.collapsedProjectRail.hidden": "Hidden",
+  "appearance.interfaceScale.label": "Interface scale",
+  "appearance.interfaceScale.description":
+    "Zoom the whole interface. You can also use Ctrl+=, Ctrl+-, and Ctrl+0 (Cmd on macOS).",
+  "appearance.showExcludedFiles.label": "Show excluded files",
+  "appearance.showExcludedFiles.description":
+    "Show files and folders Git excludes, such as build output and dependencies, in the explorer.",
+
+  "keybindings.title": "Shortcuts",
+  "keybindings.description":
+    "Click a shortcut to record new keys. Press Delete while recording to disable it.",
+  "keybindings.bindingCount.one": "binding",
+  "keybindings.bindingCount.other": "bindings",
+  "keybindings.filter.placeholder": "Filter",
+  "keybindings.filter.ariaLabel": "Filter keybindings",
+  "keybindings.column.command": "Command",
+  "keybindings.column.keybinding": "Keybinding",
+  "keybindings.column.when": "When",
+  "keybindings.noMatches": "No matching bindings",
 } satisfies Record<string, string>;
 
 export type MessageKey = keyof typeof en;

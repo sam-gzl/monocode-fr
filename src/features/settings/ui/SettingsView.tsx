@@ -2080,35 +2080,36 @@ function useAppearanceSettings(
 }
 
 function AppearancePage({ appearance }: { appearance: AppearanceSettings }) {
+  const { formatMessage: t } = useIntl();
   const percent = Math.round(appearance.opacity * 100);
   const glassDisabled = useColorScheme() === "light";
 
   return (
     <>
       <Group
-        title="Theme"
-        description="Dark and light share the same tint, so the color settings below apply to both."
+        title={t({ id: "appearance.theme.title" })}
+        description={t({ id: "appearance.theme.description" })}
       >
         <Row
           id="theme"
-          label="Theme"
-          description="System follows the OS appearance."
+          label={t({ id: "appearance.theme.label" })}
+          description={t({ id: "appearance.theme.description.row" })}
         >
           <Segmented
-            label="Theme"
+            label={t({ id: "appearance.theme.label" })}
             value={appearance.themePreference}
             options={[
-              { value: "system", label: "System" },
-              { value: "dark", label: "Dark" },
-              { value: "light", label: "Light" },
+              { value: "system", label: t({ id: "appearance.theme.system" }) },
+              { value: "dark", label: t({ id: "appearance.theme.dark" }) },
+              { value: "light", label: t({ id: "appearance.theme.light" }) },
             ]}
             onChange={appearance.onThemePreference}
           />
         </Row>
         <Row
           id="accent-color"
-          label="Accent color"
-          description="Used for the composer send button and your message bubbles."
+          label={t({ id: "appearance.accentColor.label" })}
+          description={t({ id: "appearance.accentColor.description" })}
         >
           <AccentColorPicker
             value={appearance.accentColor}
@@ -2117,16 +2118,25 @@ function AppearancePage({ appearance }: { appearance: AppearanceSettings }) {
         </Row>
         <Row
           id="diff-colors"
-          label="Diff colors"
-          description="Colors for added and removed lines. Colorblind and High contrast use blue and orange instead of green and red; High contrast adds stronger tints and text."
+          label={t({ id: "appearance.diffColors.label" })}
+          description={t({ id: "appearance.diffColors.description" })}
         >
           <Segmented
-            label="Diff colors"
+            label={t({ id: "appearance.diffColors.label" })}
             value={appearance.diffPalette}
             options={[
-              { value: "default", label: "Default" },
-              { value: "colorblind", label: "Colorblind" },
-              { value: "high-contrast", label: "High contrast" },
+              {
+                value: "default",
+                label: t({ id: "appearance.diffColors.default" }),
+              },
+              {
+                value: "colorblind",
+                label: t({ id: "appearance.diffColors.colorblind" }),
+              },
+              {
+                value: "high-contrast",
+                label: t({ id: "appearance.diffColors.highContrast" }),
+              },
             ]}
             onChange={appearance.onDiffPalette}
           />
@@ -2134,16 +2144,16 @@ function AppearancePage({ appearance }: { appearance: AppearanceSettings }) {
       </Group>
 
       <Group
-        title="Color"
-        description="Hue and saturation tint every surface. Lightness only moves the dark theme."
+        title={t({ id: "appearance.color.title" })}
+        description={t({ id: "appearance.color.description" })}
       >
         <Row
           id="hue"
-          label="Hue"
-          description="Base hue for accents and tinted surfaces."
+          label={t({ id: "appearance.hue.label" })}
+          description={t({ id: "appearance.hue.description" })}
         >
           <Slider
-            label="Hue"
+            label={t({ id: "appearance.hue.label" })}
             value={appearance.themeHue}
             display={`${appearance.themeHue}°`}
             min={THEME_HUE_MIN}
@@ -2155,11 +2165,11 @@ function AppearancePage({ appearance }: { appearance: AppearanceSettings }) {
         </Row>
         <Row
           id="saturation"
-          label="Saturation"
-          description="How strongly the hue tints the interface. Zero keeps it neutral."
+          label={t({ id: "appearance.saturation.label" })}
+          description={t({ id: "appearance.saturation.description" })}
         >
           <Slider
-            label="Saturation"
+            label={t({ id: "appearance.saturation.label" })}
             value={appearance.themeSaturation}
             display={`${appearance.themeSaturation}%`}
             min={THEME_SATURATION_MIN}
@@ -2169,15 +2179,15 @@ function AppearancePage({ appearance }: { appearance: AppearanceSettings }) {
         </Row>
         <Row
           id="dark-lightness"
-          label="Dark-mode lightness"
+          label={t({ id: "appearance.darkLightness.label" })}
           description={
             glassDisabled
-              ? "This only affects dark mode. Your dark-mode value is preserved."
-              : "Base brightness of the dark theme. Lower values are darker; zero is true black."
+              ? t({ id: "appearance.darkLightness.description.glassDisabled" })
+              : t({ id: "appearance.darkLightness.description" })
           }
         >
           <Slider
-            label="Dark-mode lightness"
+            label={t({ id: "appearance.darkLightness.label" })}
             value={appearance.themeDarkLightness}
             display={`${appearance.themeDarkLightness}%`}
             min={THEME_DARK_LIGHTNESS_MIN}
@@ -2189,20 +2199,20 @@ function AppearancePage({ appearance }: { appearance: AppearanceSettings }) {
       </Group>
 
       <Group
-        title="Translucency"
+        title={t({ id: "appearance.translucency.title" })}
         description={
           glassDisabled
-            ? "Light mode always uses an opaque window, so these are off. Your dark-mode values are preserved."
-            : "How much of the desktop shows through MonoCode. Blur costs more to composite the higher it goes."
+            ? t({ id: "appearance.translucency.description.glassDisabled" })
+            : t({ id: "appearance.translucency.description" })
         }
       >
         <Row
           id="sidebar-opacity"
-          label="Sidebar opacity"
-          description="Applies to the project rail and the other glass panes."
+          label={t({ id: "appearance.sidebarOpacity.label" })}
+          description={t({ id: "appearance.sidebarOpacity.description" })}
         >
           <Slider
-            label="Sidebar opacity"
+            label={t({ id: "appearance.sidebarOpacity.label" })}
             value={percent}
             display={`${percent}%`}
             min={Math.round(SIDEBAR_OPACITY_MIN * 100)}
@@ -2213,11 +2223,11 @@ function AppearancePage({ appearance }: { appearance: AppearanceSettings }) {
         </Row>
         <Row
           id="blur"
-          label="Blur radius"
-          description="Background blur behind the window."
+          label={t({ id: "appearance.blur.label" })}
+          description={t({ id: "appearance.blur.description" })}
         >
           <Slider
-            label="Blur radius"
+            label={t({ id: "appearance.blur.label" })}
             value={appearance.blur}
             display={String(appearance.blur)}
             min={SIDEBAR_BLUR_MIN}
@@ -2228,11 +2238,11 @@ function AppearancePage({ appearance }: { appearance: AppearanceSettings }) {
         </Row>
         <Row
           id="main-pane-glass"
-          label="Main pane glass"
-          description="Extend the translucent treatment to the main pane behind sessions and editors."
+          label={t({ id: "appearance.mainPaneGlass.label" })}
+          description={t({ id: "appearance.mainPaneGlass.description" })}
         >
           <Toggle
-            label="Main pane glass"
+            label={t({ id: "appearance.mainPaneGlass.label" })}
             on={appearance.bodyGlass}
             onChange={appearance.onBodyGlass}
             disabled={glassDisabled}
@@ -2242,29 +2252,37 @@ function AppearancePage({ appearance }: { appearance: AppearanceSettings }) {
 
       <ChatBackgroundCard appearance={appearance} />
 
-      <Group title="Layout">
+      <Group title={t({ id: "appearance.layout.title" })}>
         <Row
           id="collapsed-project-rail"
-          label="Collapsed project rail"
-          description="Keep project navigation available as a compact icon rail, or hide the rail completely."
+          label={t({ id: "appearance.collapsedProjectRail.label" })}
+          description={t({
+            id: "appearance.collapsedProjectRail.description",
+          })}
         >
           <Segmented
-            label="Collapsed project rail"
+            label={t({ id: "appearance.collapsedProjectRail.label" })}
             value={appearance.collapsedProjectRailMode}
             options={[
-              { value: "compact", label: "Icon rail" },
-              { value: "hidden", label: "Hidden" },
+              {
+                value: "compact",
+                label: t({ id: "appearance.collapsedProjectRail.iconRail" }),
+              },
+              {
+                value: "hidden",
+                label: t({ id: "appearance.collapsedProjectRail.hidden" }),
+              },
             ]}
             onChange={appearance.onCollapsedProjectRailMode}
           />
         </Row>
         <Row
           id="interface-scale"
-          label="Interface scale"
-          description="Zoom the whole interface. You can also use Ctrl+=, Ctrl+-, and Ctrl+0 (Cmd on macOS)."
+          label={t({ id: "appearance.interfaceScale.label" })}
+          description={t({ id: "appearance.interfaceScale.description" })}
         >
           <Select
-            label="Interface scale"
+            label={t({ id: "appearance.interfaceScale.label" })}
             value={String(Math.round(appearance.uiScale * 100))}
             options={UI_SCALE_PERCENTS.map((percent) => ({
               value: String(percent),
@@ -2275,11 +2293,11 @@ function AppearancePage({ appearance }: { appearance: AppearanceSettings }) {
         </Row>
         <Row
           id="show-excluded-files"
-          label="Show excluded files"
-          description="Show files and folders Git excludes, such as build output and dependencies, in the explorer."
+          label={t({ id: "appearance.showExcludedFiles.label" })}
+          description={t({ id: "appearance.showExcludedFiles.description" })}
         >
           <Toggle
-            label="Show excluded files"
+            label={t({ id: "appearance.showExcludedFiles.label" })}
             on={appearance.showExcludedFiles}
             onChange={appearance.onShowExcludedFiles}
           />
