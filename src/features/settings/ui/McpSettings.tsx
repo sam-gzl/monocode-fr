@@ -1,5 +1,6 @@
 import { invoke } from "@tauri-apps/api/core";
 import { ask } from "@tauri-apps/plugin-dialog";
+import { useIntl } from "react-intl";
 import {
   useCallback,
   useEffect,
@@ -170,12 +171,19 @@ function AddServerModal({
   onClose: () => void;
   onAdded: () => Promise<void>;
 }) {
+  const { formatMessage: t } = useIntl();
   const [provider, setProvider] = useState<Provider>(initialProvider);
   const [scope, setScope] = useState<Scope>(SCOPES[initialProvider][0]);
   const [name, setName] = useState("");
   const [config, setConfig] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const scopeLabel = (value: Scope) =>
+    value === "local"
+      ? t({ id: "mcp.scope.local" })
+      : value === "project"
+        ? t({ id: "mcp.scope.project" })
+        : t({ id: "mcp.scope.user" });
 
   async function add(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -204,15 +212,15 @@ function AddServerModal({
 
   return (
     <Modal
-      title="Add MCP server"
-      description="Paste a server configuration and choose where to add it."
+      title={t({ id: "mcp.addServer.title" })}
+      description={t({ id: "mcp.addServer.description" })}
       onClose={onClose}
       fitViewport
     >
       <form onSubmit={(event) => void add(event)} className="space-y-4 p-4">
         <div className="grid gap-3 sm:grid-cols-2">
           <McpPicker
-            label="Provider"
+            label={t({ id: "mcp.provider.label" })}
             value={provider}
             options={PROVIDERS.map((option) => ({
               value: option,
@@ -225,19 +233,19 @@ function AddServerModal({
             }}
           />
           <McpPicker
-            label="Scope"
+            label={t({ id: "mcp.scope.label" })}
             value={scope}
             options={SCOPES[provider].map((option) => ({
               value: option,
-              label: option[0].toUpperCase() + option.slice(1),
+              label: scopeLabel(option),
             }))}
             onChange={setScope}
           />
         </div>
         <label className="block text-xs text-content/65">
-          Name{" "}
+          {t({ id: "mcp.name.label" })}{" "}
           <span className="text-content/40">
-            (optional for an mcpServers block)
+            {t({ id: "mcp.name.optional" })}
           </span>
           <input
             value={name}
@@ -248,7 +256,7 @@ function AddServerModal({
           />
         </label>
         <label className="block text-xs text-content/65">
-          JSON configuration
+          {t({ id: "mcp.config.label" })}
           <textarea
             required
             value={config}
@@ -261,10 +269,7 @@ function AddServerModal({
             }
           />
         </label>
-        <p className="text-xs text-content/45">
-          Paste one entry from an mcpServers block, or a single server object
-          with a name above.
-        </p>
+        <p className="text-xs text-content/45">{t({ id: "mcp.config.hint" })}</p>
         {error ? (
           <p
             role="alert"
@@ -279,14 +284,16 @@ function AddServerModal({
             onClick={onClose}
             className="rounded-md border border-stroke px-3 py-1.5 text-xs hover:bg-content/5"
           >
-            Cancel
+            {t({ id: "mcp.cancel" })}
           </button>
           <button
             type="submit"
             disabled={busy}
             className="rounded-md border border-stroke px-3 py-1.5 text-xs hover:bg-content/5 disabled:opacity-50"
           >
-            {busy ? "Adding…" : "Add server"}
+            {busy
+              ? t({ id: "mcp.addServer.adding" })
+              : t({ id: "mcp.addServer.submit" })}
           </button>
         </div>
       </form>
@@ -330,6 +337,7 @@ function McpConnections({
   cwd: string;
   projectPicker: ReactNode;
 }) {
+  const { formatMessage: t } = useIntl();
   const cached = getCachedMcpSettings(cwd);
   const [servers, setServers] = useState<ServerRow[]>(cached?.servers ?? []);
   const [filter, setFilter] = useState<Filter>("all");
@@ -418,9 +426,13 @@ function McpConnections({
       ? server.scope
       : (removeScopes[server.name] ?? "local");
     if (
-      !(await ask(`Remove ${server.name} from ${selectedScope} scope?`, {
-        title: "Remove MCP server",
-      }))
+      !(await ask(
+        t(
+          { id: "mcp.removeConfirm" },
+          { name: server.name, scope: selectedScope },
+        ),
+        { title: t({ id: "mcp.removeServer.title" }) },
+      ))
     )
       return;
     setBusy(server.name);
@@ -448,12 +460,13 @@ function McpConnections({
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <div className="flex flex-wrap items-center gap-3">
-            <h2 className="text-sm font-semibold">MCP connections</h2>
+            <h2 className="text-sm font-semibold">
+              {t({ id: "mcp.connections.title" })}
+            </h2>
             {projectPicker}
           </div>
           <p className="mt-1 text-xs text-content/55">
-            Configured servers for the selected project and your provider
-            accounts.
+            {t({ id: "mcp.connections.description" })}
           </p>
         </div>
         <div className="flex items-center gap-2">
@@ -464,20 +477,20 @@ function McpConnections({
             className="flex items-center gap-1.5 rounded-md border border-stroke px-3 py-1.5 text-xs hover:bg-content/5 disabled:opacity-50"
           >
             <RefreshCw className="size-3.5" />
-            Refresh
+            {t({ id: "mcp.refresh" })}
           </button>
           <button
             type="button"
             aria-label={
               showAllProviders
-                ? "Show available providers"
-                : "Show all providers"
+                ? t({ id: "mcp.showAvailableProviders" })
+                : t({ id: "mcp.showAllProviders" })
             }
             aria-pressed={showAllProviders}
             title={
               showAllProviders
-                ? "Showing all providers"
-                : "Showing available providers"
+                ? t({ id: "mcp.showingAllProviders" })
+                : t({ id: "mcp.showingAvailableProviders" })
             }
             onClick={() => setShowAllProviders(!showAllProviders)}
             className={`grid size-7 place-items-center rounded-md border border-content/10 hover:bg-content/5 ${showAllProviders ? "bg-selection text-content" : "text-content/55"}`}
@@ -486,7 +499,7 @@ function McpConnections({
           </button>
           <button
             type="button"
-            aria-label="Add MCP server"
+            aria-label={t({ id: "mcp.addServerAria" })}
             onClick={() => setAddOpen(true)}
             className="grid size-7 place-items-center rounded-md border border-stroke hover:bg-content/5"
           >
@@ -497,7 +510,7 @@ function McpConnections({
       <div
         role="group"
         className="inline-flex max-w-full flex-wrap gap-0.5 rounded-md border border-content/10 p-0.5 text-[12px]"
-        aria-label="Filter MCP servers by provider"
+        aria-label={t({ id: "mcp.filterByProvider" })}
       >
         {(["all", ...filterProviders] as const).map((provider) => (
           <button
@@ -512,7 +525,7 @@ function McpConnections({
             ) : (
               <ProviderIcon provider={provider} />
             )}
-            {provider === "all" ? "All" : MCP_PROVIDER_LABELS[provider]}
+            {provider === "all" ? t({ id: "mcp.all" }) : MCP_PROVIDER_LABELS[provider]}
             <span className="opacity-60">
               {provider === "all"
                 ? servers.length
@@ -532,14 +545,16 @@ function McpConnections({
       ) : null}
       {claudeError && (filter === "all" || filter === "claude") ? (
         <p className="text-xs text-content/55">
-          Claude connection status unavailable: {claudeError}
+          {t({ id: "mcp.claudeStatusUnavailable" }, { error: claudeError })}
         </p>
       ) : null}
       {loading ? (
-        <p className="text-sm text-content/55">Checking servers…</p>
+        <p className="text-sm text-content/55">
+          {t({ id: "mcp.checkingServers" })}
+        </p>
       ) : visible.length === 0 ? (
         <p className="text-sm text-content/55">
-          No MCP servers configured for this provider.
+          {t({ id: "mcp.noServersConfigured" })}
         </p>
       ) : (
         <div className="overflow-hidden rounded-xl border border-content/10 bg-content/3">
@@ -577,14 +592,14 @@ function McpConnections({
                   onClick={() => void login(server)}
                   className="rounded-md border border-stroke px-2 py-1 text-xs hover:bg-content/5 disabled:opacity-50"
                 >
-                  Sign in
+                  {t({ id: "mcp.signIn" })}
                 </button>
               ) : null}
               {server.provider === "claude" ? (
                 <>
                   {!server.configPath ? (
                     <label className="text-xs text-content/55">
-                      Scope{" "}
+                      {t({ id: "mcp.scope.label" })}{" "}
                       <select
                         aria-label={`Scope to remove ${server.name} from`}
                         value={removeScopes[server.name] ?? "local"}
@@ -596,9 +611,15 @@ function McpConnections({
                         }
                         className="rounded border border-stroke bg-background-base px-1 py-1 text-content"
                       >
-                        <option value="local">Local</option>
-                        <option value="project">Project</option>
-                        <option value="user">User</option>
+                        <option value="local">
+                          {t({ id: "mcp.scope.local" })}
+                        </option>
+                        <option value="project">
+                          {t({ id: "mcp.scope.project" })}
+                        </option>
+                        <option value="user">
+                          {t({ id: "mcp.scope.user" })}
+                        </option>
                       </select>
                     </label>
                   ) : null}
@@ -608,7 +629,7 @@ function McpConnections({
                     onClick={() => void remove(server)}
                     className="rounded-md border border-stroke px-2 py-1 text-xs hover:bg-content/5 disabled:opacity-50"
                   >
-                    Remove
+                    {t({ id: "mcp.remove" })}
                   </button>
                 </>
               ) : (
@@ -621,17 +642,14 @@ function McpConnections({
                   }
                   className="rounded-md border border-stroke px-2 py-1 text-xs hover:bg-content/5"
                 >
-                  Show config
+                  {t({ id: "mcp.showConfig" })}
                 </button>
               )}
             </div>
           ))}
         </div>
       )}
-      <p className="text-xs text-content/45">
-        Claude Code status comes from its CLI. Other providers show configured
-        entries. Sign in opens your browser when supported.
-      </p>
+      <p className="text-xs text-content/45">{t({ id: "mcp.footer" })}</p>
       {addOpen ? (
         <AddServerModal
           cwd={cwd}

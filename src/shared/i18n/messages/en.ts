@@ -302,6 +302,45 @@ export const en = {
   "providers.claudeHooks.label": "Claude Code hooks",
   "providers.claudeHooks.description":
     "Run the hooks configured in your settings.json files — PreToolUse command rewrites, blocks, notifications, and the rest — just as the Claude Code CLI would. Turn this off if a hook is misbehaving and you need the session back. Takes effect on the next turn.",
+
+  "mcp.addServer.title": "Add MCP server",
+  "mcp.addServer.description":
+    "Paste a server configuration and choose where to add it.",
+  "mcp.provider.label": "Provider",
+  "mcp.scope.label": "Scope",
+  "mcp.name.label": "Name",
+  "mcp.name.optional": "(optional for an mcpServers block)",
+  "mcp.config.label": "JSON configuration",
+  "mcp.config.hint":
+    "Paste one entry from an mcpServers block, or a single server object with a name above.",
+  "mcp.cancel": "Cancel",
+  "mcp.addServer.submit": "Add server",
+  "mcp.addServer.adding": "Adding…",
+  "mcp.scope.local": "Local",
+  "mcp.scope.project": "Project",
+  "mcp.scope.user": "User",
+
+  "mcp.connections.title": "MCP connections",
+  "mcp.connections.description":
+    "Configured servers for the selected project and your provider accounts.",
+  "mcp.refresh": "Refresh",
+  "mcp.showAvailableProviders": "Show available providers",
+  "mcp.showAllProviders": "Show all providers",
+  "mcp.showingAllProviders": "Showing all providers",
+  "mcp.showingAvailableProviders": "Showing available providers",
+  "mcp.addServerAria": "Add MCP server",
+  "mcp.filterByProvider": "Filter MCP servers by provider",
+  "mcp.all": "All",
+  "mcp.claudeStatusUnavailable": "Claude connection status unavailable: {error}",
+  "mcp.checkingServers": "Checking servers…",
+  "mcp.noServersConfigured": "No MCP servers configured for this provider.",
+  "mcp.signIn": "Sign in",
+  "mcp.remove": "Remove",
+  "mcp.showConfig": "Show config",
+  "mcp.footer":
+    "Claude Code status comes from its CLI. Other providers show configured entries. Sign in opens your browser when supported.",
+  "mcp.removeConfirm": "Remove {name} from {scope} scope?",
+  "mcp.removeServer.title": "Remove MCP server",
 } satisfies Record<string, string>;
 
 export type MessageKey = keyof typeof en;

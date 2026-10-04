@@ -307,4 +307,44 @@ export const fr: Record<MessageKey, string> = {
   "providers.claudeHooks.label": "Hooks Claude Code",
   "providers.claudeHooks.description":
     "Exécute les hooks configurés dans vos fichiers settings.json — réécritures de commandes PreToolUse, blocages, notifications, etc. — comme le ferait le CLI Claude Code. Désactivez si un hook se comporte mal et que vous devez récupérer la session. Prend effet au prochain tour.",
+
+  "mcp.addServer.title": "Ajouter un serveur MCP",
+  "mcp.addServer.description":
+    "Collez une configuration de serveur et choisissez où l'ajouter.",
+  "mcp.provider.label": "Fournisseur",
+  "mcp.scope.label": "Portée",
+  "mcp.name.label": "Nom",
+  "mcp.name.optional": "(optionnel pour un bloc mcpServers)",
+  "mcp.config.label": "Configuration JSON",
+  "mcp.config.hint":
+    "Collez une entrée d'un bloc mcpServers, ou un objet serveur unique avec un nom ci-dessus.",
+  "mcp.cancel": "Annuler",
+  "mcp.addServer.submit": "Ajouter le serveur",
+  "mcp.addServer.adding": "Ajout en cours…",
+  "mcp.scope.local": "Local",
+  "mcp.scope.project": "Projet",
+  "mcp.scope.user": "Utilisateur",
+
+  "mcp.connections.title": "Connexions MCP",
+  "mcp.connections.description":
+    "Serveurs configurés pour le projet sélectionné et vos comptes fournisseurs.",
+  "mcp.refresh": "Actualiser",
+  "mcp.showAvailableProviders": "Afficher les fournisseurs disponibles",
+  "mcp.showAllProviders": "Afficher tous les fournisseurs",
+  "mcp.showingAllProviders": "Affiche tous les fournisseurs",
+  "mcp.showingAvailableProviders": "Affiche les fournisseurs disponibles",
+  "mcp.addServerAria": "Ajouter un serveur MCP",
+  "mcp.filterByProvider": "Filtrer les serveurs MCP par fournisseur",
+  "mcp.all": "Tous",
+  "mcp.claudeStatusUnavailable":
+    "Statut de connexion Claude indisponible : {error}",
+  "mcp.checkingServers": "Vérification des serveurs…",
+  "mcp.noServersConfigured": "Aucun serveur MCP configuré pour ce fournisseur.",
+  "mcp.signIn": "Se connecter",
+  "mcp.remove": "Supprimer",
+  "mcp.showConfig": "Afficher la config",
+  "mcp.footer":
+    "Le statut de Claude Code provient de son CLI. Les autres fournisseurs affichent les entrées configurées. Se connecter ouvre votre navigateur quand c'est possible.",
+  "mcp.removeConfirm": "Supprimer {name} de la portée {scope} ?",
+  "mcp.removeServer.title": "Supprimer le serveur MCP",
 };
