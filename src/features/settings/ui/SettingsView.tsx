@@ -333,8 +333,6 @@ import {
   type KeybindingOverride,
   saveTabAnimationsEnabled,
   searchSettings,
-  settingsSectionDescription,
-  settingsSectionLabel,
   COLLAPSED_PROJECT_RAIL_MODE_DEFAULT,
   type CollapsedProjectRailMode,
   type DiffViewer,
@@ -420,6 +418,34 @@ type Props = {
   onCollapsedProjectRailModeChange?: (mode: CollapsedProjectRailMode) => void;
 };
 
+const SECTION_MESSAGE_IDS: Record<SettingsSectionId, string> = {
+  general: "settings.nav.general",
+  connections: "settings.nav.connections",
+  appearance: "settings.nav.appearance",
+  keybindings: "settings.nav.keybindings",
+  chat: "settings.nav.chat",
+  providers: "settings.nav.providers",
+  mcp: "settings.nav.mcp",
+  skills: "settings.nav.skills",
+  inbox: "settings.nav.inbox",
+  worktrees: "settings.nav.worktrees",
+  archive: "settings.nav.archive",
+};
+
+const SECTION_DESCRIPTION_IDS: Record<SettingsSectionId, string> = {
+  general: "settings.page.general.description",
+  connections: "settings.page.connections.description",
+  appearance: "settings.page.appearance.description",
+  keybindings: "settings.page.keybindings.description",
+  chat: "settings.page.chat.description",
+  providers: "settings.page.providers.description",
+  mcp: "settings.page.mcp.description",
+  skills: "settings.page.skills.description",
+  inbox: "settings.page.inbox.description",
+  worktrees: "settings.page.worktrees.description",
+  archive: "settings.page.archive.description",
+};
+
 export function SettingsView({
   section,
   anchor = null,
@@ -503,12 +529,14 @@ export function SettingsView({
       >
         {IS_MAC && !besideRail ? <div className="w-[78px] shrink-0" /> : null}
         <div className="flex min-w-0 flex-1 items-center gap-2 px-3 text-[13px]">
-          <span className="shrink-0 text-content/45">Settings</span>
+          <span className="shrink-0 text-content/45">
+            {t({ id: "rail.settings" })}
+          </span>
           <span aria-hidden className="shrink-0 text-content/25">
             /
           </span>
           <span className="min-w-0 truncate text-content">
-            {settingsSectionLabel(section)}
+            {t({ id: SECTION_MESSAGE_IDS[section] })}
           </span>
         </div>
         <div
@@ -522,7 +550,7 @@ export function SettingsView({
               className="flex shrink-0 items-center gap-1.5 rounded-md px-2 py-1 text-[12px] text-content/50 hover:bg-content/10 hover:text-content"
             >
               <RotateCcw className="size-3.5" strokeWidth={1.75} />
-              Restore defaults
+              {t({ id: "settings.restoreDefaults" })}
             </button>
           ) : null}
           <SettingsSearch onReveal={onReveal} />
@@ -536,8 +564,8 @@ export function SettingsView({
           cwd={cwd}
           header={
             <PageHeader
-              title={settingsSectionLabel(section)}
-              description={settingsSectionDescription(section)}
+              title={t({ id: SECTION_MESSAGE_IDS[section] })}
+              description={t({ id: SECTION_DESCRIPTION_IDS[section] })}
             />
           }
         />
@@ -549,8 +577,8 @@ export function SettingsView({
           >
             <div className="mx-auto w-full max-w-5xl px-5 py-6 pb-16 @min-[560px]/settings:px-8 @min-[560px]/settings:py-8">
               <PageHeader
-                title={settingsSectionLabel(section)}
-                description={settingsSectionDescription(section)}
+                title={t({ id: SECTION_MESSAGE_IDS[section] })}
+                description={t({ id: SECTION_DESCRIPTION_IDS[section] })}
               />
               {section === "general" ? (
                 <GeneralPage onOpenWhatsNew={onOpenWhatsNew} />
