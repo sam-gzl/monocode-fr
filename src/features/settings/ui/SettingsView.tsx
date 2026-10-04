@@ -1,4 +1,5 @@
 import { invoke } from "@tauri-apps/api/core";
+import { useIntl } from "react-intl";
 import { openUrl } from "@tauri-apps/plugin-opener";
 import { ConnectionsSettings } from "../../connections/ui/ConnectionsSettings";
 import { ask } from "@tauri-apps/plugin-dialog";
@@ -729,6 +730,7 @@ function GeneralPage({
 }: {
   onOpenWhatsNew: (version: string) => void;
 }) {
+  const { formatMessage: t } = useIntl();
   const [soundsEnabled, setSoundsEnabled] = useState(loadSoundsEnabled);
   const [notificationsEnabled, setNotificationsEnabled] = useState(
     loadNotificationsEnabled,
@@ -816,35 +818,35 @@ function GeneralPage({
       <LanguageSettings />
 
       <Group
-        title="Alerts"
-        description="How MonoCode reaches you while you are looking somewhere else."
+        title={t({ id: "settings.general.alerts.title" })}
+        description={t({ id: "settings.general.alerts.description" })}
       >
         <Row
           id="sounds"
-          label="Sounds"
-          description="Short cues for project activity, finished turns, and available updates. Choose project notification categories in Inbox settings. Switches and Copy on a finished turn also play."
+          label={t({ id: "settings.general.sounds.label" })}
+          description={t({ id: "settings.general.sounds.description" })}
         >
           <Toggle
-            label="Sounds"
+            label={t({ id: "settings.general.sounds.label" })}
             on={soundsEnabled}
             onChange={onSoundsEnabled}
           />
         </Row>
         <Row
           id="notifications"
-          label="Notifications"
-          description="Notify when a reminder is due, or when an agent finishes or needs input in another session or while MonoCode is in the background. Click the notification to open that session."
+          label={t({ id: "settings.general.notifications.label" })}
+          description={t({ id: "settings.general.notifications.description" })}
         >
           {notificationsEnabled && notificationPermission === "denied" ? (
             <NotificationsBlocked />
           ) : null}
           {notificationsEnabled && notificationPermission === "unsupported" ? (
             <span className="text-[12px] text-content/45">
-              Not available on this platform
+              {t({ id: "settings.general.notifications.unsupported" })}
             </span>
           ) : null}
           <Toggle
-            label="Notifications"
+            label={t({ id: "settings.general.notifications.label" })}
             on={notificationsEnabled}
             onChange={onNotificationsEnabled}
           />
@@ -852,47 +854,64 @@ function GeneralPage({
       </Group>
 
       <Group
-        title="Workspace"
-        description="How project navigation and workspace tabs behave."
+        title={t({ id: "settings.general.workspace.title" })}
+        description={t({ id: "settings.general.workspace.description" })}
       >
         <Row
           id="file-tabs"
-          label="File tabs"
-          description="Open files beside the active chat, or give each file a normal tab in the top bar. Top-bar files can still be combined into split panes."
+          label={t({ id: "settings.general.fileTabs.label" })}
+          description={t({ id: "settings.general.fileTabs.description" })}
         >
           <Segmented
-            label="File tabs"
+            label={t({ id: "settings.general.fileTabs.label" })}
             value={fileTabMode}
             options={[
-              { value: "pane", label: "Beside chat" },
-              { value: "workspace", label: "Top bar" },
+              {
+                value: "pane",
+                label: t({ id: "settings.general.fileTabs.besideChat" }),
+              },
+              {
+                value: "workspace",
+                label: t({ id: "settings.general.fileTabs.topBar" }),
+              },
             ]}
             onChange={onFileTabMode}
           />
         </Row>
         <Row
           id="tab-animations"
-          label="Tab animations"
-          description="Animate tabs as they open and close. Turn this off for instant tab changes."
+          label={t({ id: "settings.general.tabAnimations.label" })}
+          description={t({ id: "settings.general.tabAnimations.description" })}
         >
           <Toggle
-            label="Tab animations"
+            label={t({ id: "settings.general.tabAnimations.label" })}
             on={tabAnimationsEnabled}
             onChange={onTabAnimationsEnabled}
           />
         </Row>
         <Row
           id="notes"
-          label="Notes"
-          description="A global markdown notebook on the project rail. Save a finished turn from the transcript, then mention it later with @note or add it to chat."
+          label={t({ id: "settings.general.notes.label" })}
+          description={t({ id: "settings.general.notes.description" })}
         >
-          <Toggle label="Notes" on={notesEnabled} onChange={onNotesEnabled} />
+          <Toggle
+            label={t({ id: "settings.general.notes.label" })}
+            on={notesEnabled}
+            onChange={onNotesEnabled}
+          />
         </Row>
         {IS_MAC && (
           <Row
             id="quick-composer"
-            label="Quick composer"
-            description={`Press ${quickComposerShortcutLabel(loadQuickComposerShortcut())} in any app to float a prompt over it and start a session without switching to MonoCode. Change the shortcut in Keybindings. Return starts it in the background; ⌘Return starts it and brings the session forward.`}
+            label={t({ id: "settings.general.quickComposer.label" })}
+            description={t(
+              { id: "settings.general.quickComposer.description" },
+              {
+                shortcut: quickComposerShortcutLabel(
+                  loadQuickComposerShortcut(),
+                ),
+              },
+            )}
           >
             {quickComposerError ? (
               <span className="text-[12px] text-content/45">
@@ -900,7 +919,7 @@ function GeneralPage({
               </span>
             ) : null}
             <Toggle
-              label="Quick composer"
+              label={t({ id: "settings.general.quickComposer.label" })}
               on={quickComposerEnabled}
               onChange={onQuickComposerEnabled}
             />
@@ -908,11 +927,11 @@ function GeneralPage({
         )}
         <Row
           id="working-agents"
-          label="Working agents"
-          description="When two or more chats are in flight, a card on the project rail lists them so you can jump across projects. Finished turns stay until you open that session."
+          label={t({ id: "settings.general.workingAgents.label" })}
+          description={t({ id: "settings.general.workingAgents.description" })}
         >
           <Toggle
-            label="Working agents"
+            label={t({ id: "settings.general.workingAgents.label" })}
             on={liveAgentsEnabled}
             onChange={onLiveAgentsEnabled}
           />
@@ -920,11 +939,11 @@ function GeneralPage({
         {IS_WIN && (
           <Row
             id="close-to-tray"
-            label="Close to tray"
-            description="Closing a window hides it to the system tray instead of quitting, so running agents keep going. Reopen from the tray icon, and quit for real from its menu. Turn this off to have close end the window."
+            label={t({ id: "settings.general.closeToTray.label" })}
+            description={t({ id: "settings.general.closeToTray.description" })}
           >
             <Toggle
-              label="Close to tray"
+              label={t({ id: "settings.general.closeToTray.label" })}
               on={closeToTray}
               onChange={onCloseToTray}
             />
@@ -932,7 +951,7 @@ function GeneralPage({
         )}
       </Group>
 
-      <Group title="About">
+      <Group title={t({ id: "settings.general.about.title" })}>
         <UpdateRow onOpenWhatsNew={onOpenWhatsNew} />
       </Group>
     </>
@@ -3291,15 +3310,19 @@ function ProvidersPage({
 
 function LanguageSettings() {
   const locale = useLocale();
+  const { formatMessage: t } = useIntl();
   return (
-    <Group title="Language" description="Choose the language used across the app.">
-      <Row id="language" label="Language">
+    <Group
+      title={t({ id: "settings.general.language.title" })}
+      description={t({ id: "settings.general.language.description" })}
+    >
+      <Row id="language" label={t({ id: "settings.language.label" })}>
         <Select
-          label="Language"
+          label={t({ id: "settings.language.label" })}
           value={locale}
           options={[
-            { value: "en", label: "English" },
-            { value: "fr", label: "Français" },
+            { value: "en", label: t({ id: "settings.language.english" }) },
+            { value: "fr", label: t({ id: "settings.language.french" }) },
           ]}
           onChange={(value) => saveLocale(value as Locale)}
         />
