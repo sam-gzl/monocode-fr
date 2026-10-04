@@ -1,3 +1,4 @@
+import { IntlRoot } from "../shared/i18n/IntlRoot";
 import { acceptQuickLaunch } from "./model/quickLaunchSession";
 import { useWorkspaceNavigation } from "./hooks/useWorkspaceNavigation";
 import { useIdleSessionDetach } from "./hooks/useIdleSessionDetach";
@@ -915,9 +916,11 @@ function currentWorkspace(project: string): string {
 
 export default function App(props: AppProps) {
   return (
-    <Suspense fallback={null}>
-      <Workspace {...props} />
-    </Suspense>
+    <IntlRoot>
+      <Suspense fallback={null}>
+        <Workspace {...props} />
+      </Suspense>
+    </IntlRoot>
   );
 }
 

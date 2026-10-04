@@ -237,6 +237,7 @@ import {
   useMaskEmails,
   useShowRemainingUsage,
 } from "../model/displayPrefs";
+import { saveLocale, useLocale, type Locale } from "../../../shared/i18n/locale";
 import {
   accountStatus,
   accountUsageKey,
@@ -3289,8 +3290,20 @@ function ProvidersPage({
 function UsageDisplaySettings() {
   const showRemainingUsage = useShowRemainingUsage();
   const maskEmails = useMaskEmails();
+  const locale = useLocale();
   return (
     <Group title="Usage and privacy">
+      <Row id="language" label="Language" description="Choose the language used across the app.">
+        <Select
+          label="Language"
+          value={locale}
+          options={[
+            { value: "en", label: "English" },
+            { value: "fr", label: "Français" },
+          ]}
+          onChange={(value) => saveLocale(value as Locale)}
+        />
+      </Row>
       <Row
         id="show-remaining-usage"
         label="Show remaining usage"
