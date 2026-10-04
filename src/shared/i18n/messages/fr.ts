@@ -50,7 +50,7 @@ export const fr: Record<MessageKey, string> = {
   "settings.nav.skills": "Compétences",
   "settings.nav.inbox": "Boîte de réception",
   "settings.nav.archive": "Archives",
-  "settings.nav.worktrees": "Copies de travail",
+  "settings.nav.worktrees": "Worktrees",
   "settings.nav.back": "Retour",
 
   "settings.general.language.title": "Langue",
