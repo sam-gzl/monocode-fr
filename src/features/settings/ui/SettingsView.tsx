@@ -813,6 +813,8 @@ function GeneralPage({
 
   return (
     <>
+      <LanguageSettings />
+
       <Group
         title="Alerts"
         description="How MonoCode reaches you while you are looking somewhere else."
@@ -3287,13 +3289,11 @@ function ProvidersPage({
   );
 }
 
-function UsageDisplaySettings() {
-  const showRemainingUsage = useShowRemainingUsage();
-  const maskEmails = useMaskEmails();
+function LanguageSettings() {
   const locale = useLocale();
   return (
-    <Group title="Usage and privacy">
-      <Row id="language" label="Language" description="Choose the language used across the app.">
+    <Group title="Language" description="Choose the language used across the app.">
+      <Row id="language" label="Language">
         <Select
           label="Language"
           value={locale}
@@ -3304,6 +3304,15 @@ function UsageDisplaySettings() {
           onChange={(value) => saveLocale(value as Locale)}
         />
       </Row>
+    </Group>
+  );
+}
+
+function UsageDisplaySettings() {
+  const showRemainingUsage = useShowRemainingUsage();
+  const maskEmails = useMaskEmails();
+  return (
+    <Group title="Usage and privacy">
       <Row
         id="show-remaining-usage"
         label="Show remaining usage"
