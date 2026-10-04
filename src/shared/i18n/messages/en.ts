@@ -290,6 +290,18 @@ export const en = {
     "Open a project to see its archived conversations.",
   "archive.conversations.empty": "No archived conversations in this project.",
   "archive.unarchive": "Unarchive",
+
+  "providers.scope.global": "Global",
+  "providers.agentClis.title": "Agent CLIs",
+  "providers.scope.label": "Provider defaults scope",
+  "providers.agentClis.description.project":
+    "These defaults apply to {project} only. A provider with Show in picker off is also kept out of new conversations started in this project. CLI paths remain global for MonoCode.",
+  "providers.agentClis.description.global":
+    "A provider is listed as installed once its CLI is found on your PATH. Uninstalled CLIs stay listed but are left out of the model picker, as are installed ones with Show in picker off. The model beside a provider is what its new conversations start with; Use by default picks the provider itself. CLI paths are global for MonoCode and apply to every project.",
+  "providers.advanced.title": "Advanced",
+  "providers.claudeHooks.label": "Claude Code hooks",
+  "providers.claudeHooks.description":
+    "Run the hooks configured in your settings.json files — PreToolUse command rewrites, blocks, notifications, and the rest — just as the Claude Code CLI would. Turn this off if a hook is misbehaving and you need the session back. Takes effect on the next turn.",
 } satisfies Record<string, string>;
 
 export type MessageKey = keyof typeof en;

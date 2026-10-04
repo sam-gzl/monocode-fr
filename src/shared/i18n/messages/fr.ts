@@ -295,4 +295,16 @@ export const fr: Record<MessageKey, string> = {
     "Ouvrez un projet pour voir ses conversations archivées.",
   "archive.conversations.empty": "Aucune conversation archivée dans ce projet.",
   "archive.unarchive": "Désarchiver",
+
+  "providers.scope.global": "Global",
+  "providers.agentClis.title": "CLI des agents",
+  "providers.scope.label": "Portée des réglages par défaut",
+  "providers.agentClis.description.project":
+    "Ces réglages par défaut s'appliquent uniquement à {project}. Un fournisseur avec Afficher dans le sélecteur désactivé est aussi exclu des nouvelles conversations démarrées dans ce projet. Les chemins des CLI restent globaux pour MonoCode.",
+  "providers.agentClis.description.global":
+    "Un fournisseur est listé comme installé dès que son CLI est trouvé dans votre PATH. Les CLI non installés restent listés mais sont exclus du sélecteur de modèle, comme les CLI installés avec Afficher dans le sélecteur désactivé. Le modèle à côté d'un fournisseur est celui avec lequel ses nouvelles conversations démarrent ; Utiliser par défaut choisit le fournisseur lui-même. Les chemins des CLI sont globaux pour MonoCode et s'appliquent à tous les projets.",
+  "providers.advanced.title": "Avancé",
+  "providers.claudeHooks.label": "Hooks Claude Code",
+  "providers.claudeHooks.description":
+    "Exécute les hooks configurés dans vos fichiers settings.json — réécritures de commandes PreToolUse, blocages, notifications, etc. — comme le ferait le CLI Claude Code. Désactivez si un hook se comporte mal et que vous devez récupérer la session. Prend effet au prochain tour.",
 };

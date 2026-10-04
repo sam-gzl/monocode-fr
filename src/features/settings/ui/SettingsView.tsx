@@ -3173,6 +3173,7 @@ function ProvidersPage({
   cwd?: string;
   recents?: RecentProject[];
 }) {
+  const { formatMessage: t } = useIntl();
   useSyncExternalStore(subscribeModels, getModelSnapshot, getModelSnapshot);
   useSyncExternalStore(
     subscribeHarnessAvailability,
@@ -3197,7 +3198,7 @@ function ProvidersPage({
     const options: { value: string; label: string; icon?: ReactNode }[] = [
       {
         value: GLOBAL_PROVIDER_SCOPE,
-        label: "Global",
+        label: t({ id: "providers.scope.global" }),
         icon: (
           <Globe
             className="size-3.5 shrink-0 text-content/60"
@@ -3219,7 +3220,7 @@ function ProvidersPage({
       });
     }
     return options;
-  }, [cwd, recents]);
+  }, [cwd, recents, t]);
 
   const project = scope === GLOBAL_PROVIDER_SCOPE ? null : scope;
   const projectSettings = project ? loadProjectProviderSettings(project) : {};
@@ -3291,10 +3292,10 @@ function ProvidersPage({
 
       <Group
         id="agent-clis"
-        title="Agent CLIs"
+        title={t({ id: "providers.agentClis.title" })}
         action={
           <Select
-            label="Provider defaults scope"
+            label={t({ id: "providers.scope.label" })}
             value={scope}
             options={scopeOptions}
             onChange={setScope}
@@ -3302,8 +3303,11 @@ function ProvidersPage({
         }
         description={
           project
-            ? `These defaults apply to ${projectName(project)} only. A provider with Show in picker off is also kept out of new conversations started in this project. CLI paths remain global for MonoCode.`
-            : "A provider is listed as installed once its CLI is found on your PATH. Uninstalled CLIs stay listed but are left out of the model picker, as are installed ones with Show in picker off. The model beside a provider is what its new conversations start with; Use by default picks the provider itself. CLI paths are global for MonoCode and apply to every project."
+            ? t(
+                { id: "providers.agentClis.description.project" },
+                { project: projectName(project) },
+              )
+            : t({ id: "providers.agentClis.description.global" })
         }
       >
         {HARNESSES.map((harness) => {
@@ -3347,14 +3351,14 @@ function ProvidersPage({
         })}
       </Group>
 
-      <Group title="Advanced">
+      <Group title={t({ id: "providers.advanced.title" })}>
         <Row
           id="claude-hooks"
-          label="Claude Code hooks"
-          description="Run the hooks configured in your settings.json files — PreToolUse command rewrites, blocks, notifications, and the rest — just as the Claude Code CLI would. Turn this off if a hook is misbehaving and you need the session back. Takes effect on the next turn."
+          label={t({ id: "providers.claudeHooks.label" })}
+          description={t({ id: "providers.claudeHooks.description" })}
         >
           <Toggle
-            label="Claude Code hooks"
+            label={t({ id: "providers.claudeHooks.label" })}
             on={claudeHooks}
             onChange={onClaudeHooks}
           />
