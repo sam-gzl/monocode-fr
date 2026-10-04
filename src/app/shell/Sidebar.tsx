@@ -2099,11 +2099,11 @@ function SidebarComponent({
               <GithubStarPrompt />
               {!compactProjectRail ? (
                 <RailAction
-                  label="Settings"
+                  label={t({ id: "rail.settings" })}
                   icon={Settings}
                   onClick={onOpenSettings}
                   shortcut={`${MOD},`}
-                  ariaLabel={`Settings (${MOD},)`}
+                  ariaLabel={`${t({ id: "rail.settings" })} (${MOD},)`}
                 />
               ) : null}
             </div>

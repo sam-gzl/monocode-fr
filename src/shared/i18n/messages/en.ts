@@ -96,6 +96,7 @@ export const en = {
   "rail.inboxNewItems": "Inbox, new items",
   "rail.notes": "Notes",
   "rail.automations": "Automations",
+  "rail.settings": "Settings",
   "rail.projects": "Projects",
   "rail.noProjectsYet": "No projects yet",
 

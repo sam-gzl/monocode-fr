@@ -537,11 +537,11 @@ export function ProjectRail({
           <div className="flex shrink-0 flex-col gap-px p-2">
             <GithubStarPrompt />
             <RailAction
-              label="Settings"
+              label={t({ id: "rail.settings" })}
               icon={Settings}
               onClick={onOpenSettings}
               shortcut={`${MOD},`}
-              ariaLabel={`Settings (${MOD},)`}
+              ariaLabel={`${t({ id: "rail.settings" })} (${MOD},)`}
             />
           </div>
         </>

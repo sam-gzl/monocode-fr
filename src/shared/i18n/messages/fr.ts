@@ -99,6 +99,7 @@ export const fr: Record<MessageKey, string> = {
   "rail.inboxNewItems": "Boîte de réception, nouveaux éléments",
   "rail.notes": "Notes",
   "rail.automations": "Automatisations",
+  "rail.settings": "Réglages",
   "rail.projects": "Projets",
   "rail.noProjectsYet": "Pas encore de projet",
 
