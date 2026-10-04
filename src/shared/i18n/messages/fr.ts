@@ -218,4 +218,54 @@ export const fr: Record<MessageKey, string> = {
   "keybindings.column.keybinding": "Raccourci",
   "keybindings.column.when": "Quand",
   "keybindings.noMatches": "Aucun raccourci correspondant",
+
+  "chat.transcript.title": "Transcription",
+  "chat.transcript.description": "Comment une conversation se lit en grandissant.",
+  "chat.transcriptLayout.label": "Mise en page de la transcription",
+  "chat.transcriptLayout.description":
+    "Pleine largeur garde les prompts utilisateur comme une carte étendue. Discussion les aligne à droite avec une largeur maximale, comme une app de messagerie.",
+  "chat.transcriptLayout.full": "Pleine largeur",
+  "chat.transcriptLayout.chat": "Discussion",
+  "chat.anchorPrompts.label": "Ancrer les prompts en haut",
+  "chat.anchorPrompts.description":
+    "Quand vous envoyez, le nouveau prompt se place en haut de la transcription et la réponse grandit dans l'espace en dessous. Désactivez pour garder la mise en page classique, avec le dernier message posé sur le compositeur.",
+
+  "chat.composer.title": "Compositeur",
+  "chat.composer.description": "Ce que fait le compositeur avec ce que vous tapez.",
+  "chat.followUp.label": "Comportement du suivi",
+  "chat.followUp.description":
+    "Mettez les suivis en file jusqu'à la fin du tour actif, ou orientez le tour actif immédiatement.",
+  "chat.followUp.queue": "File",
+  "chat.followUp.steer": "Orienter",
+  "chat.modelControls.label": "Contrôles du modèle",
+  "chat.modelControls.description":
+    "Affiche les options du modèle à côté du sélecteur plutôt que dans le menu du modèle.",
+  "chat.modelControls.menu": "Menu",
+  "chat.modelControls.beside": "À côté",
+
+  "chat.editor.title": "Éditeur",
+  "chat.editor.description":
+    "Ce qui se passe quand vous enregistrez un fichier dans l'éditeur de l'espace de travail.",
+  "chat.formatOnSave.label": "Formater à l'enregistrement",
+  "chat.formatOnSave.description":
+    "Exécute Prettier sur les fichiers pris en charge avant d'écrire. Désactivé garde le texte que vous avez tapé, y compris le style de guillemets.",
+
+  "chat.codeReview.title": "Revue de code",
+  "chat.codeReview.description":
+    "Où s'ouvrent les modifications d'un tour quand vous allez les lire.",
+  "chat.diffView.label": "Vue des différences",
+  "chat.diffView.description":
+    "Éditeur garde les modifications de l'arbre de travail dans le fichier. Unifié empile chaque fichier modifié dans une seule revue, avec des en-têtes collants et les lignes inchangées repliées.",
+  "chat.diffView.editor": "Éditeur",
+  "chat.diffView.unified": "Unifié",
+
+  "chat.extras.title": "Extras",
+  "chat.extras.description":
+    "Animation au repos, et rien d'autre. Désactivez les deux pour un espace de travail immobile.",
+  "chat.composerMascot.label": "Mascotte du compositeur",
+  "chat.composerMascot.description":
+    "Quand un tour est en cours, la mascotte du projet court le long du compositeur, cogne le bouton de défilement vers le dernier message la première fois, puis le saute, et récupère parfois une pièce.",
+  "chat.emptySessionGames.label": "Jeux de session vide",
+  "chat.emptySessionGames.description":
+    "Pac-man et snake tournent au repos sur la grille de session vide. Survolez la bande pour prendre le contrôle de celui affiché. Désactivez pour garder le panneau immobile.",
 };

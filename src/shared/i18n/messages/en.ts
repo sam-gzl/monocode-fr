@@ -215,6 +215,56 @@ export const en = {
   "keybindings.column.keybinding": "Keybinding",
   "keybindings.column.when": "When",
   "keybindings.noMatches": "No matching bindings",
+
+  "chat.transcript.title": "Transcript",
+  "chat.transcript.description": "How a conversation reads as it grows.",
+  "chat.transcriptLayout.label": "Transcript layout",
+  "chat.transcriptLayout.description":
+    "Full width keeps user prompts as a spanning card. Chat aligns them to the right with a max width, like a messaging app.",
+  "chat.transcriptLayout.full": "Full width",
+  "chat.transcriptLayout.chat": "Chat",
+  "chat.anchorPrompts.label": "Anchor prompts to top",
+  "chat.anchorPrompts.description":
+    "When you send, the new prompt sits at the top of the transcript and the reply grows into the space below. Turn this off to keep the classic layout, with the latest message resting on the composer.",
+
+  "chat.composer.title": "Composer",
+  "chat.composer.description": "What the composer does with what you type.",
+  "chat.followUp.label": "Follow-up behavior",
+  "chat.followUp.description":
+    "Queue follow-ups until the active turn finishes, or steer the active turn immediately.",
+  "chat.followUp.queue": "Queue",
+  "chat.followUp.steer": "Steer",
+  "chat.modelControls.label": "Model controls",
+  "chat.modelControls.description":
+    "Show model options beside the picker instead of inside the model menu.",
+  "chat.modelControls.menu": "Menu",
+  "chat.modelControls.beside": "Beside",
+
+  "chat.editor.title": "Editor",
+  "chat.editor.description":
+    "What happens when you save a file in the workspace editor.",
+  "chat.formatOnSave.label": "Format on save",
+  "chat.formatOnSave.description":
+    "Run Prettier on supported files before writing. Off keeps the text you typed, including quote style.",
+
+  "chat.codeReview.title": "Code review",
+  "chat.codeReview.description":
+    "Where a turn's changes open when you go to read them.",
+  "chat.diffView.label": "Diff view",
+  "chat.diffView.description":
+    "Editor keeps working-tree changes in the file. Unified stacks every changed file in one review, with sticky headers and collapsed unchanged lines.",
+  "chat.diffView.editor": "Editor",
+  "chat.diffView.unified": "Unified",
+
+  "chat.extras.title": "Extras",
+  "chat.extras.description":
+    "Idle animation, and nothing else. Turn both off for a still workspace.",
+  "chat.composerMascot.label": "Composer mascot",
+  "chat.composerMascot.description":
+    "When a turn is running, the project mascot runs along the composer, bonks the scroll-to-latest button the first time, then jumps it, and sometimes grabs a coin.",
+  "chat.emptySessionGames.label": "Empty session games",
+  "chat.emptySessionGames.description":
+    "Pac-man and snake idle on the empty-session grid. Hover the band to take control of whichever is on screen. Turn this off to keep the pane still.",
 } satisfies Record<string, string>;
 
 export type MessageKey = keyof typeof en;
