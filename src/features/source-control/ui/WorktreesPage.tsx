@@ -14,8 +14,16 @@ import {
 } from "../../../shared/ui/icons";
 import { revealPath } from "../../../platform/tauri/fs";
 import { useProjectWorktrees } from "../hooks/useProjectWorktrees";
-import { isEqualOrInside, pathKey, prettyCwd, projectName } from "../../../shared/lib/paths";
-import { loadArchivedProjects, type RecentProject } from "../../projects/model/recents";
+import {
+  isEqualOrInside,
+  pathKey,
+  prettyCwd,
+  projectName,
+} from "../../../shared/lib/paths";
+import {
+  loadArchivedProjects,
+  type RecentProject,
+} from "../../projects/model/recents";
 import type { Session } from "../../sessions/model/session";
 import {
   checkWorktreeRemoval,
@@ -61,6 +69,8 @@ export function WorktreesPage({
     cwd === "~" ? (projects[0]?.path ?? "") : cwd,
   );
   const { data, error: loadError, refresh } = useProjectWorktrees(project);
+  const isNotGitRepository =
+    !data && /not a git repository/i.test(loadError ?? "");
   const worktrees = data?.worktrees.filter((tree) => !tree.isMain) ?? [];
   const [error, setError] = useState<string>();
   const [creating, setCreating] = useState(false);
@@ -101,9 +111,11 @@ export function WorktreesPage({
         <button
           type="button"
           title={
-            loadError
-              ? t({ id: "worktrees.refreshFailed" }, { error: loadError })
-              : t({ id: "worktrees.refresh.title" })
+            isNotGitRepository
+              ? t({ id: "worktrees.notGitRepository" })
+              : loadError
+                ? t({ id: "worktrees.refreshFailed" }, { error: loadError })
+                : t({ id: "worktrees.refresh.title" })
           }
           aria-label={t({ id: "worktrees.refresh.title" })}
           disabled={!project}
@@ -122,6 +134,10 @@ export function WorktreesPage({
       {!project ? (
         <p className="text-[12px] text-content/50">
           {t({ id: "worktrees.addProject" })}
+        </p>
+      ) : isNotGitRepository ? (
+        <p role="status" className="text-[12px] text-content/50">
+          {t({ id: "worktrees.notGitRepository" })}
         </p>
       ) : !data && loadError ? (
         <p role="alert" className="break-words text-[12px] text-red-400">
@@ -203,7 +219,9 @@ export function WorktreesPage({
                         )}
                       </span>
                     )}
-                    {tree.locked && <span>{t({ id: "worktrees.locked" })}</span>}
+                    {tree.locked && (
+                      <span>{t({ id: "worktrees.locked" })}</span>
+                    )}
                   </p>
                 </div>
                 <button
@@ -211,7 +229,10 @@ export function WorktreesPage({
                   disabled={tree.missing}
                   aria-label={t(
                     { id: "worktrees.reveal" },
-                    { branch: tree.branch ?? t({ id: "worktrees.worktreeFallback" }) },
+                    {
+                      branch:
+                        tree.branch ?? t({ id: "worktrees.worktreeFallback" }),
+                    },
                   )}
                   title={t({ id: "worktrees.reveal.title" })}
                   onClick={() =>
@@ -226,7 +247,10 @@ export function WorktreesPage({
                   disabled={!!blocked || refreshingAfterFailure || !!loadError}
                   aria-label={t(
                     { id: "worktrees.delete" },
-                    { branch: tree.branch ?? t({ id: "worktrees.worktreeFallback" }) },
+                    {
+                      branch:
+                        tree.branch ?? t({ id: "worktrees.worktreeFallback" }),
+                    },
                   )}
                   title={blocked ?? t({ id: "worktrees.delete.title" })}
                   onClick={() => {

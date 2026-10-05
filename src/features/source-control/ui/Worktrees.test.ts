@@ -340,6 +340,27 @@ it("keeps the settings rows mounted through focus refreshes and failures", async
   ).not.toBeNull();
 });
 
+it("explains when the selected project is not a Git repository", async () => {
+  vi.mocked(listWorktrees).mockRejectedValue(
+    new Error(
+      "fatal: not a git repository (or any of the parent directories): .git",
+    ),
+  );
+  await act(async () =>
+    root.render(
+      createElement(WorktreesPage, {
+        cwd: "/plain-folder",
+        onRemove: vi.fn(),
+      }),
+    ),
+  );
+  expect(container.querySelector('[role="status"]')?.textContent).toContain(
+    "Select a Git project to create worktrees",
+  );
+  expect(container.textContent).not.toContain("fatal:");
+  expect(button("Create worktree").disabled).toBe(true);
+});
+
 it("reopens the picker with cached rows while revalidating", async () => {
   await act(async () =>
     root.render(

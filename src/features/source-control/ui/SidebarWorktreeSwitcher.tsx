@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useIntl } from "react-intl";
 import { useProjectWorktrees } from "../hooks/useProjectWorktrees";
 import { useWorktreeFocus, type WorktreeFocus } from "../model/worktreeFocus";
 import { pathKey, prettyCwd } from "../../../shared/lib/paths";
@@ -27,6 +28,7 @@ export function SidebarWorktreeSwitcher({
   /** Open tabs per worktree path key; hidden worktrees can still hold some. */
   tabStats?: ReadonlyMap<string, { tabs: number; busy: boolean }>;
 }) {
+  const { formatMessage: t } = useIntl();
   const [open, setOpen] = useState(false);
   const anchor = useRef<HTMLButtonElement>(null);
   const focus = useWorktreeFocus(cwd);
@@ -63,7 +65,7 @@ export function SidebarWorktreeSwitcher({
     worktrees.find((tree) => pathKey(tree.path) === pathKey(focus.path));
   const title = focus
     ? (focused?.branch ?? focus.branch ?? "Detached worktree")
-    : "Workspace";
+    : t({ id: "workspace.title" });
   if (data && worktrees.length === 0 && !focus && !switchError && !pending)
     return (
       <span className="min-w-0 truncate text-sm font-medium leading-tight">

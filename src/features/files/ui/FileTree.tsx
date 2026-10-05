@@ -6,6 +6,7 @@ import {
   FoldVertical,
   Search,
 } from "../../../shared/ui/icons";
+import { useIntl } from "react-intl";
 import {
   createContext,
   memo,
@@ -95,12 +96,6 @@ type Clip = { mode: "copy" | "cut"; path: string; isDir: boolean };
 type MenuTarget = { path: string; isDir: boolean; isRoot: boolean };
 type MenuState = { x: number; y: number; target: MenuTarget };
 
-const REVEAL_LABEL = IS_MAC
-  ? "Reveal in Finder"
-  : IS_WIN
-    ? "Reveal in File Explorer"
-    : "Open Containing Folder";
-
 type TreeCtxValue = {
   expanded: Set<string>;
   selectedPath: string | null;
@@ -171,62 +166,67 @@ function explorerItems(
   target: MenuTarget,
   clip: Clip | null,
   canOpenTerminal: boolean,
+  t: ReturnType<typeof useIntl>["formatMessage"],
 ): ExplorerMenuItem[] {
   const pasteParent = target.isDir ? target.path : parentPath(target.path);
   const pasteBlocked =
     !!clip?.isDir &&
     (pasteParent === clip.path || pasteParent.startsWith(`${clip.path}/`));
   return [
-    { kind: "item", id: "new-file", label: "New File" },
-    { kind: "item", id: "new-folder", label: "New Folder" },
+    { kind: "item", id: "new-file", label: t({ id: "fileTree.newFile" }) },
+    { kind: "item", id: "new-folder", label: t({ id: "fileTree.newFolder" }) },
     { kind: "sep" },
     {
       kind: "item",
       id: "cut",
-      label: "Cut",
+      label: t({ id: "fileTree.cut" }),
       shortcut: `${MOD}X`,
       disabled: target.isRoot,
     },
     {
       kind: "item",
       id: "copy",
-      label: "Copy",
+      label: t({ id: "fileTree.copy" }),
       shortcut: `${MOD}C`,
       disabled: target.isRoot,
     },
     {
       kind: "item",
       id: "paste",
-      label: "Paste",
+      label: t({ id: "fileTree.paste" }),
       shortcut: `${MOD}V`,
       disabled: pasteBlocked,
     },
     {
       kind: "item",
       id: "duplicate",
-      label: "Duplicate",
+      label: t({ id: "fileTree.duplicate" }),
       disabled: target.isRoot,
     },
     { kind: "sep" },
     {
       kind: "item",
       id: "copy-path",
-      label: "Copy Path",
+      label: t({ id: "fileTree.copyPath" }),
       shortcut: `${MOD}${SHIFT}C`,
     },
-    { kind: "item", id: "copy-relative-path", label: "Copy Relative Path" },
+    {
+      kind: "item",
+      id: "copy-relative-path",
+      label: t({ id: "fileTree.copyRelativePath" }),
+    },
     { kind: "sep" },
     {
       kind: "item",
       id: "rename",
-      label: "Rename",
+      label: t({ id: "fileTree.rename" }),
       shortcut: "F2",
       disabled: target.isRoot,
     },
     {
       kind: "item",
       id: "delete",
-      label: "Delete",
+      label: t({ id: "fileTree.delete" }),
       shortcut: "⌫",
       disabled: target.isRoot,
       danger: true,
@@ -237,11 +237,21 @@ function explorerItems(
           {
             kind: "item" as const,
             id: "open-terminal",
-            label: "Open in Terminal",
+            label: t({ id: "fileTree.openInTerminal" }),
           },
         ]
       : []),
-    { kind: "item", id: "reveal", label: REVEAL_LABEL },
+    {
+      kind: "item",
+      id: "reveal",
+      label: t({
+        id: IS_MAC
+          ? "projectMenu.revealFinder"
+          : IS_WIN
+            ? "projectMenu.revealExplorer"
+            : "projectMenu.revealFolder",
+      }),
+    },
   ];
 }
 
@@ -257,6 +267,7 @@ export const FileTree = memo(function FileTree({
   onSearch,
   gitStatuses,
 }: Props) {
+  const { formatMessage: t } = useIntl();
   const [expanded, setExpanded] = useState(() => loadExpanded(cwd));
   const [selectedPath, setSelectedPath] = useState(() => loadSelected(cwd));
   const [children, setChildren] = useState<FsEntry[] | null>(() =>
@@ -890,14 +901,20 @@ export const FileTree = memo(function FileTree({
           className="flex h-9 shrink-0 items-center gap-px overflow-visible border-b border-stroke px-2"
           onContextMenu={(e) => e.stopPropagation()}
         >
-          <HeaderIcon label="New File" onClick={() => startCreate(false)}>
+          <HeaderIcon
+            label={t({ id: "fileTree.newFile" })}
+            onClick={() => startCreate(false)}
+          >
             <FilePlus className="size-3.5" strokeWidth={1.75} />
           </HeaderIcon>
-          <HeaderIcon label="New Folder" onClick={() => startCreate(true)}>
+          <HeaderIcon
+            label={t({ id: "fileTree.newFolder" })}
+            onClick={() => startCreate(true)}
+          >
             <FolderPlus className="size-3.5" strokeWidth={1.75} />
           </HeaderIcon>
           <HeaderIcon
-            label="Collapse All"
+            label={t({ id: "fileTree.collapseAll" })}
             onClick={() => {
               setCreating(null);
               setRenaming(null);
@@ -978,7 +995,7 @@ export const FileTree = memo(function FileTree({
         <ExplorerMenu
           x={menu.x}
           y={menu.y}
-          items={explorerItems(menu.target, clip, !!onOpenTerminal)}
+          items={explorerItems(menu.target, clip, !!onOpenTerminal, t)}
           onPick={(id) => {
             const target = menu.target;
             setMenu(null);

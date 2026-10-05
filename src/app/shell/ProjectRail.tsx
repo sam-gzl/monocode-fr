@@ -161,7 +161,7 @@ export function ProjectRail({
   onOpenWhatsNew,
   onDismissUpdate,
 }: Props) {
-  const { formatMessage: t } = useIntl();
+  const { formatMessage: t, locale } = useIntl();
   const resize = useDragResize({
     min: PROJECT_RAIL_WIDTH_MIN,
     max: () =>
@@ -222,7 +222,11 @@ export function ProjectRail({
   const groupLogos = useTabGroupLogos();
   const muteStatuses = new Map<string, string | null>();
   for (const project of notificationProjects.projects) {
-    const status = notificationMuteStatus(notificationPreferences[project.id]);
+    const status = notificationMuteStatus(
+      notificationPreferences[project.id],
+      t,
+      locale,
+    );
     for (const path of project.paths) muteStatuses.set(pathKey(path), status);
   }
   const sections = useMemo(

@@ -68,7 +68,7 @@ export function InboxNotificationMenu({
       id: "mute",
       label: t({ id: "inbox.notifications.muteAll" }),
       disabled: !allIds.length,
-      submenu: notificationMuteActions(),
+      submenu: notificationMuteActions(undefined, t),
     },
     {
       kind: "item",

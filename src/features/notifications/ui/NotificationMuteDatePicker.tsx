@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useIntl } from "react-intl";
 import {
   loadNotificationPreferences,
   updateNotificationPreferences,
@@ -21,6 +22,7 @@ export function NotificationMuteDatePicker({
   onChanged,
   onCancel,
 }: Props) {
+  const { formatMessage: t } = useIntl();
   const [value, setValue] = useState(() => {
     const until =
       projectIds.length === 1
@@ -42,11 +44,11 @@ export function NotificationMuteDatePicker({
         if (!projectIds.length) return;
         const date = parseLocalDateTime(value);
         if (!date) {
-          setError("Choose a valid date and time.");
+          setError(t({ id: "projectNotification.validDateTime" }));
           return;
         }
         if (date.getTime() <= Date.now()) {
-          setError("Choose a date and time in the future.");
+          setError(t({ id: "projectNotification.futureDateTime" }));
           return;
         }
         try {
@@ -56,14 +58,12 @@ export function NotificationMuteDatePicker({
           setError(null);
           onChanged?.();
         } catch {
-          setError(
-            "Could not save notification preferences. Please try again.",
-          );
+          setError(t({ id: "projectMenu.notificationSaveError" }));
         }
       }}
     >
       <p className="mb-3 px-1 text-[11px] text-content/45">
-        Mute all notifications until
+        {t({ id: "projectNotification.muteUntil" })}
       </p>
       <DateTimePicker
         value={value}
@@ -85,14 +85,14 @@ export function NotificationMuteDatePicker({
           onClick={onCancel}
           className="rounded px-2 py-1.5 text-xs text-content/50 hover:bg-content/5 hover:text-content focus-visible:outline-2 focus-visible:outline-accent"
         >
-          Cancel
+          {t({ id: "removeProject.cancel" })}
         </button>
         <button
           type="submit"
           disabled={!projectIds.length}
           className="primary-action flex shrink-0 items-center rounded-md border border-transparent px-2.5 py-1 text-[12px] focus-visible:outline-2 focus-visible:outline-accent disabled:cursor-default"
         >
-          Mute until then
+          {t({ id: "projectNotification.muteUntilThen" })}
         </button>
       </div>
     </form>

@@ -1644,7 +1644,7 @@ function SidebarComponent({
                 />
               ) : (
                 <span className="min-w-0 truncate text-sm font-medium leading-tight">
-                  Workspace
+                  {t({ id: "workspace.title" })}
                 </span>
               )}
             </div>
@@ -1652,7 +1652,7 @@ function SidebarComponent({
           </div>
           <div
             role="tablist"
-            aria-label="Workspace"
+            aria-label={t({ id: "workspace.title" })}
             className="flex h-9 shrink-0 items-center gap-px border-b border-stroke px-2"
           >
             {workspaceTabItems}
@@ -1702,7 +1702,7 @@ function SidebarComponent({
           {!compactRailVisible ? (
             <div
               role="tablist"
-              aria-label="Workspace"
+              aria-label={t({ id: "workspace.title" })}
               className="flex h-9 shrink-0 items-center gap-px overflow-visible border-b border-stroke px-2"
             >
               {workspaceTabItems}
@@ -2543,7 +2543,7 @@ function CompactProjectRail({
         ) : null}
         <div
           role="tablist"
-          aria-label="Workspace"
+          aria-label={t({ id: "workspace.title" })}
           aria-orientation="vertical"
           className="flex flex-col items-center gap-1.5"
         >
