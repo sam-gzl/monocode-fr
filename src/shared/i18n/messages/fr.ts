@@ -1648,4 +1648,340 @@ export const fr: Record<MessageKey, string> = {
   "dateTime.day.sunday": "Di",
   "dateTime.time": "Heure",
   "dateTime.timeHint": "Heure locale, format 24 heures",
+
+  "composer.queue.failed":
+    "Un message n’a pas pu être envoyé",
+  "composer.queue.messagesPaused":
+    "Messages en pause",
+  "composer.queue.retry":
+    "Réessayer",
+  "composer.queue.sending":
+    "Envoi…",
+  "composer.queue.waiting":
+    "En attente d’envoi",
+  "composer.queue.sessionsFinished":
+    "{count, plural, one {# session terminée} other {# sessions terminées}}",
+  "composer.queue.sessionStatus":
+    "{status, select, completed {Session terminée : {title}} failed {Session échouée : {title}} cancelled {Session annulée : {title}} other {Session {status} : {title}}}",
+
+  "transcript.jumpToLatest":
+    "Aller au dernier message",
+
+  "worktreeSwitcher.projectFolder":
+    "Dossier du projet",
+  "worktreeSwitcher.projectFolderDetail":
+    "Dossier du projet · toutes les sessions",
+  "worktreeSwitcher.detachedSha":
+    "Détaché {sha}",
+  "worktreeSwitcher.detachedWorktree":
+    "Worktree détaché",
+  "worktreeSwitcher.detached":
+    "détaché",
+  "worktreeSwitcher.switch":
+    "Changer de copie de travail",
+  "worktreeSwitcher.creating":
+    "Création du worktree",
+  "worktreeSwitcher.switching":
+    "Changement de copie de travail",
+  "worktreeSwitcher.list":
+    "Copies de travail",
+  "worktreeSwitcher.search":
+    "Rechercher des copies de travail",
+  "worktreeSwitcher.placeholder":
+    "Rechercher ou créer un worktree…",
+  "worktreeSwitcher.loading":
+    "Chargement des copies de travail…",
+  "worktreeSwitcher.noMatch":
+    "Aucune copie de travail correspondante",
+  "worktreeSwitcher.create":
+    "Créer le worktree {name}",
+  "worktreeSwitcher.openTabs":
+    "{count, plural, one {# onglet ouvert} other {# onglets ouverts}}{busy, select, true {, en cours} other {}}",
+
+  "projectBackground.lockedHint":
+    "Affiché derrière la discussion de {name}, atténué avec l’effet Brume.",
+
+  "monos.intro.aria":
+    "Découvrir les Monos",
+  "monos.intro.title":
+    "Découvrez les Monos",
+  "monos.experimental":
+    "Expérimental",
+  "monos.intro.body":
+    "Vos propres agents, qui vivent dans la barre des projets et travaillent sur l’ensemble de vos projets. Ils retiennent l’essentiel et prennent des habitudes qu’ils exécutent seuls.",
+  "monos.intro.create":
+    "Créer votre mono",
+  "monos.intro.later":
+    "Pas maintenant",
+  "monos.header.greetingProjects":
+    "Je vois toutes les sessions, notes et dossiers de {projects}. Demandez-moi où on en est, ou confiez-moi du travail.",
+  "monos.header.greetingNoProjects":
+    "Ajoutez depuis mes détails les projets sur lesquels je dois travailler, ou posez-moi simplement une question.",
+  "monos.status.working":
+    "En cours",
+  "monos.status.needs-you":
+    "Besoin de vous",
+  "monos.status.idle":
+    "Au repos",
+  "monos.activity.label":
+    "Activité de {name}",
+  "monos.activity.title":
+    "Activité",
+  "monos.activity.working":
+    "En cours",
+  "monos.activity.finished":
+    "Terminé",
+  "monos.sidebar.hide":
+    "Masquer {title}",
+  "monos.sidebar.resize":
+    "{kind, select, activity {Redimensionner l’activité du Mono} other {Redimensionner les détails du Mono}}",
+  "monos.projects.remove":
+    "Retirer {name}",
+  "monos.projects.add":
+    "Ajouter un projet",
+  "monos.projects.addLabel":
+    "Ajouter un projet",
+  "monos.projects.all":
+    "Il travaille déjà sur tous les projets.",
+  "monos.confirm.cancel":
+    "Annuler",
+  "monos.confirm.resetting":
+    "Réinitialisation…",
+
+  "monos.back":
+    "Retour",
+  "monos.color.blue":
+    "Bleu",
+  "monos.color.coral":
+    "Corail",
+  "monos.color.yellow":
+    "Jaune",
+  "monos.color.green":
+    "Vert",
+  "monos.color.pink":
+    "Rose",
+  "monos.color.purple":
+    "Violet",
+  "monos.color.teal":
+    "Turquoise",
+  "monos.color.orange":
+    "Orange",
+  "monos.color.indigo":
+    "Indigo",
+  "monos.file.conflict":
+    "{author} a modifié ceci pendant que vous le modifiiez.",
+  "monos.file.useTheirs":
+    "Garder sa version",
+  "monos.file.keepMine":
+    "Garder la mienne",
+  "monos.memory.notLoading":
+    "{count, plural, one {# ligne non chargée} other {# lignes non chargées}}",
+  "monos.memory.lines":
+    "{used} / {max} lignes",
+  "monos.details.title":
+    "Détails",
+  "monos.details.label":
+    "Détails de {name}",
+  "monos.details.model":
+    "Modèle",
+  "monos.details.projects":
+    "Projets",
+  "monos.habits.title":
+    "Habits",
+  "monos.habits.atMost":
+    "{max} Habits au maximum",
+  "monos.habits.new":
+    "Nouveau Habit",
+
+  "monos.settings.title":
+    "Réglages",
+  "monos.settings.soul":
+    "Soul",
+  "monos.settings.soulDescription":
+    "Définit qui est ce bot et les règles qu’il suit. Toujours inclus dans son contexte.",
+  "monos.settings.habits":
+    "Habits",
+  "monos.settings.habitsDescription":
+    "Tâches récurrentes que ce bot exécute seul.",
+  "monos.settings.memory":
+    "Memory",
+  "monos.settings.memoryDescription":
+    "Faits et préférences dont ce bot se souvient.",
+  "monos.reset.label":
+    "Réinitialiser la conversation",
+  "monos.reset.title":
+    "Réinitialiser la conversation de {name} ?",
+  "monos.reset.body":
+    "Tous les messages de la conversation de ce Mono seront supprimés et toute réponse en cours sera interrompue. Cette action est irréversible.",
+  "monos.reset.kept":
+    "Sa Soul, sa Memory et ses Habits seront conservés.",
+  "monos.reset.failure":
+    "Impossible de réinitialiser la conversation.",
+  "monos.reset.hint":
+    "Effacer tous les messages et repartir de zéro",
+  "monos.name":
+    "Nom",
+  "monos.habit.runningNow":
+    "En cours d’exécution ·",
+  "monos.habit.starting":
+    "Démarrage…",
+  "monos.habit.pausedSchedule":
+    "En pause · {schedule}",
+  "monos.habit.alreadyRunning":
+    "Déjà en cours d’exécution",
+  "monos.habit.startingShort":
+    "Démarrage",
+  "monos.habit.runNow":
+    "Exécuter maintenant",
+  "monos.habit.pause":
+    "Mettre en pause",
+  "monos.habit.resume":
+    "Reprendre",
+  "monos.habit.remove":
+    "Supprimer",
+  "monos.habit.loading":
+    "Chargement…",
+  "monos.habit.none":
+    "Aucun Habit pour l’instant",
+  "monos.habit.upcoming":
+    "À venir",
+  "monos.habit.done":
+    "Terminées",
+
+  "monos.run.posted":
+    "Vous a écrit",
+  "monos.run.quiet":
+    "Rien à signaler",
+  "monos.run.failed":
+    "N’a pas pu terminer",
+  "monos.when.today":
+    "Aujourd’hui {time}",
+  "monos.habit.paused":
+    "En pause",
+  "monos.habit.runs":
+    "Exécution",
+  "monos.habit.next":
+    "Prochaine",
+  "monos.habit.whatItDoes":
+    "Ce qu’elle fait",
+  "monos.habit.recentRuns":
+    "Exécutions récentes",
+  "monos.habit.neverRan":
+    "Elle ne s’est pas encore exécutée.",
+  "monos.habit.runningNowRow":
+    "En cours d’exécution",
+  "monos.habit.create":
+    "Créer",
+  "monos.habit.kind.daily":
+    "Tous les jours",
+  "monos.habit.kind.weekdays":
+    "Jours ouvrés",
+  "monos.habit.kind.weekly":
+    "Chaque semaine",
+  "monos.habit.kind.hourly":
+    "Toutes les heures",
+  "monos.habit.repeats":
+    "Répétition",
+  "monos.habit.on":
+    "le",
+  "monos.habit.day":
+    "Jour",
+  "monos.habit.at":
+    "à",
+  "monos.habit.minute":
+    "Minute",
+  "monos.habit.time":
+    "Heure",
+  "monos.habit.instructionsPlaceholder":
+    "Ce qu’elle doit faire à chaque exécution, et quand elle doit vous prévenir.",
+  "monos.habit.addFailed":
+    "Impossible d’ajouter l’habitude.",
+
+  "monos.soul.label":
+    "Soul de {name}",
+  "monos.soul.placeholder":
+    "Qui il est, et ce qu’il doit toujours garder en tête",
+  "monos.memory.changed":
+    "Cette mémoire a changé ou est ambiguë. Vérifiez-la avant de réessayer.",
+  "monos.memory.conflict":
+    "La mémoire a continué de changer pendant l’enregistrement. Votre modification n’a pas été enregistrée ; réessayez.",
+  "monos.memory.add":
+    "Ajouter à la Memory",
+  "monos.memory.nothing":
+    "Rien dans la Memory pour l’instant",
+  "monos.memory.new":
+    "Nouvelle entrée de Memory",
+  "monos.memory.newPlaceholder":
+    "Quelque chose dont il doit se souvenir",
+  "monos.memory.edit":
+    "Modifier l’entrée de Memory",
+  "monos.memory.editShort":
+    "Modifier",
+  "monos.memory.forget":
+    "Oublier : {text}",
+  "monos.usage.chooseModel":
+    "Choisir un autre modèle",
+  "monos.usage.chooseAccount":
+    "Choisir un autre compte",
+
+  "monos.composer.dropFiles":
+    "Déposez des fichiers pour les joindre",
+  "monos.composer.nothingDropped":
+    "Rien à joindre dans ce dépôt — le fichier a peut-être été déplacé, renommé ou supprimé.",
+  "monos.composer.message":
+    "Écrire à {name}",
+  "monos.composer.send":
+    "Envoyer",
+  "monos.composer.reading":
+    "Lecture des pièces jointes…",
+  "monos.rail.title":
+    "Monos",
+  "monos.rail.new":
+    "Nouveau mono",
+  "monos.rail.noProjects":
+    "Aucun projet pour l’instant",
+  "monos.rail.options":
+    "Options du mono",
+  "monos.rail.optionsNamed":
+    "Options de {name}",
+  "monos.rail.nameLabel":
+    "Nom du mono",
+  "monos.rail.delete":
+    "Supprimer le mono…",
+
+  "monos.page.title":
+    "Monos",
+  "monos.page.show":
+    "Afficher les monos",
+  "monos.page.showDescription":
+    "Vos propres agents dans la barre des projets. Chacun travaille sur les projets que vous lui confiez, retient l’essentiel et prend des habitudes qu’il exécute seul. Désactivez cette option pour les masquer.",
+  "monos.page.yours":
+    "Vos monos",
+  "monos.page.yoursDescription":
+    "Ajoutez-en un avec le plus à côté de Monos dans la barre des projets. Choisissez ses projets depuis ses détails.",
+  "monos.page.none":
+    "Aucun mono pour l’instant.",
+  "monos.row.worksOn":
+    "Travaille sur {projects}",
+  "monos.row.resetLabel":
+    "Réinitialiser le Mono",
+  "monos.row.resetTitle":
+    "Réinitialiser {name} aux valeurs par défaut ?",
+  "monos.row.resetBody":
+    "Sa Soul revient à la valeur par défaut et son nom à {defaultName}. Les modifications de sa Soul sont irrécupérables.",
+  "monos.row.resetKept":
+    "Sa conversation, ses projets, sa Memory et ses Habits seront conservés.",
+  "monos.row.resetFailure":
+    "Impossible de réinitialiser le Mono.",
+  "monos.row.resetDefaults":
+    "Réinitialiser aux valeurs par défaut",
+  "monos.row.resetNamed":
+    "Réinitialiser {name} aux valeurs par défaut",
+  "settings.search.row.monos-enabled":
+    "Afficher les monos",
+  "settings.search.row.mono-list":
+    "Vos monos",
+
+  "monos.composer.attach":
+    "Joindre des fichiers",
 };

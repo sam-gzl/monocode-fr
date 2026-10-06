@@ -1,3 +1,4 @@
+import { useIntl } from "react-intl";
 import {
   useEffect,
   useState,
@@ -7,11 +8,11 @@ import {
 } from "react";
 import { Pause, Play, Trash2, Zap } from "../../../shared/ui/icons";
 import { IconButton } from "../../../app/shell/TitleBar";
+import { localizedScheduleLabel } from "../../automations/ui/AutomationsView";
 import { PageHeader } from "./monoPanelParts";
 import { AgentMarkdown } from "../../sessions/ui/AgentMarkdown";
 import {
   habitRunningSince,
-  habitScheduleLabel,
   habitStarting,
   subscribeHabitsRunning,
   type Habit,
@@ -30,11 +31,23 @@ const dateTime = new Intl.DateTimeFormat(undefined, {
   minute: "2-digit",
 });
 
-export function when(at: number, now = Date.now()): string {
+export function when(
+  at: number,
+  t: ReturnType<typeof useIntl>["formatMessage"],
+  now = Date.now(),
+): string {
   const date = new Date(at);
   const today = new Date(now);
   if (date.toDateString() === today.toDateString())
-    return `Today ${new Intl.DateTimeFormat(undefined, { hour: "numeric", minute: "2-digit" }).format(at)}`;
+    return t(
+      { id: "monos.when.today" },
+      {
+        time: new Intl.DateTimeFormat(undefined, {
+          hour: "numeric",
+          minute: "2-digit",
+        }).format(at),
+      },
+    );
   return now - at < 6 * 24 * 60 * 60 * 1000
     ? dayTime.format(at)
     : dateTime.format(at);
@@ -48,10 +61,10 @@ function duration(ms: number): string {
   return rest ? `${minutes}m ${rest}s` : `${minutes}m`;
 }
 
-const OUTCOME: Record<HabitRun["outcome"], { label: string; dot: string }> = {
-  posted: { label: "Messaged you", dot: "bg-[var(--mono-color)]" },
-  quiet: { label: "Nothing to report", dot: "bg-content/25" },
-  failed: { label: "Couldn't finish", dot: "bg-red-500/70" },
+const OUTCOME: Record<HabitRun["outcome"], { dot: string }> = {
+  posted: { dot: "bg-[var(--mono-color)]" },
+  quiet: { dot: "bg-content/25" },
+  failed: { dot: "bg-red-500/70" },
 };
 
 /** One habit up close: what it does, when, and how its recent runs went. */
@@ -73,6 +86,7 @@ export function HabitPage({
   onToggle: () => void;
   onRemove: () => void;
 }) {
+  const { formatMessage: t } = useIntl();
   const runningSince = useHabitRunning(habit.id);
   const starting = runningSince == null && habitStarting(habit);
   const runs = habit.runs ?? [];
@@ -86,10 +100,10 @@ export function HabitPage({
         <IconButton
           label={
             runningSince != null
-              ? "Already running"
+              ? t({ id: "monos.habit.alreadyRunning" })
               : starting
-                ? "Starting"
-                : "Run now"
+                ? t({ id: "monos.habit.startingShort" })
+                : t({ id: "monos.habit.runNow" })
           }
           disabled={runningSince != null || starting}
           onClick={onRunNow}
@@ -97,7 +111,9 @@ export function HabitPage({
           <Zap className="size-3.5" strokeWidth={1.75} />
         </IconButton>
         <IconButton
-          label={habit.enabled ? "Pause" : "Resume"}
+          label={
+            habit.enabled ? t({ id: "monos.habit.pause" }) : t({ id: "monos.habit.resume" })
+          }
           onClick={onToggle}
         >
           {habit.enabled ? (
@@ -106,34 +122,36 @@ export function HabitPage({
             <Play className="size-3.5" strokeWidth={1.75} />
           )}
         </IconButton>
-        <IconButton label="Remove" onClick={onRemove}>
+        <IconButton label={t({ id: "monos.habit.remove" })} onClick={onRemove}>
           <Trash2 className="size-3.5" strokeWidth={1.75} />
         </IconButton>
       </PageHeader>
 
       <div className="min-h-0 flex-1 overflow-y-auto overscroll-none">
         <dl className="flex flex-col gap-0.5 px-4 py-3 text-[12px]">
-          <Row label="Runs">
-            {habit.enabled ? habitScheduleLabel(habit.schedule) : "Paused"}
+          <Row label={t({ id: "monos.habit.runs" })}>
+            {habit.enabled
+              ? localizedScheduleLabel(habit.schedule, t)
+              : t({ id: "monos.habit.paused" })}
           </Row>
           {starting ? (
-            <Row label="Next">Starting…</Row>
+            <Row label={t({ id: "monos.habit.next" })}>{t({ id: "monos.habit.starting" })}</Row>
           ) : habit.enabled ? (
-            <Row label="Next">{when(habit.nextRunAt)}</Row>
+            <Row label={t({ id: "monos.habit.next" })}>{when(habit.nextRunAt, t)}</Row>
           ) : null}
         </dl>
 
-        <Section title="What it does">
+        <Section title={t({ id: "monos.habit.whatItDoes" })}>
           <p className="whitespace-pre-wrap px-2 text-[12px] leading-5 text-content/75">
             {habit.instructions}
           </p>
         </Section>
 
-        <Section title="Recent runs">
+        <Section title={t({ id: "monos.habit.recentRuns" })}>
           {runningSince != null ? <RunningRow since={runningSince} /> : null}
           {runs.length === 0 && runningSince == null ? (
             <p className="px-2 py-3 text-[12px] text-content/40">
-              It hasn't run yet.
+              {t({ id: "monos.habit.neverRan" })}
             </p>
           ) : (
             <ul className="flex flex-col gap-px">
@@ -186,10 +204,13 @@ export function RunningFor({ since }: { since: number }) {
 }
 
 function RunningRow({ since }: { since: number }) {
+  const { formatMessage: t } = useIntl();
   return (
     <div className="flex items-center gap-2.5 rounded-md px-2 py-2 text-[12px]">
       <span className="size-2 shrink-0 animate-pulse rounded-full bg-[var(--mono-color)]" />
-      <span className="flex-1 text-content/85">Running now</span>
+      <span className="flex-1 text-content/85">
+        {t({ id: "monos.habit.runningNowRow" })}
+      </span>
       <span className="text-content/40">
         <RunningFor since={since} />
       </span>
@@ -198,6 +219,7 @@ function RunningRow({ since }: { since: number }) {
 }
 
 function RunRow({ run, cwd }: { run: HabitRun; cwd: string }) {
+  const { formatMessage: t } = useIntl();
   const [open, setOpen] = useState(false);
   const detail = run.report ?? run.error;
   const outcome = OUTCOME[run.outcome];
@@ -217,10 +239,10 @@ function RunRow({ run, cwd }: { run: HabitRun; cwd: string }) {
       >
         <span className={`size-2 shrink-0 rounded-full ${outcome.dot}`} />
         <span className="min-w-0 flex-1 truncate text-content/85">
-          {outcome.label}
+          {t({ id: `monos.run.${run.outcome}` })}
         </span>
         <span className="shrink-0 tabular-nums text-content/40">
-          {when(run.at)}
+          {when(run.at, t)}
           {run.durationMs ? ` · ${duration(run.durationMs)}` : ""}
         </span>
       </button>

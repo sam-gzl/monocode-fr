@@ -285,8 +285,8 @@ export function ProjectBackgroundDialog({
                 className="grid w-44 grid-cols-2 gap-0.5 rounded-md border border-content/10 p-0.5 text-[12px]"
               >
                 {[
-                  { value: "empty" as const, label: "Empty only" },
-                  { value: "all" as const, label: "All sessions" },
+                  { value: "empty" as const, label: t({ id: "settings.chatBackground.emptyOnly" }) },
+                  { value: "all" as const, label: t({ id: "settings.chatBackground.allSessions" }) },
                 ].map((option) => (
                   <button
                     key={option.value}

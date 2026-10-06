@@ -1,4 +1,5 @@
 import { useCallback, useLayoutEffect, useRef, useState } from "react";
+import { useIntl } from "react-intl";
 import { ArrowUp, Plus } from "../../../shared/ui/icons";
 import { AttachmentChip } from "../../sessions/ui/AttachmentChip";
 import type { Attachment } from "../../sessions/model/session";
@@ -58,6 +59,7 @@ export function MonoComposer({
   onSubmit,
   onFocus,
 }: Props) {
+  const { formatMessage: t } = useIntl();
   const [text, setText] = useState(() => getComposerDraft(sessionId) ?? "");
   const [attachments, setAttachments] = useState<Attachment[]>([]);
   const textRef = useRef(text);
@@ -157,7 +159,7 @@ export function MonoComposer({
           if (incoming.length === 0) {
             if (dropped)
               setDropError(
-                "Nothing to attach from that drop — the file may have been moved, renamed, or deleted.",
+                t({ id: "monos.composer.nothingDropped" }),
               );
             return;
           }
@@ -216,7 +218,7 @@ export function MonoComposer({
       >
         {fileDrag ? (
           <div className="pointer-events-none absolute inset-0 z-20 grid place-items-center rounded-lg bg-accent/8 text-[12px] text-content/70">
-            Drop files to attach
+            {t({ id: "monos.composer.dropFiles" })}
           </div>
         ) : null}
         {dropError ? (
@@ -261,8 +263,8 @@ export function MonoComposer({
           </div>
           <button
             type="button"
-            title="Attach files"
-            aria-label="Attach files"
+            title={t({ id: "monos.composer.attach" })}
+            aria-label={t({ id: "monos.composer.attach" })}
             onClick={() => readAttachments(pickAttachments)}
             className={`col-start-1 grid size-6.5 place-items-center rounded-md bg-content/8 text-content/55 hover:bg-content/12 hover:text-content ${stacked ? "row-start-2" : "row-start-1"}`}
           >
@@ -271,8 +273,8 @@ export function MonoComposer({
           <textarea
             ref={field}
             rows={1}
-            aria-label={`Message ${name}`}
-            placeholder={`Message ${name}`}
+            aria-label={t({ id: "monos.composer.message" }, { name })}
+            placeholder={t({ id: "monos.composer.message" }, { name })}
             value={text}
             onFocus={onFocus}
             onChange={(event) => update(event.target.value)}
@@ -297,8 +299,10 @@ export function MonoComposer({
           />
           <button
             type="submit"
-            aria-label="Send"
-            title={pendingReads ? "Reading attachments…" : "Send"}
+            aria-label={t({ id: "monos.composer.send" })}
+            title={
+              pendingReads ? t({ id: "monos.composer.reading" }) : t({ id: "monos.composer.send" })
+            }
             disabled={!ready}
             className={`primary-action col-start-3 grid size-6.5 place-items-center rounded-md transition-[background-color,color,transform] duration-150 active:scale-90 disabled:cursor-default ${stacked ? "row-start-2" : "row-start-1"}`}
           >

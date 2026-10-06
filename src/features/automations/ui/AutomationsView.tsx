@@ -1801,7 +1801,7 @@ function findTriggerEvent(
   return TRIGGER_EVENTS[kind].find((event) => event.value === value);
 }
 
-function localizedScheduleLabel(
+export function localizedScheduleLabel(
   schedule: Pick<Automation, "scheduleKind" | "minute" | "time" | "dayOfWeek">,
   t: ReturnType<typeof useIntl>["formatMessage"],
 ): string {

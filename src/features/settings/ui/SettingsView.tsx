@@ -301,7 +301,6 @@ import {
   defaultMonoName,
   listMonos,
   monoLook,
-  monoProjectsPhrase,
   monosSnapshot,
   subscribeMonos,
   type Mono,
@@ -4225,6 +4224,7 @@ function formatDate(value: number): string {
 
 /** Monos on or off, and each Mono the user has. */
 function MonosPage() {
+  const { formatMessage: t } = useIntl();
   const enabled = useSyncExternalStore(
     subscribeMonosEnabled,
     loadMonosEnabled,
@@ -4235,25 +4235,29 @@ function MonosPage() {
 
   return (
     <>
-      <Group title="Monos">
+      <Group title={t({ id: "monos.page.title" })}>
         <Row
           id="monos-enabled"
-          label="Show monos"
-          description="Agents of your own on the project rail. Each works on the projects you give it, remembers what matters and picks up habits it runs on its own. Turn this off to hide them."
+          label={t({ id: "monos.page.show" })}
+          description={t({ id: "monos.page.showDescription" })}
         >
-          <Toggle label="Show monos" on={enabled} onChange={saveMonosEnabled} />
+          <Toggle
+            label={t({ id: "monos.page.show" })}
+            on={enabled}
+            onChange={saveMonosEnabled}
+          />
         </Row>
       </Group>
       <Group
         id="mono-list"
-        title="Your monos"
-        description="Add one with the plus beside Monos on the rail. Choose its projects from its details."
+        title={t({ id: "monos.page.yours" })}
+        description={t({ id: "monos.page.yoursDescription" })}
       >
         {monos.length ? (
           monos.map((mono) => <MonoRow key={mono.id} mono={mono} />)
         ) : (
           <p className="px-4 py-3.5 text-[12px] text-content/45">
-            No monos yet.
+            {t({ id: "monos.page.none" })}
           </p>
         )}
       </Group>
@@ -4262,6 +4266,7 @@ function MonosPage() {
 }
 
 function MonoRow({ mono }: { mono: Mono }) {
+  const { formatMessage: t, formatList } = useIntl();
   const look = monoLook(mono);
   return (
     <Row
@@ -4278,24 +4283,35 @@ function MonoRow({ mono }: { mono: Mono }) {
       }
       description={
         look.projects.length
-          ? `Works on ${monoProjectsPhrase(look.projects)}`
-          : "No projects yet"
+          ? t(
+              { id: "monos.row.worksOn" },
+              {
+                projects: formatList(
+                  look.projects.map((project) => project.name),
+                  { type: "conjunction" },
+                ),
+              },
+            )
+          : t({ id: "monos.rail.noProjects" })
       }
     >
       <ConfirmReset
-        label="Reset Mono"
-        title={`Reset ${look.name} to its defaults?`}
-        body={`Its soul goes back to the default and its name to ${defaultMonoName(look.mascot)}. Changes to its soul can't be recovered.`}
-        kept="Its conversation, projects, memory and habits will be kept."
-        failure="Could not reset the Mono."
+        label={t({ id: "monos.row.resetLabel" })}
+        title={t({ id: "monos.row.resetTitle" }, { name: look.name })}
+        body={t(
+          { id: "monos.row.resetBody" },
+          { defaultName: defaultMonoName(look.mascot) },
+        )}
+        kept={t({ id: "monos.row.resetKept" })}
+        failure={t({ id: "monos.row.resetFailure" })}
         onConfirm={() => resetMonoDefaults(mono.id)}
       >
         {(open, ref) => (
           <button
             ref={ref}
             type="button"
-            title="Reset to defaults"
-            aria-label={`Reset ${look.name} to defaults`}
+            title={t({ id: "monos.row.resetDefaults" })}
+            aria-label={t({ id: "monos.row.resetNamed" }, { name: look.name })}
             onClick={open}
             className="grid size-7 place-items-center rounded-md text-content/40 transition-transform duration-150 hover:bg-content/10 hover:text-content active:scale-[0.96]"
           >

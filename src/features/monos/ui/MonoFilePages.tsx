@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { useIntl } from "react-intl";
 import { IconButton } from "../../../app/shell/TitleBar";
 import { Pencil, Plus, StickyNote, Trash2 } from "../../../shared/ui/icons";
 import type { MonoLook } from "../model/mono";
@@ -38,14 +39,15 @@ function shortDate(date: string): string {
 type MemoryFact = MemoryLine & { line: string };
 
 /** Locate the original fact after other writers have inserted or moved rows. */
-function factIndex(memory: string, original: string): number {
+function factIndex(
+  memory: string,
+  original: string,
+  changedMessage: string,
+): number {
   const indices = memory
     .split("\n")
     .flatMap((line, index) => (line === original ? [index] : []));
-  if (indices.length !== 1)
-    throw new Error(
-      "This memory changed or is ambiguous. Check it before trying again.",
-    );
+  if (indices.length !== 1) throw new Error(changedMessage);
   return indices[0];
 }
 
@@ -61,9 +63,10 @@ export function SoulPage({
   files: MonoFiles | undefined;
   onBack: () => void;
 }) {
+  const { formatMessage: t } = useIntl();
   return (
     <div className="flex min-h-0 flex-1 flex-col" data-mono-soul>
-      <PageHeader title="Soul" onBack={onBack} />
+      <PageHeader title={t({ id: "monos.settings.soul" })} onBack={onBack} />
       <div className="min-h-0 flex-1 overflow-y-auto overscroll-none">
         {files ? (
           <FileField
@@ -72,12 +75,12 @@ export function SoulPage({
             file="soul"
             value={files.soul}
             hash={files.soulHash}
-            label={`${agent.name} soul`}
+            label={t({ id: "monos.soul.label" }, { name: agent.name })}
             author={agent.name}
-            placeholder="Who it is, and what it should always keep in mind"
+            placeholder={t({ id: "monos.soul.placeholder" })}
           />
         ) : (
-          <Empty>Loading…</Empty>
+          <Empty>{t({ id: "monos.habit.loading" })}</Empty>
         )}
       </div>
     </div>
@@ -94,6 +97,7 @@ export function MemoryPage({
   files: MonoFiles | undefined;
   onBack: () => void;
 }) {
+  const { formatMessage: t } = useIntl();
   const [adding, setAdding] = useState(false);
   const [editing, setEditing] = useState<MemoryFact>();
   const [saveError, setSaveError] = useState<string>();
@@ -118,7 +122,7 @@ export function MemoryPage({
     } catch (error) {
       setSaveError(
         error instanceof MonoFileConflict
-          ? "Memory kept changing while saving. Your edit was not saved; try again."
+          ? t({ id: "monos.memory.conflict" })
           : error instanceof Error
             ? error.message
             : String(error),
@@ -127,13 +131,18 @@ export function MemoryPage({
     }
   };
   const forget = (line: string) =>
-    save((memory) => withoutLine(memory, factIndex(memory, line)));
+    save((memory) =>
+      withoutLine(
+        memory,
+        factIndex(memory, line, t({ id: "monos.memory.changed" })),
+      ),
+    );
   return (
     <div className="flex min-h-0 flex-1 flex-col" data-mono-memory>
-      <PageHeader title="Memory" onBack={onBack}>
+      <PageHeader title={t({ id: "monos.settings.memory" })} onBack={onBack}>
         {files ? (
           <IconButton
-            label="Add memory"
+            label={t({ id: "monos.memory.add" })}
             disabled={adding}
             onClick={() => {
               setEditing(undefined);
@@ -151,17 +160,17 @@ export function MemoryPage({
       ) : null}
       <div className="min-h-0 flex-1 overflow-y-auto overscroll-none px-2 py-2">
         {!files ? (
-          <Empty>Loading…</Empty>
+          <Empty>{t({ id: "monos.habit.loading" })}</Empty>
         ) : facts.length === 0 && !adding ? (
-          <Empty>Nothing remembered yet</Empty>
+          <Empty>{t({ id: "monos.memory.nothing" })}</Empty>
         ) : (
           <ul className="flex flex-col gap-px">
             {adding ? (
               <li>
                 <FactEditor
-                  label="New memory"
+                  label={t({ id: "monos.memory.new" })}
                   initial=""
-                  placeholder="Something it should remember"
+                  placeholder={t({ id: "monos.memory.newPlaceholder" })}
                   // Enter saves and leaves the field open for the next one.
                   keepOpen
                   onSave={(fact) =>
@@ -180,7 +189,7 @@ export function MemoryPage({
               return edit ? (
                 <li key={`editing:${edit.line}`} data-memory-line={fact.index}>
                   <FactEditor
-                    label="Edit memory"
+                    label={t({ id: "monos.memory.edit" })}
                     initial={edit.text}
                     onSave={(text) =>
                       text === edit.text
@@ -188,7 +197,11 @@ export function MemoryPage({
                         : save((memory) =>
                             withLineEdited(
                               memory,
-                              factIndex(memory, edit.line),
+                              factIndex(
+                                memory,
+                                edit.line,
+                                t({ id: "monos.memory.changed" }),
+                              ),
                               text,
                               memoryDate(),
                             ),
@@ -259,6 +272,7 @@ function FactRow({
   onEdit: () => void;
   onForget: () => void;
 }) {
+  const { formatMessage: t } = useIntl();
   const body = (
     <>
       <FactIcon dim={struck} />
@@ -298,11 +312,14 @@ function FactRow({
       )}
       <span className="flex shrink-0 items-center pr-2 opacity-0 transition-opacity group-hover/fact:opacity-100 focus-within:opacity-100">
         {struck ? null : (
-          <HabitButton label="Edit" onClick={onEdit}>
+          <HabitButton label={t({ id: "monos.memory.editShort" })} onClick={onEdit}>
             <Pencil className="size-3.5" strokeWidth={1.75} />
           </HabitButton>
         )}
-        <HabitButton label={`Forget: ${text}`} onClick={onForget}>
+        <HabitButton
+          label={t({ id: "monos.memory.forget" }, { text })}
+          onClick={onForget}
+        >
           <Trash2 className="size-3.5" strokeWidth={1.75} />
         </HabitButton>
       </span>

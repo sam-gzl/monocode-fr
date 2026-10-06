@@ -1,3 +1,4 @@
+import { useIntl } from "react-intl";
 import {
   useLayoutEffect,
   useRef,
@@ -36,6 +37,7 @@ export function PageHeader({
   onBack: () => void;
   children?: ReactNode;
 }) {
+  const { formatMessage: t } = useIntl();
   return (
     // Same height as the panel's own header, so a page does not jump.
     <header
@@ -45,7 +47,7 @@ export function PageHeader({
       }}
       data-tauri-drag-region="deep"
     >
-      <IconButton label="Back" onClick={onBack}>
+      <IconButton label={t({ id: "monos.back" })} onClick={onBack}>
         <ChevronLeft className="size-3.5" strokeWidth={1.75} />
       </IconButton>
       <h3 className="min-w-0 flex-1 truncate text-[13px] font-medium text-content">
@@ -139,10 +141,11 @@ export function MascotPicker({
   color: string;
   onPick: (mascot: string) => void;
 }) {
+  const { formatMessage: t } = useIntl();
   return (
     <div
       role="radiogroup"
-      aria-label="Mascot"
+      aria-label={t({ id: "projectMenu.mascot" })}
       className="grid grid-cols-10 gap-0.5 px-1"
     >
       {PROJECT_MASCOTS.map(({ name }) => {
@@ -186,25 +189,26 @@ export function ColorPicker({
   /** Opens the custom picker in place, for use inside another popover. */
   inline?: boolean;
 }) {
+  const { formatMessage: t } = useIntl();
   const [open, setOpen] = useState(false);
   const anchor = useRef<HTMLDivElement>(null);
   const presetIndex = MONO_COLORS.findIndex((color) => color === current);
   return (
-    <div ref={anchor} role="group" aria-label="Color">
+    <div ref={anchor} role="group" aria-label={t({ id: "appearance.color.title" })}>
       <ColorSwatchRow
         className="grid grid-cols-10 place-items-center gap-0.5 px-1"
         colors={MONO_COLORS}
         labels={[
-          "Blue",
-          "Coral",
-          "Yellow",
-          "Green",
-          "Pink",
-          "Purple",
-          "Teal",
-          "Orange",
-          "Indigo",
-        ]}
+          "blue",
+          "coral",
+          "yellow",
+          "green",
+          "pink",
+          "purple",
+          "teal",
+          "orange",
+          "indigo",
+        ].map((name) => t({ id: `monos.color.${name}` }))}
         colorIndex={presetIndex >= 0 ? presetIndex : undefined}
         customColor={presetIndex < 0 ? current : undefined}
         customPickerOpen={open}
@@ -259,6 +263,7 @@ export function FileField({
   placeholder: string;
   autoFocus?: boolean;
 }) {
+  const { formatMessage: t } = useIntl();
   const [draft, setDraft] = useState(value);
   const [conflict, setConflict] = useState(false);
   // The version the draft started from; a newer one replaces a clean draft.
@@ -300,7 +305,7 @@ export function FileField({
       {conflict ? (
         <div className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 px-2 text-[11px] leading-4 text-content/60">
           <span className="min-w-0 flex-1">
-            {author} changed this while you were editing.
+            {t({ id: "monos.file.conflict" }, { author })}
           </span>
           <button
             type="button"
@@ -311,14 +316,14 @@ export function FileField({
             }}
             className="rounded px-1.5 py-0.5 text-content/70 hover:bg-content/8 hover:text-content"
           >
-            Use theirs
+            {t({ id: "monos.file.useTheirs" })}
           </button>
           <button
             type="button"
             onClick={() => void save(true)}
             className="rounded px-1.5 py-0.5 text-content/70 hover:bg-content/8 hover:text-content"
           >
-            Keep mine
+            {t({ id: "monos.file.keepMine" })}
           </button>
         </div>
       ) : null}
@@ -328,6 +333,7 @@ export function FileField({
 
 /** How much of MEMORY.md loads, against the budget each turn has for it. */
 export function MemoryGauge({ memory }: { memory: string }) {
+  const { formatMessage: t } = useIntl();
   const budget = memoryWithinBudget(memory);
   const share = Math.max(
     budget.lines / MEMORY_MAX_LINES,
@@ -348,8 +354,14 @@ export function MemoryGauge({ memory }: { memory: string }) {
       </span>
       <span className="shrink-0 tabular-nums">
         {budget.droppedLines
-          ? `${budget.droppedLines} lines not loading`
-          : `${budget.lines} / ${MEMORY_MAX_LINES} lines`}
+          ? t(
+              { id: "monos.memory.notLoading" },
+              { count: budget.droppedLines },
+            )
+          : t(
+              { id: "monos.memory.lines" },
+              { used: budget.lines, max: MEMORY_MAX_LINES },
+            )}
       </span>
     </div>
   );

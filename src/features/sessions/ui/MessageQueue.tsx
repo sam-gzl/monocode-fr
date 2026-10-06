@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useIntl } from "react-intl";
 import {
   Check,
   CornerDownRight,
@@ -33,6 +34,7 @@ export function MessageQueue({
   variant?: "queue" | "messages";
   sendingId?: string;
 }) {
+  const { formatMessage: t } = useIntl();
   const [editingId, setEditingId] = useState<string>();
   const [editDraft, setEditDraft] = useState("");
   const onEditingChangeRef = useRef(onEditingChange);
@@ -76,10 +78,10 @@ export function MessageQueue({
             <Pause className="size-3.5" />
             <span className="min-w-0 flex-1 truncate">
               {failed
-                ? "A message couldn't be sent"
+                ? t({ id: "composer.queue.failed" })
                 : variant === "messages"
-                  ? "Messages paused"
-                  : "Queue paused because you interrupted"}
+                  ? t({ id: "composer.queue.messagesPaused" })
+                  : t({ id: "composer.queue.paused" })}
             </span>
             <button
               type="button"
@@ -87,13 +89,17 @@ export function MessageQueue({
               className="flex h-6 shrink-0 items-center gap-1.5 rounded-md px-1.5 hover:bg-content/10 hover:text-content"
             >
               <Play className="size-3.5" />
-              {failed ? "Retry" : "Resume"}
+              {failed
+                ? t({ id: "composer.queue.retry" })
+                : t({ id: "composer.queue.resume" })}
             </button>
           </div>
         ) : null}
         {variant === "messages" && !paused ? (
           <div role="status" className="py-1 text-[11px] text-content/50">
-            {sendingId ? "Sending…" : "Waiting to send"}
+            {sendingId
+              ? t({ id: "composer.queue.sending" })
+              : t({ id: "composer.queue.waiting" })}
           </div>
         ) : null}
         {messages.map((message, index) => {
@@ -102,12 +108,24 @@ export function MessageQueue({
           const label =
             (message.monoSessionCompletion
               ? message.monoSessionCompletion.sessionCount
-                ? `${message.monoSessionCompletion.sessionCount} sessions finished`
-                : `Session ${message.monoSessionCompletion.status}: ${message.monoSessionCompletion.title}`
+                ? t(
+                    { id: "composer.queue.sessionsFinished" },
+                    { count: message.monoSessionCompletion.sessionCount },
+                  )
+                : t(
+                    { id: "composer.queue.sessionStatus" },
+                    {
+                      status: message.monoSessionCompletion.status,
+                      title: message.monoSessionCompletion.title,
+                    },
+                  )
               : message.text.trim()) ||
             message.noteCard?.title ||
             message.handoffCard?.brief ||
-            `${message.attachments.length} attachment${message.attachments.length === 1 ? "" : "s"}`;
+            t(
+              { id: "composer.queue.attachments" },
+              { count: message.attachments.length },
+            );
           return (
             <div
               key={message.id}
@@ -120,7 +138,7 @@ export function MessageQueue({
                 <>
                   <textarea
                     autoFocus
-                    aria-label="Edit queued message"
+                    aria-label={t({ id: "composer.queue.edit" })}
                     value={editDraft}
                     rows={1}
                     onChange={(event) => setEditDraft(event.target.value)}
@@ -138,8 +156,8 @@ export function MessageQueue({
                   />
                   <button
                     type="button"
-                    title="Save queued message"
-                    aria-label="Save queued message"
+                    title={t({ id: "composer.queue.save" })}
+                    aria-label={t({ id: "composer.queue.save" })}
                     disabled={
                       !editDraft.trim() && message.attachments.length === 0
                     }
@@ -150,8 +168,8 @@ export function MessageQueue({
                   </button>
                   <button
                     type="button"
-                    title="Cancel queued message edit"
-                    aria-label="Cancel queued message edit"
+                    title={t({ id: "composer.queue.cancelEdit" })}
+                    aria-label={t({ id: "composer.queue.cancelEdit" })}
                     onClick={cancelEdit}
                     className="grid size-6 shrink-0 place-items-center rounded-md hover:bg-content/10 hover:text-content"
                   >
@@ -178,13 +196,13 @@ export function MessageQueue({
                       className="flex h-6 shrink-0 items-center gap-1.5 rounded-md px-1.5 hover:bg-content/10 hover:text-content"
                     >
                       <CornerDownRight className="size-3.5" />
-                      Steer
+                      {t({ id: "composer.queue.steer" })}
                     </button>
                   ) : null}
                   <button
                     type="button"
-                    title="Edit queued message"
-                    aria-label="Edit queued message"
+                    title={t({ id: "composer.queue.edit" })}
+                    aria-label={t({ id: "composer.queue.edit" })}
                     disabled={sending || !!message.monoSessionCompletion}
                     onClick={() => startEdit(message)}
                     className="grid size-6 shrink-0 place-items-center rounded-md hover:bg-content/10 hover:text-content"
@@ -193,8 +211,8 @@ export function MessageQueue({
                   </button>
                   <button
                     type="button"
-                    title="Remove queued message"
-                    aria-label="Remove queued message"
+                    title={t({ id: "composer.queue.remove" })}
+                    aria-label={t({ id: "composer.queue.remove" })}
                     disabled={sending}
                     onClick={() => onDelete?.(message.id)}
                     className="grid size-6 shrink-0 place-items-center rounded-md hover:bg-content/10 hover:text-content"

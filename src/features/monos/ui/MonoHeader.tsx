@@ -1,8 +1,5 @@
-import {
-  monoProjectsPhrase,
-  type MonoLook,
-  type MonoState,
-} from "../model/mono";
+import { useIntl } from "react-intl";
+import { type MonoLook, type MonoState } from "../model/mono";
 import { PixelMascot } from "../../projects/ui/PixelMascot";
 import { MonoStatus } from "./MonoStatus";
 
@@ -23,6 +20,7 @@ export function MonoHeader({
   state = { status: "idle" },
   greeting = false,
 }: Props) {
+  const { formatMessage: t, formatList } = useIntl();
   return (
     <header
       className={`flex flex-col items-center px-6 text-center font-sans ${
@@ -43,8 +41,16 @@ export function MonoHeader({
       {greeting ? (
         <p className="mt-3 max-w-sm text-[13px] leading-relaxed text-content/50">
           {agent.projects.length
-            ? `I can see every session, note and folder in ${monoProjectsPhrase(agent.projects)}. Ask what’s going on, or hand me work.`
-            : "Add the projects I should work on from my details, or just ask me something."}
+            ? t(
+                { id: "monos.header.greetingProjects" },
+                {
+                  projects: formatList(
+                    agent.projects.map((project) => project.name),
+                    { type: "conjunction" },
+                  ),
+                },
+              )
+            : t({ id: "monos.header.greetingNoProjects" })}
         </p>
       ) : (
         <MonoStatus

@@ -1,4 +1,5 @@
 import type { CSSProperties, ReactNode } from "react";
+import { useIntl } from "react-intl";
 import { IconButton } from "../../../app/shell/TitleBar";
 import { useDragResize } from "../../../shared/hooks/useDragResize";
 import { PanelRightToggle } from "../../../shared/ui/icons";
@@ -22,6 +23,7 @@ export function MonoSidebar({
   windowControls?: ReactNode;
   children: ReactNode;
 }) {
+  const { formatMessage: t } = useIntl();
   const resize = useDragResize({
     min: MIN_WIDTH,
     max: () => Math.min(440, Math.round(window.innerWidth * 0.4)),
@@ -54,7 +56,7 @@ export function MonoSidebar({
       <div
         role="separator"
         aria-orientation="vertical"
-        aria-label={`Resize Mono ${kind}`}
+        aria-label={t({ id: "monos.sidebar.resize" }, { kind })}
         className={`absolute inset-y-0 -left-1 z-20 w-2 cursor-col-resize touch-none ${resize.dragging ? "bg-content/15" : "hover:bg-content/10"}`}
         onPointerDown={resize.onPointerDown}
         onDoubleClick={resize.onDoubleClick}
@@ -74,6 +76,7 @@ export function MonoSidebarHeader({
   title: string;
   onClose: () => void;
 }) {
+  const { formatMessage: t } = useIntl();
   return (
     <header
       className="flex h-10 shrink-0 items-stretch border-b border-stroke"
@@ -85,7 +88,10 @@ export function MonoSidebarHeader({
       </h3>
       <div className="flex shrink-0 items-center gap-0.5 px-3">
         <IconButton
-          label={`Hide ${title.toLowerCase()}`}
+          label={t(
+            { id: "monos.sidebar.hide" },
+            { title: title.toLocaleLowerCase() },
+          )}
           active
           onClick={onClose}
         >

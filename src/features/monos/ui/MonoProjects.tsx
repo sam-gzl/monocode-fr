@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { useIntl } from "react-intl";
 import { Plus, X } from "../../../shared/ui/icons";
 import { projectKey, projectName } from "../../../shared/lib/paths";
 import { loadRecents, projectRailItems } from "../../projects/model/recents";
@@ -47,6 +48,7 @@ export function MonoProjects({
   monoId: string;
   projects: readonly MonoProject[];
 }) {
+  const { formatMessage: t } = useIntl();
   const anchor = useRef<HTMLButtonElement>(null);
   const [adding, setAdding] = useState(false);
   const taken = new Set(projects.map((project) => projectKey(project.path)));
@@ -67,8 +69,8 @@ export function MonoProjects({
           <span className="min-w-0 flex-1 truncate">{project.name}</span>
           <button
             type="button"
-            aria-label={`Remove ${project.name}`}
-            title={`Remove ${project.name}`}
+            aria-label={t({ id: "monos.projects.remove" }, { name: project.name })}
+            title={t({ id: "monos.projects.remove" }, { name: project.name })}
             onClick={() => removeMonoProject(monoId, project.path)}
             className="grid size-5 shrink-0 place-items-center rounded text-content/45 opacity-0 hover:bg-content/8 hover:text-content focus-visible:opacity-100 group-hover:opacity-100"
           >
@@ -85,7 +87,7 @@ export function MonoProjects({
         className="-ml-1 flex h-7 w-fit items-center gap-1.5 rounded-md px-1 text-content/45 hover:bg-content/6 hover:text-content aria-expanded:bg-content/6 aria-expanded:text-content"
       >
         <Plus className="size-3 shrink-0" strokeWidth={1.75} />
-        Add project
+        {t({ id: "monos.projects.add" })}
       </button>
       {adding ? (
         <ProjectPickerPopover
@@ -93,10 +95,10 @@ export function MonoProjects({
           projects={choices}
           onDismiss={() => setAdding(false)}
           onSelectProject={(path) => addMonoProject(monoId, path)}
-          label="Add a project"
+          label={t({ id: "monos.projects.addLabel" })}
           emptyMessage={
             choices.length === 0
-              ? "It already works on every project."
+              ? t({ id: "monos.projects.all" })
               : undefined
           }
         />

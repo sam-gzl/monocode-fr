@@ -1589,6 +1589,342 @@ export const en = {
   "dateTime.day.sunday": "Su",
   "dateTime.time": "Time",
   "dateTime.timeHint": "Local time, 24-hour",
+  "composer.queue.failed":
+    "A message couldn't be sent",
+  "composer.queue.messagesPaused":
+    "Messages paused",
+  "composer.queue.retry":
+    "Retry",
+  "composer.queue.sending":
+    "Sending…",
+  "composer.queue.waiting":
+    "Waiting to send",
+  "composer.queue.sessionsFinished":
+    "{count, plural, one {# session finished} other {# sessions finished}}",
+  "composer.queue.sessionStatus":
+    "{status, select, completed {Session completed: {title}} failed {Session failed: {title}} cancelled {Session cancelled: {title}} other {Session {status}: {title}}}",
+
+  "transcript.jumpToLatest":
+    "Jump to latest",
+
+
+  "worktreeSwitcher.projectFolder":
+    "Project folder",
+  "worktreeSwitcher.projectFolderDetail":
+    "Project folder · all sessions",
+  "worktreeSwitcher.detachedSha":
+    "Detached {sha}",
+  "worktreeSwitcher.detachedWorktree":
+    "Detached worktree",
+  "worktreeSwitcher.detached":
+    "detached",
+  "worktreeSwitcher.switch":
+    "Switch working copy",
+  "worktreeSwitcher.creating":
+    "Creating worktree",
+  "worktreeSwitcher.switching":
+    "Switching working copy",
+  "worktreeSwitcher.list":
+    "Working copies",
+  "worktreeSwitcher.search":
+    "Search working copies",
+  "worktreeSwitcher.placeholder":
+    "Search or create a worktree...",
+  "worktreeSwitcher.loading":
+    "Loading working copies…",
+  "worktreeSwitcher.noMatch":
+    "No matching working copies",
+  "worktreeSwitcher.create":
+    "Create worktree {name}",
+  "worktreeSwitcher.openTabs":
+    "{count, plural, one {# open tab} other {# open tabs}}{busy, select, true {, working} other {}}",
+
+  "projectBackground.lockedHint":
+    "Shown behind {name}'s chat, dimmed with the Haze effect.",
+
+  "monos.intro.aria":
+    "Meet Monos",
+  "monos.intro.title":
+    "Meet Monos",
+  "monos.experimental":
+    "Experimental",
+  "monos.intro.body":
+    "Agents of your own that live on the rail and work across your projects. They remember what matters and pick up habits they run on their own.",
+  "monos.intro.create":
+    "Create your mono",
+  "monos.intro.later":
+    "Not now",
+  "monos.header.greetingProjects":
+    "I can see every session, note and folder in {projects}. Ask what’s going on, or hand me work.",
+  "monos.header.greetingNoProjects":
+    "Add the projects I should work on from my details, or just ask me something.",
+  "monos.status.working":
+    "Working",
+  "monos.status.needs-you":
+    "Needs you",
+  "monos.status.idle":
+    "Idle",
+  "monos.activity.label":
+    "{name} activity",
+  "monos.activity.title":
+    "Activity",
+  "monos.activity.working":
+    "Working",
+  "monos.activity.finished":
+    "Finished",
+  "monos.sidebar.hide":
+    "Hide {title}",
+  "monos.sidebar.resize":
+    "{kind, select, activity {Resize Mono activity} other {Resize Mono details}}",
+  "monos.projects.remove":
+    "Remove {name}",
+  "monos.projects.add":
+    "Add project",
+  "monos.projects.addLabel":
+    "Add a project",
+  "monos.projects.all":
+    "It already works on every project.",
+  "monos.confirm.cancel":
+    "Cancel",
+  "monos.confirm.resetting":
+    "Resetting…",
+
+  "monos.back":
+    "Back",
+  "monos.color.blue":
+    "Blue",
+  "monos.color.coral":
+    "Coral",
+  "monos.color.yellow":
+    "Yellow",
+  "monos.color.green":
+    "Green",
+  "monos.color.pink":
+    "Pink",
+  "monos.color.purple":
+    "Purple",
+  "monos.color.teal":
+    "Teal",
+  "monos.color.orange":
+    "Orange",
+  "monos.color.indigo":
+    "Indigo",
+  "monos.file.conflict":
+    "{author} changed this while you were editing.",
+  "monos.file.useTheirs":
+    "Use theirs",
+  "monos.file.keepMine":
+    "Keep mine",
+  "monos.memory.notLoading":
+    "{count, plural, one {# line not loading} other {# lines not loading}}",
+  "monos.memory.lines":
+    "{used} / {max} lines",
+  "monos.details.title":
+    "Details",
+  "monos.details.label":
+    "{name} details",
+  "monos.details.model":
+    "Model",
+  "monos.details.projects":
+    "Projects",
+  "monos.habits.title":
+    "Habits",
+  "monos.habits.atMost":
+    "At most {max} habits",
+  "monos.habits.new":
+    "New habit",
+
+  "monos.settings.title":
+    "Settings",
+  "monos.settings.soul":
+    "Soul",
+  "monos.settings.soulDescription":
+    "Defines who this bot is and the rules it follows. Always included in its context.",
+  "monos.settings.habits":
+    "Habits",
+  "monos.settings.habitsDescription":
+    "Recurring tasks this bot runs on its own.",
+  "monos.settings.memory":
+    "Memory",
+  "monos.settings.memoryDescription":
+    "Facts and preferences this bot remembers.",
+  "monos.reset.label":
+    "Reset conversation",
+  "monos.reset.title":
+    "Reset {name}'s conversation?",
+  "monos.reset.body":
+    "All messages in this Mono's conversation will be deleted and any active reply will be stopped. This can't be undone.",
+  "monos.reset.kept":
+    "Its soul, memory and habits will be kept.",
+  "monos.reset.failure":
+    "Could not reset the conversation.",
+  "monos.reset.hint":
+    "Clear all messages and start fresh",
+  "monos.name":
+    "Name",
+  "monos.habit.runningNow":
+    "Running now ·",
+  "monos.habit.starting":
+    "Starting…",
+  "monos.habit.pausedSchedule":
+    "Paused · {schedule}",
+  "monos.habit.alreadyRunning":
+    "Already running",
+  "monos.habit.startingShort":
+    "Starting",
+  "monos.habit.runNow":
+    "Run now",
+  "monos.habit.pause":
+    "Pause",
+  "monos.habit.resume":
+    "Resume",
+  "monos.habit.remove":
+    "Remove",
+  "monos.habit.loading":
+    "Loading…",
+  "monos.habit.none":
+    "No habits yet",
+  "monos.habit.upcoming":
+    "Upcoming",
+  "monos.habit.done":
+    "Done",
+
+  "monos.run.posted":
+    "Messaged you",
+  "monos.run.quiet":
+    "Nothing to report",
+  "monos.run.failed":
+    "Couldn't finish",
+  "monos.when.today":
+    "Today {time}",
+  "monos.habit.paused":
+    "Paused",
+  "monos.habit.runs":
+    "Runs",
+  "monos.habit.next":
+    "Next",
+  "monos.habit.whatItDoes":
+    "What it does",
+  "monos.habit.recentRuns":
+    "Recent runs",
+  "monos.habit.neverRan":
+    "It hasn't run yet.",
+  "monos.habit.runningNowRow":
+    "Running now",
+  "monos.habit.create":
+    "Create",
+  "monos.habit.kind.daily":
+    "Daily",
+  "monos.habit.kind.weekdays":
+    "Weekdays",
+  "monos.habit.kind.weekly":
+    "Weekly",
+  "monos.habit.kind.hourly":
+    "Hourly",
+  "monos.habit.repeats":
+    "Repeats",
+  "monos.habit.on":
+    "on",
+  "monos.habit.day":
+    "Day",
+  "monos.habit.at":
+    "at",
+  "monos.habit.minute":
+    "Minute",
+  "monos.habit.time":
+    "Time",
+  "monos.habit.instructionsPlaceholder":
+    "What it should do on each run, and when it's worth telling you about.",
+  "monos.habit.addFailed":
+    "Could not add the habit.",
+
+  "monos.soul.label":
+    "{name} soul",
+  "monos.soul.placeholder":
+    "Who it is, and what it should always keep in mind",
+  "monos.memory.changed":
+    "This memory changed or is ambiguous. Check it before trying again.",
+  "monos.memory.conflict":
+    "Memory kept changing while saving. Your edit was not saved; try again.",
+  "monos.memory.add":
+    "Add memory",
+  "monos.memory.nothing":
+    "Nothing remembered yet",
+  "monos.memory.new":
+    "New memory",
+  "monos.memory.newPlaceholder":
+    "Something it should remember",
+  "monos.memory.edit":
+    "Edit memory",
+  "monos.memory.editShort":
+    "Edit",
+  "monos.memory.forget":
+    "Forget: {text}",
+  "monos.usage.chooseModel":
+    "Choose another model",
+  "monos.usage.chooseAccount":
+    "Choose another account",
+
+  "monos.composer.dropFiles":
+    "Drop files to attach",
+  "monos.composer.nothingDropped":
+    "Nothing to attach from that drop — the file may have been moved, renamed, or deleted.",
+  "monos.composer.message":
+    "Message {name}",
+  "monos.composer.send":
+    "Send",
+  "monos.composer.reading":
+    "Reading attachments…",
+  "monos.rail.title":
+    "Monos",
+  "monos.rail.new":
+    "New mono",
+  "monos.rail.noProjects":
+    "No projects yet",
+  "monos.rail.options":
+    "Mono options",
+  "monos.rail.optionsNamed":
+    "{name} options",
+  "monos.rail.nameLabel":
+    "Mono name",
+  "monos.rail.delete":
+    "Delete mono…",
+
+  "monos.page.title":
+    "Monos",
+  "monos.page.show":
+    "Show monos",
+  "monos.page.showDescription":
+    "Agents of your own on the project rail. Each works on the projects you give it, remembers what matters and picks up habits it runs on its own. Turn this off to hide them.",
+  "monos.page.yours":
+    "Your monos",
+  "monos.page.yoursDescription":
+    "Add one with the plus beside Monos on the rail. Choose its projects from its details.",
+  "monos.page.none":
+    "No monos yet.",
+  "monos.row.worksOn":
+    "Works on {projects}",
+  "monos.row.resetLabel":
+    "Reset Mono",
+  "monos.row.resetTitle":
+    "Reset {name} to its defaults?",
+  "monos.row.resetBody":
+    "Its soul goes back to the default and its name to {defaultName}. Changes to its soul can't be recovered.",
+  "monos.row.resetKept":
+    "Its conversation, projects, memory and habits will be kept.",
+  "monos.row.resetFailure":
+    "Could not reset the Mono.",
+  "monos.row.resetDefaults":
+    "Reset to defaults",
+  "monos.row.resetNamed":
+    "Reset {name} to defaults",
+  "settings.search.row.monos-enabled":
+    "Show monos",
+  "settings.search.row.mono-list":
+    "Your monos",
+
+  "monos.composer.attach":
+    "Attach files",
 } satisfies Record<string, string>;
 
 export type MessageKey = keyof typeof en;

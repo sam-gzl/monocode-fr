@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
+import { useIntl } from "react-intl";
 import { SearchableSelect } from "../../../shared/ui/SearchableSelect";
-import { AUTOMATION_WEEKDAYS } from "../../automations/model/automations";
 import {
   addHabit,
   nextHabitRunAt,
@@ -9,17 +9,7 @@ import {
 import { when } from "./HabitPage";
 import { AutoTextarea, PageHeader, Property, Section } from "./monoPanelParts";
 
-const KINDS = [
-  { value: "daily", label: "Daily" },
-  { value: "weekdays", label: "Weekdays" },
-  { value: "weekly", label: "Weekly" },
-  { value: "hourly", label: "Hourly" },
-] as const;
-
-const DAYS = AUTOMATION_WEEKDAYS.map((label, value) => ({
-  value: String(value),
-  label,
-}));
+const KIND_VALUES = ["daily", "weekdays", "weekly", "hourly"] as const;
 
 const MINUTES = [0, 15, 30, 45].map((value) => ({
   value: String(value),
@@ -39,6 +29,7 @@ export function NewHabitPage({
   onBack: () => void;
   onCreated: () => void;
 }) {
+  const { formatMessage: t } = useIntl();
   const [name, setName] = useState("");
   const [instructions, setInstructions] = useState("");
   const [schedule, setSchedule] = useState<HabitSchedule>({
@@ -68,14 +59,16 @@ export function NewHabitPage({
       .catch((reason: unknown) => {
         setSaving(false);
         setError(
-          reason instanceof Error ? reason.message : "Could not add the habit.",
+          reason instanceof Error
+            ? reason.message
+            : t({ id: "monos.habit.addFailed" }),
         );
       });
   };
 
   return (
     <div className="flex min-h-0 flex-1 flex-col" data-new-habit>
-      <PageHeader title="New habit" onBack={onBack}>
+      <PageHeader title={t({ id: "monos.habits.new" })} onBack={onBack}>
         <button
           type="button"
           disabled={!ready}
@@ -83,7 +76,7 @@ export function NewHabitPage({
           data-tauri-drag-region="false"
           className="h-6 rounded-md bg-content/10 px-2 text-[12px] text-content enabled:hover:bg-content/[0.14] disabled:opacity-40"
         >
-          Create
+          {t({ id: "monos.habit.create" })}
         </button>
       </PageHeader>
 
@@ -91,10 +84,10 @@ export function NewHabitPage({
         <div className="px-2 pt-3">
           <input
             ref={nameRef}
-            aria-label="Name"
+            aria-label={t({ id: "monos.name" })}
             value={name}
             maxLength={80}
-            placeholder="Name"
+            placeholder={t({ id: "monos.name" })}
             onChange={(event) => setName(event.target.value)}
             onKeyDown={(event) => {
               if (event.key === "Enter") create();
@@ -104,15 +97,15 @@ export function NewHabitPage({
         </div>
 
         <dl className="flex flex-col gap-0.5 px-4 py-3">
-          <Property label="Runs">
+          <Property label={t({ id: "monos.habit.runs" })}>
             <ScheduleFields schedule={schedule} onChange={setSchedule} />
           </Property>
-          <Property label="Next">
-            {when(nextHabitRunAt(schedule, Date.now()))}
+          <Property label={t({ id: "monos.habit.next" })}>
+            {when(nextHabitRunAt(schedule, Date.now()), t)}
           </Property>
         </dl>
 
-        <Section title="What it does">
+        <Section title={t({ id: "monos.habit.whatItDoes" })}>
           <Instructions
             value={instructions}
             onChange={setInstructions}
@@ -134,13 +127,17 @@ function ScheduleFields({
   schedule: HabitSchedule;
   onChange: (schedule: HabitSchedule) => void;
 }) {
+  const { formatMessage: t } = useIntl();
   const kind = schedule.scheduleKind;
   return (
     <span className="flex flex-wrap items-center gap-1.5 py-0.5">
       <SearchableSelect
-        label="Repeats"
+        label={t({ id: "monos.habit.repeats" })}
         value={kind}
-        options={KINDS}
+        options={KIND_VALUES.map((value) => ({
+          value,
+          label: t({ id: `monos.habit.kind.${value}` }),
+        }))}
         variant="pill"
         searchable={false}
         onChange={(value) =>
@@ -152,11 +149,14 @@ function ScheduleFields({
       />
       {kind === "weekly" ? (
         <>
-          <span className="text-content/45">on</span>
+          <span className="text-content/45">{t({ id: "monos.habit.on" })}</span>
           <SearchableSelect
-            label="Day"
+            label={t({ id: "monos.habit.day" })}
             value={String(schedule.dayOfWeek)}
-            options={DAYS}
+            options={[0, 1, 2, 3, 4, 5, 6].map((value) => ({
+              value: String(value),
+              label: t({ id: `automations.weekday.${value}` }),
+            }))}
             variant="pill"
             searchable={false}
             onChange={(value) =>
@@ -165,10 +165,10 @@ function ScheduleFields({
           />
         </>
       ) : null}
-      <span className="text-content/45">at</span>
+      <span className="text-content/45">{t({ id: "monos.habit.at" })}</span>
       {kind === "hourly" ? (
         <SearchableSelect
-          label="Minute"
+          label={t({ id: "monos.habit.minute" })}
           value={String(schedule.minute)}
           options={MINUTES}
           variant="pill"
@@ -178,7 +178,7 @@ function ScheduleFields({
       ) : (
         <input
           type="time"
-          aria-label="Time"
+          aria-label={t({ id: "monos.habit.time" })}
           value={schedule.time}
           required
           onChange={(event) => {
@@ -202,13 +202,14 @@ function Instructions({
   onChange: (value: string) => void;
   onSubmit: () => void;
 }) {
+  const { formatMessage: t } = useIntl();
   return (
     <AutoTextarea
-      aria-label="What it does"
+      aria-label={t({ id: "monos.habit.whatItDoes" })}
       value={value}
       rows={3}
       maxLength={4_000}
-      placeholder="What it should do on each run, and when it's worth telling you about."
+      placeholder={t({ id: "monos.habit.instructionsPlaceholder" })}
       onChange={(event) => onChange(event.target.value)}
       onKeyDown={(event) => {
         if (event.key === "Enter" && (event.metaKey || event.ctrlKey)) {

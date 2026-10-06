@@ -1,4 +1,5 @@
 import { useEffect, useState, type ReactNode } from "react";
+import { useIntl } from "react-intl";
 import type { HarnessId } from "../../sessions/model/session";
 import { ModelPicker, ModelSettingRows } from "../../sessions/ui/ModelPicker";
 import type { MonoLook, MonoState } from "../model/mono";
@@ -62,6 +63,7 @@ export function MonoDetails({
   onReset,
   windowControls,
 }: Props) {
+  const { formatMessage: t } = useIntl();
   const files = useMonoFiles(monoId, state.status);
   const habits = useHabits(monoId, state.status);
   const actions = habitActions(monoId);
@@ -78,12 +80,12 @@ export function MonoDetails({
           key: "habits",
           node: (
             <div className="flex min-h-0 flex-1 flex-col" data-mono-habits>
-              <PageHeader title="Habits" onBack={back}>
+              <PageHeader title={t({ id: "monos.habits.title" })} onBack={back}>
                 <IconButton
                   label={
                     (habits?.length ?? 0) >= HABITS_MAX
-                      ? `At most ${HABITS_MAX} habits`
-                      : "New habit"
+                      ? t({ id: "monos.habits.atMost" }, { max: HABITS_MAX })
+                      : t({ id: "monos.habits.new" })
                   }
                   disabled={!habits || habits.length >= HABITS_MAX}
                   onClick={() => push({ kind: "new-habit" })}
@@ -159,13 +161,13 @@ export function MonoDetails({
     <MonoSidebar
       open={open}
       kind="details"
-      label={`${agent.name} details`}
+      label={t({ id: "monos.details.label" }, { name: agent.name })}
       color={agent.color}
       windowControls={windowControls}
     >
       <PanelStack pages={pages}>
         {/* Pages replace this header too, keeping their back button at the top. */}
-        <MonoSidebarHeader title="Details" onClose={onClose} />
+        <MonoSidebarHeader title={t({ id: "monos.details.title" })} onClose={onClose} />
         <MonoSettingsPage
           monoId={monoId}
           agent={agent}
@@ -177,7 +179,7 @@ export function MonoDetails({
           }}
         >
           <dl className="flex flex-col gap-0.5 border-t border-stroke px-4 py-3">
-            <Property label="Model">
+            <Property label={t({ id: "monos.details.model" })}>
               <ModelPicker
                 harness={harness}
                 model={model}
@@ -200,7 +202,7 @@ export function MonoDetails({
                 <Property label={label}>{control}</Property>
               )}
             />
-            <Property label="Projects">
+            <Property label={t({ id: "monos.details.projects" })}>
               <MonoProjects monoId={monoId} projects={agent.projects} />
             </Property>
           </dl>

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useIntl } from "react-intl";
 import { ChevronRight } from "../../../shared/ui/icons";
 import { PixelMascot } from "../../projects/ui/PixelMascot";
 import { useLockOverscroll } from "../../../shared/hooks/useLockOverscroll";
@@ -39,10 +40,11 @@ export function MonoSettingsPage({
   /** Model and project controls, alongside the profile on the front panel. */
   children?: ReactNode;
 }) {
+  const { formatMessage: t } = useIntl();
   const lock = useLockOverscroll<HTMLDivElement>();
   return (
     <div className="flex min-h-0 flex-1 flex-col" data-mono-settings>
-      {onBack ? <PageHeader title="Settings" onBack={onBack} /> : null}
+      {onBack ? <PageHeader title={t({ id: "monos.settings.title" })} onBack={onBack} /> : null}
       <div
         ref={lock}
         className="flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-none"
@@ -74,19 +76,19 @@ export function MonoSettingsPage({
 
         <nav className="flex flex-col gap-px border-t border-stroke p-2">
           <NavRow
-            label="Soul"
-            description="Defines who this bot is and the rules it follows. Always included in its context."
+            label={t({ id: "monos.settings.soul" })}
+            description={t({ id: "monos.settings.soulDescription" })}
             onClick={() => onOpen("soul")}
           />
           <NavRow
-            label="Habits"
-            description="Recurring tasks this bot runs on its own."
+            label={t({ id: "monos.settings.habits" })}
+            description={t({ id: "monos.settings.habitsDescription" })}
             count={counts?.habits}
             onClick={() => onOpen("habits")}
           />
           <NavRow
-            label="Memory"
-            description="Facts and preferences this bot remembers."
+            label={t({ id: "monos.settings.memory" })}
+            description={t({ id: "monos.settings.memoryDescription" })}
             count={counts?.memory}
             onClick={() => onOpen("memory")}
           />
@@ -94,11 +96,11 @@ export function MonoSettingsPage({
         {onReset ? (
           <div className="mt-auto p-2">
             <ConfirmReset
-              label="Reset conversation"
-              title={`Reset ${agent.name}'s conversation?`}
-              body="All messages in this Mono's conversation will be deleted and any active reply will be stopped. This can't be undone."
-              kept="Its soul, memory and habits will be kept."
-              failure="Could not reset the conversation."
+              label={t({ id: "monos.reset.label" })}
+              title={t({ id: "monos.reset.title" }, { name: agent.name })}
+              body={t({ id: "monos.reset.body" })}
+              kept={t({ id: "monos.reset.kept" })}
+              failure={t({ id: "monos.reset.failure" })}
               onConfirm={onReset}
             >
               {(open, ref) => (
@@ -109,10 +111,10 @@ export function MonoSettingsPage({
                   className="flex w-full flex-col rounded-lg px-3 py-2 text-left hover:bg-content/5"
                 >
                   <span className="text-[13px] leading-5 text-red-400">
-                    Reset conversation
+                    {t({ id: "monos.reset.label" })}
                   </span>
                   <span className="text-[12px] leading-5 text-content/40">
-                    Clear all messages and start fresh
+                    {t({ id: "monos.reset.hint" })}
                   </span>
                 </button>
               )}
@@ -165,6 +167,7 @@ function NavRow({
 
 /** The Mono's name, edited in place; empty goes back to its mascot's name. */
 function NameField({ monoId, fallback }: { monoId: string; fallback: string }) {
+  const { formatMessage: t } = useIntl();
   const saved = () => findMono(monoId)?.name ?? "";
   const [draft, setDraft] = useState(saved);
   const editing = useRef(false);
@@ -184,7 +187,7 @@ function NameField({ monoId, fallback }: { monoId: string; fallback: string }) {
   };
   return (
     <input
-      aria-label="Name"
+      aria-label={t({ id: "monos.name" })}
       value={draft}
       placeholder={placeholder}
       maxLength={40}

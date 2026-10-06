@@ -1,4 +1,5 @@
-import { MONO_STATUS_LABEL, type MonoState } from "../model/mono";
+import { useIntl } from "react-intl";
+import { type MonoState } from "../model/mono";
 
 type Props = {
   state: MonoState;
@@ -12,6 +13,7 @@ type Props = {
  * pulsing while it works, grey at rest), the state, and what it is on.
  */
 export function MonoStatus({ state, color, className = "" }: Props) {
+  const { formatMessage: t } = useIntl();
   const { status, activity } = state;
   const dot =
     status === "needs-you"
@@ -32,7 +34,7 @@ export function MonoStatus({ state, color, className = "" }: Props) {
         }`}
         style={dot ? { background: dot } : undefined}
       />
-      <span className="shrink-0">{MONO_STATUS_LABEL[status]}</span>
+      <span className="shrink-0">{t({ id: `monos.status.${status}` })}</span>
       {activity ? (
         <>
           <span aria-hidden className="shrink-0 opacity-60">
