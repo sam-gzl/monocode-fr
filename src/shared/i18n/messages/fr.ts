@@ -48,6 +48,7 @@ export const fr: Record<MessageKey, string> = {
   "settings.nav.providers": "Providers",
   "settings.nav.mcp": "MCP",
   "settings.nav.skills": "Skills",
+  "settings.nav.monos": "Monos",
   "settings.nav.inbox": "Inbox",
   "settings.nav.archive": "Archives",
   "settings.nav.worktrees": "Worktrees",
@@ -69,6 +70,8 @@ export const fr: Record<MessageKey, string> = {
     "Trouvez les serveurs MCP de tous les providers et gérez leurs connexions.",
   "settings.page.skills.description":
     "Découvrez et gérez les Skills des dossiers du projet, personnels et des harnesses.",
+  "settings.page.monos.description":
+    "L’agent résident à côté de vos onglets, et les projets qui en ont un.",
   "settings.page.inbox.description":
     "Gérez les services de la Inbox et les préférences de notification pour chaque projet.",
   "settings.page.archive.description":

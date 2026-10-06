@@ -46,6 +46,7 @@ export const en = {
   "settings.nav.providers": "Providers",
   "settings.nav.mcp": "MCP",
   "settings.nav.skills": "Skills",
+  "settings.nav.monos": "Monos",
   "settings.nav.inbox": "Inbox",
   "settings.nav.archive": "Archive",
   "settings.nav.worktrees": "Worktrees",
@@ -67,6 +68,8 @@ export const en = {
     "Find MCP servers across providers and manage their connections.",
   "settings.page.skills.description":
     "Discover and manage file skills from project, personal, and harness folders.",
+  "settings.page.monos.description":
+    "The resident agent beside your tabs, and which projects have one.",
   "settings.page.inbox.description":
     "Manage Inbox services and notification preferences for each project.",
   "settings.page.archive.description":
