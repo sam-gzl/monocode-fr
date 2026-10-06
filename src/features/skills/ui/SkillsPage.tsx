@@ -7,7 +7,15 @@ import {
   type ReactNode,
 } from "react";
 import { revealItemInDir } from "@tauri-apps/plugin-opener";
-import { Copy, Eye, FolderOpen, RefreshCw, Search, X } from "../../../shared/ui/icons";
+import { useIntl } from "react-intl";
+import {
+  Copy,
+  Eye,
+  FolderOpen,
+  RefreshCw,
+  Search,
+  X,
+} from "../../../shared/ui/icons";
 import { CreateSkillForm } from "./SkillPicker";
 import { useLockOverscroll } from "../../../shared/hooks/useLockOverscroll";
 import {
@@ -17,7 +25,11 @@ import {
 import { MarkdownSource } from "../../sessions/ui/AgentMarkdown";
 import { SkillDocumentPreview } from "./SkillDocumentPreview";
 import { copyText } from "../../../platform/tauri/clipboard";
-import { listSkills, readTextFile, type DiscoveredSkill } from "../../../platform/tauri/fs";
+import {
+  listSkills,
+  readTextFile,
+  type DiscoveredSkill,
+} from "../../../platform/tauri/fs";
 import {
   createBlankSkill,
   invalidateSkills,
@@ -34,6 +46,7 @@ export function SkillsPage({
   cwd: string;
   header?: ReactNode;
 }): ReactNode {
+  const { formatMessage: t } = useIntl();
   const lockOverscroll = useLockOverscroll<HTMLDivElement>();
   const previewId = useId();
   const previewOpener = useRef<string | null>(null);
@@ -113,14 +126,17 @@ export function SkillsPage({
       .catch((err: unknown) => {
         if (!cancelled) {
           setPreviewError(
-            `Could not read SKILL.md. ${err instanceof Error ? err.message : String(err)}`,
+            t(
+              { id: "skills.readFailed" },
+              { error: err instanceof Error ? err.message : String(err) },
+            ),
           );
         }
       });
     return () => {
       cancelled = true;
     };
-  }, [previewSkill]);
+  }, [previewSkill, t]);
 
   useEffect(() => {
     let cancelled = false;
@@ -169,7 +185,7 @@ export function SkillsPage({
       saveDisabledSkillPaths(next);
       setActionError(null);
     } catch {
-      setActionError("Could not save the skill preference. Try again.");
+      setActionError(t({ id: "skills.savePreferenceFailed" }));
     }
   };
 
@@ -177,7 +193,10 @@ export function SkillsPage({
     setActionError(null);
     void revealItemInDir(path).catch((err: unknown) => {
       setActionError(
-        `Could not open the folder: ${err instanceof Error ? err.message : String(err)}`,
+        t(
+          { id: "skills.openFolderFailed" },
+          { error: err instanceof Error ? err.message : String(err) },
+        ),
       );
     });
   };
@@ -185,7 +204,7 @@ export function SkillsPage({
   const onCopyPath = (path: string): void => {
     setActionError(null);
     void copyText(path).catch(() => {
-      setActionError("Could not copy the path to the clipboard.");
+      setActionError(t({ id: "skills.copyPathFailed" }));
     });
   };
 
@@ -221,7 +240,7 @@ export function SkillsPage({
                 <span className="shrink-0 text-[12px] text-content/40 tabular-nums">
                   {skills == null
                     ? "…"
-                    : `${filtered.length} ${filtered.length === 1 ? "skill" : "skills"}`}
+                    : t({ id: "skills.count" }, { count: filtered.length })}
                 </span>
                 <label className="flex h-7 w-52 min-w-0 flex-1 items-center gap-2 rounded-md border border-content/10 px-2 text-content/45 focus-within:border-content/20">
                   <Search className="size-3.5 shrink-0" strokeWidth={1.75} />
@@ -229,8 +248,8 @@ export function SkillsPage({
                     ref={filterInput}
                     value={query}
                     onChange={(event) => setQuery(event.target.value)}
-                    placeholder="Filter"
-                    aria-label="Filter skills"
+                    placeholder={t({ id: "skills.filter" })}
+                    aria-label={t({ id: "skills.filterAria" })}
                     spellCheck={false}
                     autoComplete="off"
                     className="min-w-0 flex-1 bg-transparent text-[12px] text-content outline-none placeholder:text-content/35"
@@ -238,8 +257,8 @@ export function SkillsPage({
                 </label>
                 <button
                   type="button"
-                  aria-label="Refresh skills"
-                  title="Rescan skill folders"
+                  aria-label={t({ id: "skills.refresh" })}
+                  title={t({ id: "skills.rescan" })}
                   disabled={skills === null && !error}
                   onClick={() => {
                     invalidateSkills();
@@ -254,7 +273,9 @@ export function SkillsPage({
               <div className="flex shrink-0 items-center gap-2">
                 <button
                   type="button"
-                  aria-label={adding ? "Close skill form" : "Add skill"}
+                  aria-label={t({
+                    id: adding ? "skills.closeForm" : "skills.add",
+                  })}
                   ref={addSkillButton}
                   disabled={busy}
                   className="rounded-md border border-content/10 px-2.5 py-1 text-[12px] text-content/70 hover:bg-content/10 disabled:opacity-40"
@@ -262,9 +283,9 @@ export function SkillsPage({
                     setAdding((value) => !value);
                     setCreateError(null);
                   }}
-                  title="Create a starter SKILL.md you can edit"
+                  title={t({ id: "skills.addHint" })}
                 >
-                  {adding ? "Close" : "Add skill"}
+                  {t({ id: adding ? "skills.close" : "skills.add" })}
                 </button>
               </div>
             </div>
@@ -299,14 +320,16 @@ export function SkillsPage({
                 {error}
               </p>
             ) : skills == null ? (
-              <p className="text-[12px] text-content/45">Loading skills…</p>
+              <p className="text-[12px] text-content/45">
+                {t({ id: "skills.loading" })}
+              </p>
             ) : (
               <div className="overflow-hidden rounded-lg border border-content/10">
                 {filtered.length === 0 ? (
                   <p className="px-3 py-3 text-[12px] text-content/45">
                     {skills.length === 0
-                      ? "No skills yet. Add skill creates a starter SKILL.md."
-                      : "No matching skills"}
+                      ? t({ id: "skills.empty" })
+                      : t({ id: "skills.noMatches" })}
                   </p>
                 ) : (
                   filtered.map((skill) => {
@@ -322,7 +345,10 @@ export function SkillsPage({
                           <button
                             type="button"
                             className="mr-auto min-w-0 truncate rounded text-left font-sans text-[12px] text-content hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-                            title={`Preview ${skill.name}`}
+                            title={t(
+                              { id: "skills.preview" },
+                              { name: skill.name },
+                            )}
                             ref={registerPreviewButton(`name:${skill.path}`)}
                             aria-controls={previewOpen ? previewId : undefined}
                             aria-expanded={previewSkill?.path === skill.path}
@@ -332,10 +358,10 @@ export function SkillsPage({
                           </button>
                           <span className="shrink-0 rounded-full bg-content/10 px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide text-content/60">
                             {skill.scope === "user"
-                              ? "Personal"
+                              ? t({ id: "skills.scope.personal" })
                               : skill.scope === "builtin"
                                 ? "MonoCode"
-                                : "Project"}
+                                : t({ id: "skills.scope.project" })}
                           </span>
                           <span className="w-20 shrink-0 truncate text-right font-sans text-[11px] text-content/40">
                             {skill.source}
@@ -343,7 +369,10 @@ export function SkillsPage({
                           <button
                             type="button"
                             role="switch"
-                            aria-label={`Include ${skill.name} in MonoCode catalog`}
+                            aria-label={t(
+                              { id: "skills.include" },
+                              { name: skill.name },
+                            )}
                             aria-checked={!disabled}
                             onClick={() => onToggle(skill.path, disabled)}
                             className={`relative h-5 w-9 shrink-0 rounded-full transition-colors ${disabled ? "bg-content/20" : "bg-accent"}`}
@@ -370,8 +399,11 @@ export function SkillsPage({
                           </p>
                           <button
                             type="button"
-                            aria-label={`Preview skill ${skill.name}`}
-                            title="Preview skill"
+                            aria-label={t(
+                              { id: "skills.previewSkill" },
+                              { name: skill.name },
+                            )}
+                            title={t({ id: "skills.previewTitle" })}
                             ref={registerPreviewButton(`icon:${skill.path}`)}
                             aria-controls={previewOpen ? previewId : undefined}
                             aria-expanded={previewSkill?.path === skill.path}
@@ -386,8 +418,11 @@ export function SkillsPage({
                           </button>
                           <button
                             type="button"
-                            aria-label={`Copy path of ${skill.name}`}
-                            title="Copy path"
+                            aria-label={t(
+                              { id: "skills.copyPath" },
+                              { name: skill.name },
+                            )}
+                            title={t({ id: "skills.copyPathTitle" })}
                             onClick={() => onCopyPath(skill.path)}
                             className="grid size-5 shrink-0 place-items-center rounded text-content/40 hover:bg-content/10 hover:text-content"
                           >
@@ -395,8 +430,11 @@ export function SkillsPage({
                           </button>
                           <button
                             type="button"
-                            aria-label={`Reveal ${skill.name} in file explorer`}
-                            title="Reveal in file manager"
+                            aria-label={t(
+                              { id: "skills.reveal" },
+                              { name: skill.name },
+                            )}
+                            title={t({ id: "skills.revealTitle" })}
                             onClick={() => onReveal(skill.path)}
                             className="grid size-5 shrink-0 place-items-center rounded text-content/40 hover:bg-content/10 hover:text-content"
                           >
@@ -411,19 +449,24 @@ export function SkillsPage({
             )}
 
             <p className="pt-3 text-[12px] text-content/40">
-              Hidden skills stay on disk and are excluded from MonoCode's
-              file-skill catalog. Provider-managed skills and native commands
-              are unaffected. Skills live in{" "}
-              <span className="font-sans">.agents/skills</span> for this project
-              and <span className="font-sans">~/.agents/skills</span> for you
-              personally; harness folders are also picked up.
+              {t(
+                { id: "skills.footer" },
+                {
+                  projectPath: (
+                    <span className="font-sans">.agents/skills</span>
+                  ),
+                  personalPath: (
+                    <span className="font-sans">~/.agents/skills</span>
+                  ),
+                },
+              )}
             </p>
           </div>
         </div>
         {previewSkill ? (
           <aside
             id={previewId}
-            aria-label="Skill preview"
+            aria-label={t({ id: "skills.previewPanel" })}
             className="flex min-h-0 min-w-0 flex-1 flex-col border-t border-stroke @3xl/skills:max-w-[720px] @3xl/skills:border-t-0 @3xl/skills:border-l"
           >
             <header className="flex shrink-0 items-start gap-2 px-4 pt-4 pb-2">
@@ -433,8 +476,8 @@ export function SkillsPage({
               <button
                 ref={closePreview}
                 type="button"
-                aria-label="Close skill preview"
-                title="Close preview (Escape)"
+                aria-label={t({ id: "skills.closePreview" })}
+                title={t({ id: "skills.closePreviewTitle" })}
                 onClick={() => setPreviewSkill(null)}
                 className="grid size-6 shrink-0 place-items-center rounded-md text-content/45 hover:bg-content/10 hover:text-content focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
               >
@@ -468,7 +511,7 @@ export function SkillsPage({
                   role="status"
                   className="px-4 py-5 text-[12px] text-content/50"
                 >
-                  Loading skill…
+                  {t({ id: "skills.loadingOne" })}
                 </p>
               ) : previewMode === "preview" ? (
                 <SkillDocumentPreview text={previewText} />

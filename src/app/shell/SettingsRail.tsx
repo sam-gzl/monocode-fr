@@ -4,6 +4,7 @@ import {
   Bot,
   Inbox,
   FolderTree,
+  Ghost,
   Globe,
   Internet,
   Keyboard,
@@ -13,11 +14,34 @@ import {
   Sparkles,
   type IconComponent,
 } from "../../shared/ui/icons";
+import { useIntl } from "react-intl";
 import { useLockOverscroll } from "../../shared/hooks/useLockOverscroll";
 import {
   settingsSectionsByGroup,
+  type SettingsGroupId,
   type SettingsSectionId,
 } from "../../features/settings/model/settings";
+
+const GROUP_MESSAGE_IDS: Record<SettingsGroupId, string> = {
+  app: "settings.nav.group.app",
+  agents: "settings.nav.group.agents",
+  workspace: "settings.nav.group.workspace",
+};
+
+const SECTION_MESSAGE_IDS: Record<SettingsSectionId, string> = {
+  general: "settings.nav.general",
+  connections: "settings.nav.connections",
+  appearance: "settings.nav.appearance",
+  keybindings: "settings.nav.keybindings",
+  chat: "settings.nav.chat",
+  providers: "settings.nav.providers",
+  mcp: "settings.nav.mcp",
+  skills: "settings.nav.skills",
+  monos: "settings.nav.monos",
+  inbox: "settings.nav.inbox",
+  worktrees: "settings.nav.worktrees",
+  archive: "settings.nav.archive",
+};
 
 const SECTION_ICONS: Record<SettingsSectionId, IconComponent> = {
   general: SlidersHorizontal,
@@ -28,6 +52,7 @@ const SECTION_ICONS: Record<SettingsSectionId, IconComponent> = {
   providers: Bot,
   mcp: Globe,
   skills: Sparkles,
+  monos: Ghost,
   inbox: Inbox,
   worktrees: FolderTree,
   archive: Archive,
@@ -42,6 +67,7 @@ type Props = {
 /** Body of the project rail while settings are open. */
 export function SettingsNav({ section, onSelect, onClose }: Props) {
   const lockOverscroll = useLockOverscroll<HTMLDivElement>();
+  const { formatMessage: t } = useIntl();
 
   return (
     <>
@@ -53,12 +79,12 @@ export function SettingsNav({ section, onSelect, onClose }: Props) {
         {settingsSectionsByGroup().map((group) => (
           <div key={group.id} className="flex flex-col gap-px">
             <div className="px-2 pb-1 text-xs font-semibold text-content/35">
-              {group.label}
+              {t({ id: GROUP_MESSAGE_IDS[group.id] })}
             </div>
             {group.sections.map((item) => (
               <NavRow
                 key={item.id}
-                label={item.label}
+                label={t({ id: SECTION_MESSAGE_IDS[item.id] })}
                 icon={SECTION_ICONS[item.id]}
                 active={item.id === section}
                 onClick={() => onSelect(item.id)}
@@ -68,7 +94,11 @@ export function SettingsNav({ section, onSelect, onClose }: Props) {
         ))}
       </div>
       <div className="flex shrink-0 flex-col gap-px p-2">
-        <NavRow label="Back" icon={ArrowLeft} onClick={onClose} />
+        <NavRow
+          label={t({ id: "settings.nav.back" })}
+          icon={ArrowLeft}
+          onClick={onClose}
+        />
       </div>
     </>
   );

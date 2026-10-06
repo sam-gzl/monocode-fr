@@ -1,5 +1,6 @@
 import { invoke } from "@tauri-apps/api/core";
 import { useEffect, useRef, useState } from "react";
+import { useIntl } from "react-intl";
 import { Internet, Loader, Plus, Trash2 } from "../../../shared/ui/icons";
 import {
   connectMachine,
@@ -21,6 +22,7 @@ const button =
   "rounded-lg bg-selection px-3 py-2 text-[13px] font-medium hover:bg-selection-hover disabled:opacity-40";
 
 export function ConnectionsSettings() {
+  const { formatMessage: t } = useIntl();
   const { machines, loaded } = useRemoteMachines();
   const [adding, setAdding] = useState(false);
   const [name, setName] = useState("");
@@ -77,13 +79,19 @@ export function ConnectionsSettings() {
             setPort("");
             setNotice(
               updatingMachine
-                ? `${next.machine.name} was updated and reconnected.`
-                : `${next.machine.name} is connected. To work on it, click + next to Projects in the project rail and choose Open folder on a machine.`,
+                ? t(
+                    { id: "connections.machineUpdated" },
+                    { name: next.machine.name },
+                  )
+                : t(
+                    { id: "connections.machineConnected" },
+                    { name: next.machine.name },
+                  ),
             );
             setUpdatingMachine(undefined);
             setStatus((current) => ({
               ...current,
-              [next.machine!.id]: "Connected",
+              [next.machine!.id]: t({ id: "connections.connected" }),
             }));
             refreshRemoteMachines();
           }
@@ -106,7 +114,7 @@ export function ConnectionsSettings() {
       disposed = true;
       clearTimeout(timer);
     };
-  }, [jobId, updatingMachine]);
+  }, [jobId, updatingMachine, t]);
   useEffect(() => {
     setAnswer("");
     setAnswering(false);
@@ -123,7 +131,7 @@ export function ConnectionsSettings() {
       if (!busy)
         await Promise.all(
           machines.map(async (machine) => {
-            let label = "Connected";
+            let label = t({ id: "connections.connected" });
             try {
               const host = await remoteRequest<HostDescriptor>(
                 machine.id,
@@ -133,20 +141,19 @@ export function ConnectionsSettings() {
               if (host.environmentId !== machine.environmentId)
                 throw new Error("Host identity changed");
               if (!host.providers.length)
-                label = "Connected · install a supported provider on the host";
+                label = t({ id: "connections.connectedInstallProvider" });
               const update =
                 !host.capabilities?.includes("workspace.run") ||
                 !host.capabilities?.includes("git.worktreeCreate");
               if (update)
-                label =
-                  "Connected · host update needed for Explorer and Changes";
+                label = t({ id: "connections.connectedUpdateNeeded" });
               if (!disposed)
                 setNeedsUpdate((current) => ({
                   ...current,
                   [machine.id]: update,
                 }));
             } catch {
-              label = "Offline · reconnect to check access";
+              label = t({ id: "connections.offline" });
             }
             if (!disposed)
               setStatus((current) => ({ ...current, [machine.id]: label }));
@@ -159,7 +166,7 @@ export function ConnectionsSettings() {
       disposed = true;
       clearTimeout(timer);
     };
-  }, [machines, busy]);
+  }, [machines, busy, t]);
   const begin = async (machine?: RemoteMachine, upgrade = false) => {
     if (submitting.current) return;
     submitting.current = true;
@@ -219,7 +226,14 @@ export function ConnectionsSettings() {
           await remoteRequest(machine.id, "devices.revokeSelf");
         } catch (reason) {
           throw new Error(
-            `Could not revoke access, so ${machine.name} was not removed: ${String(reason)}. Reconnect and try again, or remove it from this desktop only and revoke it on the host with monocode-host devices and monocode-host revoke <device-id>.`,
+            t(
+              { id: "connections.revokeFailed" },
+              {
+                name: machine.name,
+                error: String(reason),
+                deviceId: "<device-id>",
+              },
+            ),
           );
         }
       }
@@ -227,8 +241,8 @@ export function ConnectionsSettings() {
       setRemoving(undefined);
       setNotice(
         revoke
-          ? `${machine.name} was removed and this desktop's access was revoked. The host and its sessions keep running.`
-          : `${machine.name} was removed from this desktop. The host and its sessions keep running, and it still accepts this desktop's credential.`,
+          ? t({ id: "connections.removedAndRevoked" }, { name: machine.name })
+          : t({ id: "connections.removedFromDesktop" }, { name: machine.name }),
       );
     } catch (reason) {
       setError(reason instanceof Error ? reason.message : String(reason));
@@ -241,11 +255,10 @@ export function ConnectionsSettings() {
       <div className="flex items-end justify-between gap-4">
         <div className="min-w-0">
           <h2 className="text-[13px] font-semibold text-content">
-            Your machines
+            {t({ id: "connections.title" })}
           </h2>
           <p className="mt-1 text-[12px] leading-relaxed text-content/45">
-            Run agents on another computer and return to them from your laptop.
-            The host keeps working when you close MonoCode here.
+            {t({ id: "connections.description" })}
           </p>
         </div>
         {!adding && (
@@ -258,7 +271,7 @@ export function ConnectionsSettings() {
               setNotice("");
             }}
           >
-            <Plus className="size-4" /> Add machine
+            <Plus className="size-4" /> {t({ id: "connections.addMachine" })}
           </button>
         )}
       </div>
@@ -278,12 +291,12 @@ export function ConnectionsSettings() {
                       : machine.endpoint}
                   </div>
                   <div className="mt-1 text-[12px] text-content/50">
-                    {status[machine.id] ?? "Checking connection…"}
+                    {status[machine.id] ??
+                      t({ id: "connections.checkingConnection" })}
                   </div>
                   {machine.ssh && needsUpdate[machine.id] ? (
                     <div className="mt-1 text-[11px] text-content/45">
-                      Updating restarts the host and interrupts active agent
-                      turns.
+                      {t({ id: "connections.updateWarning" })}
                     </div>
                   ) : null}
                 </div>
@@ -293,10 +306,10 @@ export function ConnectionsSettings() {
                       <button
                         className={button}
                         disabled={busy}
-                        title="Downloads the matching host package and restarts the host; active agent turns will be interrupted"
+                        title={t({ id: "connections.updateHost.title" })}
                         onClick={() => void begin(machine, true)}
                       >
-                        Update Host
+                        {t({ id: "connections.updateHost" })}
                       </button>
                     ) : null}
                     <button
@@ -304,15 +317,18 @@ export function ConnectionsSettings() {
                       disabled={busy}
                       onClick={() => void begin(machine)}
                     >
-                      Reconnect
+                      {t({ id: "connections.reconnect" })}
                     </button>
                   </div>
                 )}
                 <button
                   disabled={busy || revoking}
                   className="rounded p-2 text-content/40 hover:bg-selection hover:text-content disabled:opacity-40"
-                  aria-label={`Remove ${machine.name}`}
-                  title="Remove connection…"
+                  aria-label={t(
+                    { id: "connections.remove" },
+                    { name: machine.name },
+                  )}
+                  title={t({ id: "connections.remove.title" })}
                   onClick={() => {
                     setError("");
                     setRemoving(machine.id);
@@ -324,33 +340,37 @@ export function ConnectionsSettings() {
               {removing === machine.id && (
                 <div
                   role="group"
-                  aria-label={`Confirm removing ${machine.name}`}
+                  aria-label={t(
+                    { id: "connections.confirmRemove" },
+                    { name: machine.name },
+                  )}
                   className="flex flex-col gap-3 border-t border-stroke bg-content/3 px-4 py-4 text-[12px] leading-relaxed text-content/60"
                 >
                   <p className="text-[13px] font-medium text-content">
-                    Remove {machine.name} from this desktop?
+                    {t(
+                      { id: "connections.removeQuestion" },
+                      { name: machine.name },
+                    )}
                   </p>
+                  <p>{t({ id: "connections.removeExplain1" })}</p>
+                  <p>{t({ id: "connections.removeExplain2" })}</p>
                   <p>
-                    This closes this desktop’s connection to the machine. It
-                    does not stop the host, and its sessions keep running and
-                    stay on that machine. You can add it again later.
-                  </p>
-                  <p>
-                    Removing alone leaves this desktop’s credential valid on the
-                    host. Revoke access to invalidate it first; the machine must
-                    be reachable.
-                  </p>
-                  <p>
-                    To stop the host and turn off its background service, run{" "}
-                    <code className="rounded bg-content/10 px-1">
-                      ~/.monocode-host/bin/monocode-host service uninstall
-                    </code>{" "}
-                    on that machine (
-                    <code className="rounded bg-content/10 px-1">
-                      %USERPROFILE%\.monocode-host\bin\monocode-host.cmd service
-                      uninstall
-                    </code>{" "}
-                    on Windows). Its sessions and history are kept.
+                    {t(
+                      { id: "connections.removeExplain3" },
+                      {
+                        unixCmd: (
+                          <code className="rounded bg-content/10 px-1">
+                            ~/.monocode-host/bin/monocode-host service uninstall
+                          </code>
+                        ),
+                        windowsCmd: (
+                          <code className="rounded bg-content/10 px-1">
+                            %USERPROFILE%\.monocode-host\bin\monocode-host.cmd
+                            service uninstall
+                          </code>
+                        ),
+                      },
+                    )}
                   </p>
                   <div className="flex flex-wrap gap-2">
                     <button
@@ -358,21 +378,21 @@ export function ConnectionsSettings() {
                       disabled={revoking}
                       onClick={() => void remove(machine, true)}
                     >
-                      Revoke access and remove
+                      {t({ id: "connections.revokeAndRemove" })}
                     </button>
                     <button
                       className={button}
                       disabled={revoking}
                       onClick={() => void remove(machine, false)}
                     >
-                      Remove from this desktop only
+                      {t({ id: "connections.removeThisDesktopOnly" })}
                     </button>
                     <button
                       className="px-3 py-2 text-[13px] text-content/50"
                       disabled={revoking}
                       onClick={() => setRemoving(undefined)}
                     >
-                      Cancel
+                      {t({ id: "connections.cancel" })}
                     </button>
                   </div>
                 </div>
@@ -382,7 +402,7 @@ export function ConnectionsSettings() {
         </div>
       ) : loaded && !adding ? (
         <div className="rounded-xl border border-dashed border-content/15 px-5 py-8 text-center text-[13px] text-content/45">
-          Add your always-on Windows, Mac, or Linux machine to get started.
+          {t({ id: "connections.addFirst" })}
         </div>
       ) : null}
       {adding && (
@@ -394,13 +414,15 @@ export function ConnectionsSettings() {
           }}
         >
           <div className="flex items-center justify-between">
-            <h3 className="text-[14px] font-medium">Connect through SSH</h3>
+            <h3 className="text-[14px] font-medium">
+              {t({ id: "connections.connectViaSsh" })}
+            </h3>
             <span className="rounded bg-selection px-2 py-1 text-[11px] text-content/60">
               SSH
             </span>
           </div>
           <label className="flex flex-col gap-1.5 text-[12px] text-content/65">
-            SSH address
+            {t({ id: "connections.sshAddress.label" })}
             <input
               autoFocus
               required
@@ -408,19 +430,22 @@ export function ConnectionsSettings() {
               className={input}
               value={target}
               onChange={(event) => setTarget(event.target.value)}
-              placeholder="user@my-mac-mini or an SSH alias"
+              placeholder={t({ id: "connections.sshAddress.placeholder" })}
               autoComplete="off"
               spellCheck={false}
             />
           </label>
           <label className="flex flex-col gap-1.5 text-[12px] text-content/65">
-            Name <span className="sr-only">(optional)</span>
+            {t({ id: "connections.name.label" })}{" "}
+            <span className="sr-only">
+              {t({ id: "connections.name.optional" })}
+            </span>
             <input
               disabled={busy}
               className={input}
               value={name}
               onChange={(event) => setName(event.target.value)}
-              placeholder="Optional, e.g. Home Mac mini"
+              placeholder={t({ id: "connections.name.placeholder" })}
               autoComplete="off"
               autoCorrect="off"
               autoCapitalize="off"
@@ -428,9 +453,11 @@ export function ConnectionsSettings() {
             />
           </label>
           <details className="text-[12px] text-content/50">
-            <summary className="cursor-pointer">Advanced</summary>
+            <summary className="cursor-pointer">
+              {t({ id: "connections.advanced" })}
+            </summary>
             <label className="mt-3 flex max-w-40 flex-col gap-1.5">
-              SSH port
+              {t({ id: "connections.sshPort.label" })}
               <input
                 disabled={busy}
                 type="number"
@@ -439,26 +466,24 @@ export function ConnectionsSettings() {
                 className={input}
                 value={port}
                 onChange={(event) => setPort(event.target.value)}
-                placeholder="From SSH config"
+                placeholder={t({ id: "connections.sshPort.placeholder" })}
               />
             </label>
           </details>
           <p className="text-[12px] leading-relaxed text-content/45">
-            MonoCode installs and starts its background host, then connects
-            securely. Your SSH keys and config are used automatically. Enable
-            SSH on the host and sign in to Codex or Claude Code there. On
-            Windows and Mac, keep the host’s desktop account signed in and the
-            machine awake. Locking the desktop is fine.
+            {t({ id: "connections.setupExplain1" })}
           </p>
           <p className="text-[12px] leading-relaxed text-content/45">
-            On Linux, setup installs a systemd user service and turns on
-            lingering for your account (
-            <code className="rounded bg-content/10 px-1">
-              loginctl enable-linger
-            </code>
-            ), so the host and your other user services keep running after you
-            log out. The host keeps running until you stop it on that machine;
-            removing it here only disconnects this desktop.
+            {t(
+              { id: "connections.setupExplain2" },
+              {
+                lingerCmd: (
+                  <code className="rounded bg-content/10 px-1">
+                    loginctl enable-linger
+                  </code>
+                ),
+              },
+            )}
           </p>
           <div className="flex justify-end gap-2">
             <button
@@ -467,10 +492,12 @@ export function ConnectionsSettings() {
               className="px-3 py-2 text-[13px] text-content/50"
               onClick={() => setAdding(false)}
             >
-              Cancel
+              {t({ id: "connections.cancel" })}
             </button>
             <button className={button} disabled={busy || !target.trim()}>
-              {busy ? "Connecting…" : "Connect"}
+              {busy
+                ? t({ id: "connections.connecting" })
+                : t({ id: "connections.connect" })}
             </button>
           </div>
         </form>
@@ -483,7 +510,7 @@ export function ConnectionsSettings() {
         >
           <div className="flex items-center gap-2 text-[13px]">
             <Loader className="size-4 animate-spin" />
-            {job?.message ?? "Starting connection…"}
+            {job?.message ?? t({ id: "connections.startingConnection" })}
           </div>
           {job?.prompt && (
             <form
@@ -501,7 +528,7 @@ export function ConnectionsSettings() {
                   key={job.prompt.id}
                   autoFocus
                   type="password"
-                  aria-label="SSH password or passphrase"
+                  aria-label={t({ id: "connections.sshPasswordAria" })}
                   autoComplete="off"
                   disabled={answering}
                   className={input}
@@ -511,7 +538,9 @@ export function ConnectionsSettings() {
               )}
               <div className="flex gap-2">
                 <button className={button} disabled={answering}>
-                  {job.prompt.confirm ? "Trust host and continue" : "Continue"}
+                  {job.prompt.confirm
+                    ? t({ id: "connections.trustAndContinue" })
+                    : t({ id: "connections.continue" })}
                 </button>
                 {job.prompt.confirm && (
                   <button
@@ -520,7 +549,7 @@ export function ConnectionsSettings() {
                     disabled={answering}
                     onClick={() => void respond("no")}
                   >
-                    Reject
+                    {t({ id: "connections.reject" })}
                   </button>
                 )}
               </div>
@@ -536,7 +565,7 @@ export function ConnectionsSettings() {
                 );
             }}
           >
-            Cancel connection
+            {t({ id: "connections.cancelConnection" })}
           </button>
         </div>
       )}
@@ -555,7 +584,7 @@ export function ConnectionsSettings() {
       )}
       <details className="text-[12px] text-content/45">
         <summary className="cursor-pointer">
-          Connect to an existing host by URL
+          {t({ id: "connections.connectByUrl" })}
         </summary>
         <form
           className="mt-4 flex flex-col gap-3"
@@ -567,14 +596,19 @@ export function ConnectionsSettings() {
             void connectMachine("", url, token)
               .then((machine) => {
                 setToken("");
-                setNotice(`${machine.name} is connected.`);
+                setNotice(
+                  t(
+                    { id: "connections.machineConnectedByUrl" },
+                    { name: machine.name },
+                  ),
+                );
               })
               .catch((reason) => setError(String(reason)))
               .finally(() => setBusy(false));
           }}
         >
           <label>
-            Host URL
+            {t({ id: "connections.hostUrl.label" })}
             <input
               required
               disabled={busy}
@@ -584,7 +618,7 @@ export function ConnectionsSettings() {
             />
           </label>
           <label>
-            Device token
+            {t({ id: "connections.deviceToken.label" })}
             <input
               required
               disabled={busy}
@@ -596,7 +630,7 @@ export function ConnectionsSettings() {
             />
           </label>
           <button className={`${button} self-start`} disabled={busy}>
-            Connect by URL
+            {t({ id: "connections.connectByUrl.submit" })}
           </button>
         </form>
       </details>

@@ -1,6 +1,8 @@
 import { invoke } from "@tauri-apps/api/core";
-import { createElement } from "react";
-import { renderToStaticMarkup } from "react-dom/server";
+import { createElement, type ReactNode } from "react";
+import { IntlProvider } from "react-intl";
+import { renderToStaticMarkup as renderRaw } from "react-dom/server";
+import { en } from "../../../shared/i18n/messages/en";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import {
   clearInboxCache,
@@ -17,6 +19,12 @@ import {
 } from "./InboxView";
 
 vi.mock("@tauri-apps/api/core", () => ({ invoke: vi.fn() }));
+
+function renderToStaticMarkup(node: ReactNode) {
+  return renderRaw(
+    createElement(IntlProvider, { locale: "en", messages: en }, node),
+  );
+}
 
 function item(overrides: Partial<InboxItem> = {}): InboxItem {
   return {

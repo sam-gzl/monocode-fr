@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
+import { useIntl } from "react-intl";
 import { Loader } from "../../../shared/ui/icons";
 import { Modal } from "../../../shared/ui/Modal";
 
@@ -10,6 +11,7 @@ type Props = {
 };
 
 export function CreateBranchDialog({ busy, error, onCreate, onCancel }: Props) {
+  const { formatMessage: t } = useIntl();
   const [name, setName] = useState("");
   const input = useRef<HTMLInputElement>(null);
   const trimmed = name.trim();
@@ -31,8 +33,8 @@ export function CreateBranchDialog({ busy, error, onCreate, onCancel }: Props) {
 
   return (
     <Modal
-      title="New branch"
-      description="Create and check out a branch in this project."
+      title={t({ id: "sourceControl.newBranch" })}
+      description={t({ id: "sourceControl.newBranchHint" })}
       size="sm"
       onClose={() => {
         if (!busy) onCancel();
@@ -41,14 +43,14 @@ export function CreateBranchDialog({ busy, error, onCreate, onCancel }: Props) {
       <form className="flex flex-col gap-4 p-4" onSubmit={submit}>
         <label className="flex flex-col gap-1.5">
           <span className="text-[12px] font-medium text-content/70">
-            Branch name
+            {t({ id: "sourceControl.branchName" })}
           </span>
           <input
             ref={input}
             type="text"
             value={name}
             placeholder="feature/my-branch"
-            aria-label="Branch name"
+            aria-label={t({ id: "sourceControl.branchName" })}
             spellCheck={false}
             autoComplete="off"
             autoCorrect="off"
@@ -72,7 +74,7 @@ export function CreateBranchDialog({ busy, error, onCreate, onCancel }: Props) {
             onClick={onCancel}
             className="rounded-md px-3 py-1.5 text-[12px] text-content/70 hover:bg-content/8 hover:text-content disabled:opacity-40"
           >
-            Cancel
+            {t({ id: "sourceControl.cancel" })}
           </button>
           <button
             type="submit"
@@ -82,7 +84,7 @@ export function CreateBranchDialog({ busy, error, onCreate, onCancel }: Props) {
             {busy ? (
               <Loader className="size-3.5 animate-spin" strokeWidth={1.75} />
             ) : null}
-            Create branch
+            {t({ id: "sourceControl.createBranch" })}
           </button>
         </div>
       </form>

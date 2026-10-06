@@ -1,5 +1,7 @@
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
+import { IntlProvider } from "react-intl";
+import { en } from "../../../shared/i18n/messages/en";
 import { describe, expect, it } from "vitest";
 import { SkillDocumentPreview } from "./SkillDocumentPreview";
 
@@ -13,7 +15,11 @@ describe("skill document metadata", () => {
     "recognizes frontmatter delimiters without losing the body: %j",
     (text) => {
       const html = renderToStaticMarkup(
-        createElement(SkillDocumentPreview, { text }),
+        createElement(
+          IntlProvider,
+          { locale: "en", messages: en },
+          createElement(SkillDocumentPreview, { text }),
+        ),
       );
       expect(html).toContain("<details");
       expect(html).toMatch(/<h1[^>]*>Instructions<\/h1>/);

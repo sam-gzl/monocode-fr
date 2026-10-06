@@ -1,5 +1,7 @@
 // @vitest-environment happy-dom
 import { act, createElement } from "react";
+import { IntlProvider } from "react-intl";
+import { en } from "../../../shared/i18n/messages/en";
 import { createRoot } from "react-dom/client";
 import { describe, expect, it, vi } from "vitest";
 import { activityTimeline, InboxComments } from "./InboxComments";
@@ -59,32 +61,36 @@ describe("InboxComments timeline", () => {
     const root = createRoot(container);
     act(() =>
       root.render(
-        createElement(InboxComments, {
-          thread: {
-            truncated: false,
-            comments: [
-              comment(
-                "Can we handle concurrent retries?",
-                "2026-10-03T09:00:00Z",
-              ),
-              {
-                ...comment("", "2026-10-03T12:00:00Z"),
-                id: "approval",
-                kind: "review",
-                author: "priya",
-                state: "APPROVED",
-              },
-            ],
-            commits: [
-              commit("abc1234def", "maya", "2026-10-03T10:00:00Z"),
-              commit("def5678abc", "maya", "2026-10-03T10:05:00Z"),
-            ],
-          },
-          loading: false,
-          error: null,
-          cwd: "/repo",
-          provider: "github",
-        }),
+        createElement(
+          IntlProvider,
+          { locale: "en", messages: en },
+          createElement(InboxComments, {
+            thread: {
+              truncated: false,
+              comments: [
+                comment(
+                  "Can we handle concurrent retries?",
+                  "2026-10-03T09:00:00Z",
+                ),
+                {
+                  ...comment("", "2026-10-03T12:00:00Z"),
+                  id: "approval",
+                  kind: "review",
+                  author: "priya",
+                  state: "APPROVED",
+                },
+              ],
+              commits: [
+                commit("abc1234def", "maya", "2026-10-03T10:00:00Z"),
+                commit("def5678abc", "maya", "2026-10-03T10:05:00Z"),
+              ],
+            },
+            loading: false,
+            error: null,
+            cwd: "/repo",
+            provider: "github",
+          }),
+        ),
       ),
     );
     const text = container.textContent ?? "";

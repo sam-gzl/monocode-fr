@@ -1,5 +1,7 @@
 vi.mock("@tauri-apps/api/core", () => ({ invoke: vi.fn() }));
 import { act, createElement } from "react";
+import { IntlProvider } from "react-intl";
+import { en } from "../../../shared/i18n/messages/en";
 import { createRoot, type Root } from "react-dom/client";
 import { afterEach, expect, it, vi } from "vitest";
 import { InboxPrChecks } from "./InboxPrChecks";
@@ -10,6 +12,12 @@ import type { GithubPrChecksView } from "../hooks/useGithubPrChecks";
 
 // @vitest-environment happy-dom
 const roots: Root[] = [];
+
+function renderIntl(root: Root, element: React.ReactNode) {
+  root.render(
+    createElement(IntlProvider, { locale: "en", messages: en }, element),
+  );
+}
 
 it("only marks the selected job as repairing when check names repeat", async () => {
   vi.stubGlobal("IS_REACT_ACT_ENVIRONMENT", true);
@@ -38,7 +46,8 @@ it("only marks the selected job as repairing when check names repeat", async () 
     () => true,
   );
   await act(async () =>
-    root.render(
+    renderIntl(
+      root,
       createElement(InboxPrChecks, {
         cwd: "/duplicate-jobs",
         repo: "acme/web",
@@ -103,7 +112,8 @@ it("verifies a newer external CI result even when its dashboard URL stays the sa
     },
   );
   await act(async () =>
-    root.render(
+    renderIntl(
+      root,
       createElement(CheckRepairProgress, {
         cwd: "/external-ci",
         repo: "acme/web",
@@ -162,7 +172,8 @@ it("does not use one newer result to verify two different jobs with the same nam
     );
   }
   await act(async () =>
-    root.render(
+    renderIntl(
+      root,
       createElement(CheckRepairProgress, {
         cwd: "/ambiguous-jobs",
         repo: "acme/web",
@@ -252,7 +263,9 @@ it.each([1, 0.8])(
         refresh() {},
       },
     };
-    await act(async () => root.render(createElement(InboxPrChecks, props)));
+    await act(async () =>
+      renderIntl(root, createElement(InboxPrChecks, props)),
+    );
     expect(
       host
         .querySelector('[aria-label="Unit tests / Linux details"]')
@@ -275,7 +288,8 @@ it.each([1, 0.8])(
       ),
     );
     await act(async () =>
-      root.render(
+      renderIntl(
+        root,
         createElement(InboxPrChecks, {
           ...props,
           view: {
@@ -393,7 +407,7 @@ it("collapses a batch into one conversation card and keeps results in the check 
       refresh() {},
     },
   };
-  await act(async () => root.render(createElement(InboxPrChecks, props)));
+  await act(async () => renderIntl(root, createElement(InboxPrChecks, props)));
   const buttons = () =>
     [...host.querySelectorAll("button")].filter(
       (button) => button.textContent === "Open conversation",
@@ -419,7 +433,8 @@ it("collapses a batch into one conversation card and keeps results in the check 
     finish("completed");
   });
   await act(async () =>
-    root.render(
+    renderIntl(
+      root,
       createElement(InboxPrChecks, {
         ...props,
         view: {
@@ -468,7 +483,8 @@ it("shows live repair progress and opens the linked conversation", async () => {
   };
   const open = vi.fn();
   await act(async () =>
-    root.render(
+    renderIntl(
+      root,
       createElement(InboxPrChecks, {
         cwd: "/progress",
         repo: "acme/web",
@@ -560,7 +576,8 @@ it("reports fresh checks for a later PR commit without confirming old or stale r
     state: Partial<GithubPrChecksView> = {},
   ) => {
     await act(async () =>
-      root.render(
+      renderIntl(
+        root,
         createElement(CheckRepairProgress, {
           cwd: "/verification",
           repo: "acme/web",
@@ -626,7 +643,8 @@ it("starts a repair with all failed checks and the selected project chat", async
     completedAt: null,
   });
   await act(async () =>
-    root.render(
+    renderIntl(
+      root,
       createElement(InboxPrChecks, {
         cwd: "/web",
         repo: "acme/web",
@@ -730,7 +748,8 @@ it("does not start a repair after leaving checks while details load", async () =
   roots.push(root);
   const start = vi.fn();
   await act(async () =>
-    root.render(
+    renderIntl(
+      root,
       createElement(CheckRepairForm, {
         anchor: host,
         checks: [
@@ -780,7 +799,8 @@ it("prepares several CI jobs concurrently before starting a repair", async () =>
   roots.push(root);
   const start = vi.fn();
   await act(async () =>
-    root.render(
+    renderIntl(
+      root,
       createElement(CheckRepairForm, {
         anchor: host,
         checks: Array.from({ length: 4 }, (_, index) => ({
@@ -847,7 +867,9 @@ it.each(["results", "pr"])(
         refresh() {},
       },
     };
-    await act(async () => root.render(createElement(InboxPrChecks, props)));
+    await act(async () =>
+      renderIntl(root, createElement(InboxPrChecks, props)),
+    );
     await act(async () =>
       host
         .querySelector<HTMLButtonElement>(
@@ -861,7 +883,8 @@ it.each(["results", "pr"])(
       ),
     ).not.toBeNull();
     await act(async () =>
-      root.render(
+      renderIntl(
+        root,
         createElement(InboxPrChecks, {
           ...props,
           view: {
@@ -927,9 +950,15 @@ it.each(["refreshing", "failed"] as const)(
         refresh() {},
       },
     };
-    await act(async () => root.render(createElement(InboxPrChecks, props)));
     await act(async () =>
-      host.querySelector<HTMLButtonElement>('button[aria-label="Fix lint with AI"]')!.click(),
+      renderIntl(root, createElement(InboxPrChecks, props)),
+    );
+    await act(async () =>
+      host
+        .querySelector<HTMLButtonElement>(
+          'button[aria-label="Fix lint with AI"]',
+        )!
+        .click(),
     );
     await act(async () =>
       [...document.querySelectorAll("button")]
@@ -937,7 +966,8 @@ it.each(["refreshing", "failed"] as const)(
         .click(),
     );
     await act(async () =>
-      root.render(
+      renderIntl(
+        root,
         createElement(InboxPrChecks, {
           ...props,
           view: {
@@ -950,7 +980,9 @@ it.each(["refreshing", "failed"] as const)(
       ),
     );
     expect(
-      document.querySelector('[role="dialog"][aria-label="Fix checks with AI"]'),
+      document.querySelector(
+        '[role="dialog"][aria-label="Fix checks with AI"]',
+      ),
     ).not.toBeNull();
     await act(async () =>
       resolveDetails({ steps: [], annotations: [], notice: null }),
@@ -988,12 +1020,17 @@ it("keeps the selected failed job when another check changes", async () => {
       refresh() {},
     },
   };
-  await act(async () => root.render(createElement(InboxPrChecks, props)));
+  await act(async () => renderIntl(root, createElement(InboxPrChecks, props)));
   await act(async () =>
-    host.querySelector<HTMLButtonElement>('button[aria-label="Fix lint with AI"]')!.click(),
+    host
+      .querySelector<HTMLButtonElement>(
+        'button[aria-label="Fix lint with AI"]',
+      )!
+      .click(),
   );
   await act(async () =>
-    root.render(
+    renderIntl(
+      root,
       createElement(InboxPrChecks, {
         ...props,
         view: {

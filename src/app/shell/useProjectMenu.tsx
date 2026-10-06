@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useIntl, type IntlShape } from "react-intl";
 import {
   AppWindow,
   Archive,
@@ -77,13 +78,8 @@ import { useNotificationProjects } from "../../features/notifications/hooks/useN
 import { updateNotificationPreferences } from "../../features/notifications/model/notificationPreferences";
 import type { ExplorerMenuItem } from "../../features/files/ui/ExplorerMenu";
 
-const REVEAL_LABEL = IS_MAC
-  ? "Reveal in Finder"
-  : IS_WIN
-    ? "Reveal in File Explorer"
-    : "Open Containing Folder";
-
 function projectMenuExtraItems(
+  t: IntlShape["formatMessage"],
   pinned: boolean,
   canRemove: boolean,
   canConfigureNotifications: boolean,
@@ -93,7 +89,11 @@ function projectMenuExtraItems(
   currentProjectGroupId?: string,
 ): TabGroupMenuExtraItem[] {
   const groupSubmenu: ExplorerMenuItem[] = [
-    { kind: "item", id: "project-group:new", label: "New group…" },
+    {
+      kind: "item",
+      id: "project-group:new",
+      label: t({ id: "projectMenu.newGroup" }),
+    },
     ...(projectGroups.length > 0 ? [{ kind: "sep" } as const] : []),
     ...projectGroups.map((group) => ({
       kind: "item" as const,
@@ -105,29 +105,39 @@ function projectMenuExtraItems(
     {
       kind: "item",
       id: "project-group:none",
-      label: "Ungrouped",
+      label: t({ id: "projectMenu.ungrouped" }),
       checked: currentProjectGroupId == null,
     },
   ];
   const items: TabGroupMenuExtraItem[] = [
     {
       id: "background",
-      label: "Background image",
+      label: t({ id: "projectMenu.background" }),
       icon: ImagePlus,
     },
     {
       id: "project-group",
-      label: "Move to group",
+      label: t({ id: "projectMenu.moveToGroup" }),
       icon: FolderTree,
       submenu: groupSubmenu,
     },
     pinned
-      ? { id: "unpin", label: "Unpin project", icon: PinOff }
-      : { id: "pin", label: "Pin project", icon: Pin },
-    { id: "reveal", label: REVEAL_LABEL, icon: FolderOpen },
+      ? { id: "unpin", label: t({ id: "projectMenu.unpin" }), icon: PinOff }
+      : { id: "pin", label: t({ id: "projectMenu.pin" }), icon: Pin },
+    {
+      id: "reveal",
+      label: t({
+        id: IS_MAC
+          ? "projectMenu.revealFinder"
+          : IS_WIN
+            ? "projectMenu.revealExplorer"
+            : "projectMenu.revealFolder",
+      }),
+      icon: FolderOpen,
+    },
     {
       id: "external-editor",
-      label: "Open in editor",
+      label: t({ id: "projectMenu.openInEditor" }),
       icon: AppWindow,
       disabled: externalEditors === null,
       submenu:
@@ -136,7 +146,7 @@ function projectMenuExtraItems(
               {
                 kind: "item",
                 id: "external-editor:loading",
-                label: "Looking for editors…",
+                label: t({ id: "projectMenu.lookingForEditors" }),
                 disabled: true,
               },
             ]
@@ -150,31 +160,41 @@ function projectMenuExtraItems(
                 {
                   kind: "item",
                   id: "external-editor:none",
-                  label: "No supported editors found",
+                  label: t({ id: "projectMenu.noEditors" }),
                   disabled: true,
                 },
               ],
     },
     {
       id: "notifications-mute",
-      label: "Mute notifications",
+      label: t({ id: "projectMenu.muteNotifications" }),
       icon: BellOff,
       sepBefore: true,
       disabled: !notificationReady,
-      submenu: notificationMuteActions(),
+      submenu: notificationMuteActions(undefined, t),
     },
   ];
   if (canConfigureNotifications) {
     items.push({
       id: "notifications-settings",
-      label: "Notification settings…",
+      label: t({ id: "projectMenu.notificationSettings" }),
       icon: Settings,
     });
   }
   if (canRemove) {
     items.push(
-      { id: "archive", label: "Archive", icon: Archive, sepBefore: true },
-      { id: "delete", label: "Delete", icon: Trash2, danger: true },
+      {
+        id: "archive",
+        label: t({ id: "projectMenu.archive" }),
+        icon: Archive,
+        sepBefore: true,
+      },
+      {
+        id: "delete",
+        label: t({ id: "projectMenu.delete" }),
+        icon: Trash2,
+        danger: true,
+      },
     );
   }
   return items;
@@ -200,6 +220,7 @@ export function useProjectMenu({
   onOpenNotificationSettings,
   onOpen,
 }: Options) {
+  const { formatMessage: t, locale } = useIntl();
   const [projectMenu, setProjectMenu] = useState<
     (Point & { path: string; projectKey: string }) | null
   >(null);
@@ -241,6 +262,8 @@ export function useProjectMenu({
   const menuMuteStatus = readyNotificationProject
     ? notificationMuteStatus(
         notificationPreferences[readyNotificationProject.id],
+        t,
+        locale,
       )
     : null;
 
@@ -350,9 +373,7 @@ export function useProjectMenu({
           mutedUntil,
         });
       } catch {
-        setMenuError(
-          "Could not save notification preferences. Please try again.",
-        );
+        setMenuError(t({ id: "projectMenu.notificationSaveError" }));
         return false;
       }
     } else if (action.startsWith("external-editor:")) {
@@ -430,13 +451,14 @@ export function useProjectMenu({
           menuMuteStatus
             ? {
                 id: "notifications-resume",
-                label: "Resume notifications",
+                label: t({ id: "projectMenu.resumeNotifications" }),
                 description: menuMuteStatus,
                 icon: BellOff,
               }
             : undefined
         }
         extraItems={projectMenuExtraItems(
+          t,
           loadPinnedProjects().some((pinned) =>
             sameProjectPath(pinned, projectMenu.path),
           ),
@@ -511,12 +533,12 @@ export function useProjectMenu({
           restoreFocus();
         }}
         showActions={false}
-        ariaLabel="Project group actions"
+        ariaLabel={t({ id: "projectMenu.groupActions" })}
         extraItems={[
           {
             id: "delete-project-group",
-            label: "Delete group",
-            description: "Projects will become ungrouped",
+            label: t({ id: "projectMenu.deleteGroup" }),
+            description: t({ id: "projectMenu.deleteGroupDescription" }),
             icon: Trash2,
             danger: true,
           },
@@ -541,7 +563,7 @@ export function useProjectMenu({
           gap={0}
           width={280}
           role="dialog"
-          aria-label="Mute project notifications"
+          aria-label={t({ id: "projectMenu.muteProjectNotifications" })}
           onDismiss={closeNotificationMenu}
           className="space-y-1 overflow-y-auto p-3"
         >

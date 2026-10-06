@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { useIntl } from "react-intl";
 import {
   ChevronDown,
   ChevronRight,
@@ -69,11 +70,16 @@ export function InboxDescriptionSummary({
   body: string;
   cwd: string;
 }) {
+  const { formatMessage: t } = useIntl();
   const excerpt = useMemo(() => descriptionExcerpt(body), [body]);
   const [expanded, setExpanded] = useState(false);
 
   if (!body.trim()) {
-    return <p className="text-[13px] text-content/45">No description</p>;
+    return (
+      <p className="text-[13px] text-content/45">
+        {t({ id: "inbox.noDescription" })}
+      </p>
+    );
   }
   if (!excerpt.truncated) {
     return <AgentMarkdown text={body} cwd={cwd} allowRemoteMedia />;
@@ -90,7 +96,9 @@ export function InboxDescriptionSummary({
           {excerpt.text}
         </p>
       ) : (
-        <p className="text-[13px] text-content/45">Description is media only</p>
+        <p className="text-[13px] text-content/45">
+          {t({ id: "inbox.descriptionMediaOnly" })}
+        </p>
       )}
       <button
         type="button"
@@ -104,10 +112,12 @@ export function InboxDescriptionSummary({
           }`}
           strokeWidth={1.75}
         />
-        {expanded ? "Show less" : "Show full description"}
+        {expanded
+          ? t({ id: "inbox.showLess" })
+          : t({ id: "inbox.showFullDescription" })}
         {!expanded && excerpt.images > 0 ? (
           <span className="text-content/35">
-            · {excerpt.images} {excerpt.images === 1 ? "image" : "images"}
+            · {t({ id: "inbox.imageCount" }, { count: excerpt.images })}
           </span>
         ) : null}
       </button>
@@ -126,6 +136,7 @@ export function InboxPrChangesGlance({
   error: string | null;
   onOpenFile: (path?: string) => void;
 }) {
+  const { formatMessage: t } = useIntl();
   const files = diff?.files ?? [];
   const maxChurn = Math.max(
     1,
@@ -136,17 +147,17 @@ export function InboxPrChangesGlance({
   return (
     <section data-inbox-pr-glance className="flex flex-col gap-2">
       <div className="flex items-center gap-2 text-[12px] text-content/50">
-        <h2 className="text-content/70">Changed files</h2>
+        <h2 className="text-content/70">{t({ id: "inbox.changedFiles" })}</h2>
         {diff ? (
           <>
             <span className="tabular-nums">
-              {files.length} {files.length === 1 ? "file" : "files"}
+              {t({ id: "sourceControl.fileCount" }, { count: files.length })}
             </span>
             <span className="flex items-center gap-1.5 text-[11px] font-semibold tabular-nums">
-              <span className="text-emerald-400">
+              <span className="text-diff-add-fg">
                 +{formatInteger(diff.additions)}
               </span>
-              <span className="text-red-400">
+              <span className="text-diff-del-fg">
                 -{formatInteger(diff.deletions)}
               </span>
             </span>
@@ -165,8 +176,8 @@ export function InboxPrChangesGlance({
             className="ml-auto inline-flex items-center gap-0.5 hover:text-content"
           >
             {files.length > shown.length
-              ? `View all ${files.length}`
-              : "View diff"}
+              ? t({ id: "inbox.viewAllFiles" }, { count: files.length })
+              : t({ id: "inbox.viewDiff" })}
             <ChevronRight className="size-3.5" strokeWidth={1.75} />
           </button>
         ) : null}
@@ -174,7 +185,9 @@ export function InboxPrChangesGlance({
       {error && !diff ? (
         <p className="text-[12px] text-content/45">{error}</p>
       ) : diff && files.length === 0 ? (
-        <p className="text-[12px] text-content/45">No file changes</p>
+        <p className="text-[12px] text-content/45">
+          {t({ id: "sourceControl.noFileChanges" })}
+        </p>
       ) : shown.length > 0 ? (
         <ul className="flex flex-col overflow-hidden rounded-lg border border-stroke">
           {shown.map((file) => {
@@ -208,19 +221,19 @@ export function InboxPrChangesGlance({
                     style={{ width }}
                   >
                     <span
-                      className="shrink-0 bg-emerald-400/80"
+                      className="shrink-0 bg-diff-add/80"
                       style={{ width: added }}
                     />
-                    <span className="flex-1 bg-red-400/80" />
+                    <span className="flex-1 bg-diff-del/80" />
                   </span>
                   <span className="flex w-20 shrink-0 items-center justify-end gap-1.5 text-[11px] font-semibold tabular-nums">
                     {file.additions > 0 ? (
-                      <span className="text-emerald-400">
+                      <span className="text-diff-add-fg">
                         +{formatInteger(file.additions)}
                       </span>
                     ) : null}
                     {file.deletions > 0 ? (
-                      <span className="text-red-400">
+                      <span className="text-diff-del-fg">
                         -{formatInteger(file.deletions)}
                       </span>
                     ) : null}

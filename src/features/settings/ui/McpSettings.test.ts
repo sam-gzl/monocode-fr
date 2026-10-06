@@ -1,6 +1,8 @@
 // @vitest-environment happy-dom
 import { act, createElement, StrictMode } from "react";
-import { createRoot, type Root } from "react-dom/client";
+import { createRoot as reactCreateRoot, type Root } from "react-dom/client";
+import { IntlProvider } from "react-intl";
+import { en } from "../../../shared/i18n/messages/en";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { McpSettings } from "./McpSettings";
 import { clearMcpSettingsCache } from "../model/mcpSettingsCache";
@@ -16,6 +18,16 @@ vi.mock("@tauri-apps/plugin-dialog", () => ({
 
 let container: HTMLDivElement;
 let root: Root;
+
+function createRoot(container: HTMLDivElement): Root {
+  const root = reactCreateRoot(container);
+  const render = root.render.bind(root);
+  root.render = (children) =>
+    render(
+      createElement(IntlProvider, { locale: "en", messages: en }, children),
+    );
+  return root;
+}
 
 beforeEach(() => {
   clearMcpSettingsCache();

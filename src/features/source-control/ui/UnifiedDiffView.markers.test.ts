@@ -1,5 +1,7 @@
 // @vitest-environment happy-dom
 import { act, createElement } from "react";
+import { IntlProvider } from "react-intl";
+import { en } from "../../../shared/i18n/messages/en";
 import { createRoot, type Root } from "react-dom/client";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
 
@@ -30,18 +32,22 @@ it("marks added and removed lines with a glyph, not only color", async () => {
   const diff = buildUnifiedFile("alpha\nbeta\ngamma\n", "alpha\nBETA\ngamma\n");
   await act(async () =>
     root.render(
-      createElement(UnifiedDiffView, {
-        files: [
-          {
-            id: "a.ts",
-            path: "a.ts",
-            label: "a.ts",
-            additions: diff.additions,
-            deletions: diff.deletions,
-            blocks: diff.blocks,
-          },
-        ],
-      }),
+      createElement(
+        IntlProvider,
+        { locale: "en", messages: en },
+        createElement(UnifiedDiffView, {
+          files: [
+            {
+              id: "a.ts",
+              path: "a.ts",
+              label: "a.ts",
+              additions: diff.additions,
+              deletions: diff.deletions,
+              blocks: diff.blocks,
+            },
+          ],
+        }),
+      ),
     ),
   );
 

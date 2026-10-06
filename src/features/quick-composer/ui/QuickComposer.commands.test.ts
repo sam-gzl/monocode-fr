@@ -4,6 +4,8 @@ import { createRoot, type Root } from "react-dom/client";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { invoke } from "@tauri-apps/api/core";
 import { QuickComposer } from "./QuickComposer";
+import { IntlProvider } from "react-intl";
+import { en } from "../../../shared/i18n/messages/en";
 
 const native = vi.hoisted(() => ({
   shown: () => {},
@@ -87,7 +89,13 @@ beforeEach(async () => {
   document.body.append(container);
   root = createRoot(container);
   await act(async () =>
-    root.render(createElement(QuickComposer, { onShown: () => {} })),
+    root.render(
+      createElement(
+        IntlProvider,
+        { locale: "en", messages: en },
+        createElement(QuickComposer, { onShown: () => {} }),
+      ),
+    ),
   );
   prompt = container.querySelector("textarea")!;
 });

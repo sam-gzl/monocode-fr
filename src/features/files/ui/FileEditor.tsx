@@ -35,6 +35,7 @@ import {
 import { formatInteger } from "../../../shared/lib/numbers";
 import { minimalSetup } from "codemirror";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useIntl } from "react-intl";
 import {
   MarkdownViewShell,
   useMarkdownMode,
@@ -133,6 +134,7 @@ export function FileEditor({
   onErrorCountChange,
   onOpenFile,
 }: Props) {
+  const { formatMessage: t } = useIntl();
   const [loadState, setLoadState] = useState<LoadState>({ status: "loading" });
   const [saveState, setSaveState] = useState<SaveState>({ status: "idle" });
   const [reloadKey, setReloadKey] = useState(0);
@@ -418,7 +420,7 @@ export function FileEditor({
   if (loadState.status === "loading") {
     return (
       <div className="grid h-full place-items-center text-[12px] text-content/45">
-        Opening {basename(path)}…
+        {t({ id: "editor.opening" }, { name: basename(path) })}
       </div>
     );
   }
@@ -429,7 +431,7 @@ export function FileEditor({
         <div className="max-w-md text-center">
           <AlertCircle className="mx-auto mb-3 size-5 text-red-400" />
           <p className="text-[13px] text-content">
-            Couldn’t open {basename(path)}
+            {t({ id: "editor.openFailed" }, { name: basename(path) })}
           </p>
           <p className="mt-1 text-[12px] leading-5 text-content/50">
             {loadState.message}
@@ -440,7 +442,7 @@ export function FileEditor({
             className="mx-auto mt-4 flex h-7 items-center gap-1.5 rounded-md bg-content/10 px-2.5 text-[12px] text-content hover:bg-content/15"
           >
             <RotateCcw className="size-3" strokeWidth={1.75} />
-            Retry
+            {t({ id: "editor.retry" })}
           </button>
         </div>
       </div>
@@ -454,8 +456,12 @@ export function FileEditor({
           role="status"
           className="shrink-0 border-b border-stroke px-3 py-1 text-[12px] text-content/60"
         >
-          {gitDiff.kind === "staged" ? "Staged" : "Unstaged"} line-ending
-          changes. Line breaks are normalized in this view.
+          {t({
+            id:
+              gitDiff.kind === "staged"
+                ? "editor.stagedLineEndings"
+                : "editor.unstagedLineEndings",
+          })}
         </p>
       )}
       {markdown || svg ? (
@@ -470,7 +476,7 @@ export function FileEditor({
               >
                 <MarkdownDocumentPreview
                   text={draft}
-                  metadataLabel="Properties"
+                  metadataLabel={t({ id: "editor.properties" })}
                   cwd={cwd}
                   onOpenFile={onOpenFile}
                 />
@@ -528,15 +534,15 @@ export function FileEditor({
           {relativePath}
         </span>
         {saveState.status === "saving" ? (
-          <span>Saving…</span>
+          <span>{t({ id: "editor.saving" })}</span>
         ) : saveState.status === "saved" ? (
-          <span>Saved</span>
+          <span>{t({ id: "editor.saved" })}</span>
         ) : saveState.status === "error" ? (
           <span
             className="max-w-64 truncate text-red-400"
             title={saveState.message}
           >
-            Save failed: {saveState.message}
+            {t({ id: "editor.saveFailed" }, { error: saveState.message })}
           </span>
         ) : null}
       </footer>
@@ -761,11 +767,7 @@ export function CodeMirrorEditor({
       if (!loadAutosave()) return;
       autosaveTimer = window.setTimeout(() => {
         autosaveTimer = 0;
-        if (
-          dirtyRef.current &&
-          loadAutosave() &&
-          canAutosaveRef.current()
-        ) {
+        if (dirtyRef.current && loadAutosave() && canAutosaveRef.current()) {
           save(true);
         }
       }, FILE_EDITOR_AUTOSAVE_DELAY_MS);
@@ -777,8 +779,11 @@ export function CodeMirrorEditor({
       extensions: [
         minimalSetup,
         showDiff ? editorGitConfig.of(editorGit(gitOptions)) : [],
-        lineNumbers(),
-        foldGutter(),
+        // Diff tabs put the fold arrows first so each line number sits right
+        // beside its +/- glyph.
+        showDiff
+          ? [foldGutter(), lineNumbers()]
+          : [lineNumbers(), foldGutter()],
         highlightActiveLine(),
         highlightActiveLineGutter(),
         EditorView.lineWrapping,
@@ -1077,18 +1082,19 @@ function DiffChunkNav({
   onPrev: () => void;
   onNext: () => void;
 }) {
+  const { formatMessage: t } = useIntl();
   return (
     <header
       className="flex h-8 shrink-0 items-center justify-between gap-3 border-b border-stroke px-3 pr-1"
       role="toolbar"
-      aria-label="Jump between changes"
+      aria-label={t({ id: "editor.jumpChanges" })}
     >
       <DiffChunkStat additions={additions} deletions={deletions} />
       <div className="flex items-center gap-0.5">
         <button
           type="button"
-          title="Previous change"
-          aria-label="Previous change"
+          title={t({ id: "editor.previousChange" })}
+          aria-label={t({ id: "editor.previousChange" })}
           disabled={total === 0 || index <= 0}
           onMouseDown={(event) => event.preventDefault()}
           onClick={onPrev}
@@ -1101,8 +1107,8 @@ function DiffChunkNav({
         </span>
         <button
           type="button"
-          title="Next change"
-          aria-label="Next change"
+          title={t({ id: "editor.nextChange" })}
+          aria-label={t({ id: "editor.nextChange" })}
           disabled={total === 0 || index >= total - 1}
           onMouseDown={(event) => event.preventDefault()}
           onClick={onNext}

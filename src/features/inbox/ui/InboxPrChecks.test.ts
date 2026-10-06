@@ -1,5 +1,7 @@
 // @vitest-environment happy-dom
 import { act, createElement } from "react";
+import { IntlProvider } from "react-intl";
+import { en } from "../../../shared/i18n/messages/en";
 import { createRoot, type Root } from "react-dom/client";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { InboxPrChecks, PrChecksTab } from "./InboxPrChecks";
@@ -66,7 +68,11 @@ afterEach(() => {
 });
 
 const render = (element: React.ReactElement) => {
-  act(() => root.render(element));
+  act(() =>
+    root.render(
+      createElement(IntlProvider, { locale: "en", messages: en }, element),
+    ),
+  );
   return container;
 };
 
@@ -83,12 +89,16 @@ it("keeps expanded details on the same check when checks share a URL", async () 
   const show = async (checks: GithubPrCheck[]) => {
     await act(async () =>
       root.render(
-        createElement(InboxPrChecks, {
-          cwd: "/tmp/web",
-          repo: "acme/web",
-          onRefresh() {},
-          view: view({ checks: { headOid: "abc", checks } }),
-        }),
+        createElement(
+          IntlProvider,
+          { locale: "en", messages: en },
+          createElement(InboxPrChecks, {
+            cwd: "/tmp/web",
+            repo: "acme/web",
+            onRefresh() {},
+            view: view({ checks: { headOid: "abc", checks } }),
+          }),
+        ),
       ),
     );
   };

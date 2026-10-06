@@ -1,5 +1,7 @@
 // @vitest-environment happy-dom
 import { act, createElement } from "react";
+import { IntlProvider } from "react-intl";
+import { en } from "../../../shared/i18n/messages/en";
 import { createRoot, type Root } from "react-dom/client";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
@@ -87,6 +89,8 @@ let container: HTMLDivElement;
 let root: Root;
 
 beforeEach(() => {
+  // Keep delayed file invalidations from reaching the next test's mocks.
+  vi.useFakeTimers();
   vi.stubGlobal("IS_REACT_ACT_ENVIRONMENT", true);
   vi.stubGlobal(
     "ResizeObserver",
@@ -176,6 +180,8 @@ describe("GitChangesPanel commit message generation", () => {
 
 afterEach(() => {
   act(() => root.unmount());
+  vi.clearAllTimers();
+  vi.useRealTimers();
   container.remove();
   document.body
     .querySelectorAll("[data-popover-side]")
@@ -186,13 +192,17 @@ afterEach(() => {
 async function renderPanel(cwd = "/repo") {
   act(() =>
     root.render(
-      createElement(GitChangesPanel, {
-        cwd,
-        enabled: true,
-        onOpenFile: vi.fn(),
-        onOpenAllChanges: vi.fn(),
-        onOpenCommit: vi.fn(),
-      }),
+      createElement(
+        IntlProvider,
+        { locale: "en", messages: en },
+        createElement(GitChangesPanel, {
+          cwd,
+          enabled: true,
+          onOpenFile: vi.fn(),
+          onOpenAllChanges: vi.fn(),
+          onOpenCommit: vi.fn(),
+        }),
+      ),
     ),
   );
   await act(async () => {});
@@ -399,6 +409,10 @@ describe("GitChangesPanel folder actions", () => {
       '[aria-label="Stage Changes in src"]',
     )!;
     await act(async () => stage.click());
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(150);
+    });
 
     expect(alert).toHaveBeenCalledWith("Git index is locked");
     expect(stage.disabled).toBe(false);

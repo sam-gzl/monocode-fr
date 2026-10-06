@@ -1,6 +1,8 @@
 // @vitest-environment happy-dom
 import { act, createElement } from "react";
-import { createRoot, type Root } from "react-dom/client";
+import { createRoot as reactCreateRoot, type Root } from "react-dom/client";
+import { IntlProvider } from "react-intl";
+import { en } from "../../../shared/i18n/messages/en";
 import { renderToStaticMarkup } from "react-dom/server";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
 
@@ -62,6 +64,16 @@ import { WorktreesPage } from "./WorktreesPage";
 
 let container: HTMLDivElement;
 let root: Root;
+
+function createRoot(container: HTMLDivElement): Root {
+  const root = reactCreateRoot(container);
+  const render = root.render.bind(root);
+  root.render = (children) =>
+    render(
+      createElement(IntlProvider, { locale: "en", messages: en }, children),
+    );
+  return root;
+}
 const tree: Worktree = {
   path: "/repo-worktrees/feature",
   branch: "feature",
@@ -246,7 +258,11 @@ it("selects an existing worktree from the draft workspace menu", async () => {
 
 it("renders a started session's workspace as a non-interactive identity", () => {
   const markup = renderToStaticMarkup(
-    createElement(WorkspaceIdentity, { worktree: true }),
+    createElement(
+      IntlProvider,
+      { locale: "en", messages: en },
+      createElement(WorkspaceIdentity, { worktree: true }),
+    ),
   );
   expect(markup).toContain("Worktree");
   expect(markup).toContain('aria-label="Workspace Worktree"');
@@ -322,6 +338,27 @@ it("keeps the settings rows mounted through focus refreshes and failures", async
   expect(
     container.querySelector('[aria-label="Reveal updated"]'),
   ).not.toBeNull();
+});
+
+it("explains when the selected project is not a Git repository", async () => {
+  vi.mocked(listWorktrees).mockRejectedValue(
+    new Error(
+      "fatal: not a git repository (or any of the parent directories): .git",
+    ),
+  );
+  await act(async () =>
+    root.render(
+      createElement(WorktreesPage, {
+        cwd: "/plain-folder",
+        onRemove: vi.fn(),
+      }),
+    ),
+  );
+  expect(container.querySelector('[role="status"]')?.textContent).toContain(
+    "Select a Git project to create worktrees",
+  );
+  expect(container.textContent).not.toContain("fatal:");
+  expect(button("Create worktree").disabled).toBe(true);
 });
 
 it("reopens the picker with cached rows while revalidating", async () => {

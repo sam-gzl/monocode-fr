@@ -1,0 +1,1987 @@
+import type { MessageKey } from "./en";
+
+/** French UI strings. Keys must stay in sync with en.ts. */
+export const fr: Record<MessageKey, string> = {
+  "menuBar.file": "Fichier",
+  "menuBar.view": "Affichage",
+  "menuBar.terminal": "Terminal",
+
+  "menuBar.file.newTab": "Nouvel onglet",
+  "menuBar.file.newTerminal": "Nouveau terminal",
+  "menuBar.file.newWindow": "Nouvelle fenêtre",
+  "menuBar.file.autosave": "Enregistrement automatique",
+  "menuBar.file.openProject": "Ouvrir un projet…",
+  "menuBar.file.search": "Rechercher…",
+  "menuBar.file.goToFile": "Aller au fichier…",
+  "menuBar.file.findInFiles": "Rechercher dans les fichiers…",
+  "menuBar.file.closePane": "Fermer le panneau",
+  "menuBar.file.closeOtherTabs": "Fermer les autres onglets",
+  "menuBar.file.closeAllTabs": "Fermer tous les onglets",
+  "menuBar.file.checkForUpdates": "Vérifier les mises à jour…",
+
+  "menuBar.view.toggleSidebar": "Afficher/masquer la barre latérale",
+  "menuBar.view.toggleSessionSidebar": "Afficher/masquer les sessions",
+  "menuBar.view.inbox": "Inbox",
+  "menuBar.view.notes": "Notes",
+  "menuBar.view.toggleTerminal": "Afficher/masquer le terminal",
+  "menuBar.view.switchModel": "Changer de modèle…",
+  "menuBar.view.toggleChanges": "Afficher/masquer les modifications",
+  "menuBar.view.zoomIn": "Zoomer",
+  "menuBar.view.zoomOut": "Dézoomer",
+  "menuBar.view.resetZoom": "Réinitialiser le zoom",
+
+  "menuBar.terminal.newTerminal": "Nouveau terminal",
+  "menuBar.terminal.toggleTerminal": "Afficher/masquer le terminal",
+
+  "settings.language.label": "Langue",
+  "settings.language.english": "Anglais",
+  "settings.language.french": "Français",
+
+  "settings.nav.group.app": "Application",
+  "settings.nav.group.agents": "Agents",
+  "settings.nav.group.workspace": "Espace de travail",
+  "settings.nav.general": "Général",
+  "settings.nav.connections": "Connexions",
+  "settings.nav.appearance": "Apparence",
+  "settings.nav.keybindings": "Raccourcis clavier",
+  "settings.nav.chat": "Discussion",
+  "settings.nav.providers": "Providers",
+  "settings.nav.mcp": "MCP",
+  "settings.nav.skills": "Skills",
+  "settings.nav.monos": "Monos",
+  "settings.nav.inbox": "Inbox",
+  "settings.nav.archive": "Archives",
+  "settings.nav.worktrees": "Worktrees",
+  "settings.nav.back": "Retour",
+
+  "settings.page.general.description":
+    "La version que vous utilisez, comment MonoCode vous contacte, et les panneaux affichés.",
+  "settings.page.connections.description":
+    "Connectez vos machines et lancez des agents à distance via SSH.",
+  "settings.page.appearance.description":
+    "Thème, teinte, translucidité, mise en page de l'espace de travail et arrière-plans des conversations.",
+  "settings.page.keybindings.description":
+    "Tous les raccourcis gérés par l'espace de travail, depuis le menu de l'app et le gestionnaire de touches.",
+  "settings.page.chat.description":
+    "Comment les transcriptions s'affichent, ce que fait le compositeur avec un suivi, comment les fichiers s'enregistrent et comment les diffs s'ouvrent.",
+  "settings.page.providers.description":
+    "Comptes providers, CLI d'agents que MonoCode peut piloter, et modèle de départ des nouvelles sessions.",
+  "settings.page.mcp.description":
+    "Trouvez les serveurs MCP de tous les providers et gérez leurs connexions.",
+  "settings.page.skills.description":
+    "Découvrez et gérez les Skills des dossiers du projet, personnels et des harnesses.",
+  "settings.page.monos.description":
+    "L’agent résident à côté de vos onglets, et les projets qui en ont un.",
+  "settings.page.inbox.description":
+    "Gérez les services de la Inbox et les préférences de notification pour chaque projet.",
+  "settings.page.archive.description":
+    "Projets et conversations que vous avez archivés.",
+  "settings.page.worktrees.description":
+    "Gérez les worktrees supplémentaires pour chaque projet.",
+
+  "settings.restoreDefaults": "Réinitialiser",
+
+  "settings.general.language.title": "Langue",
+  "settings.general.language.description":
+    "Choisissez la langue utilisée dans toute l'application.",
+
+  "settings.general.alerts.title": "Alertes",
+  "settings.general.alerts.description":
+    "Comment MonoCode vous prévient lorsque vous regardez ailleurs.",
+  "settings.general.sounds.label": "Sons",
+  "settings.general.sounds.description":
+    "Signaux courts pour l'activité des projets, les tours terminés et les mises à jour disponibles. Choisissez les catégories de notification par projet dans les réglages de la Inbox. Les changements et la copie en fin de tour émettent aussi un son.",
+  "settings.general.notifications.label": "Notifications",
+  "settings.general.notifications.description":
+    "Notifie lorsqu'un rappel est dû, ou qu'un agent termine ou a besoin d'une saisie dans une autre session, ou encore lorsque MonoCode est en arrière-plan. Cliquez sur la notification pour ouvrir cette session.",
+  "settings.general.notifications.unsupported":
+    "Non disponible sur cette plateforme",
+
+  "settings.general.workspace.title": "Espace de travail",
+  "settings.general.workspace.description":
+    "Comment la navigation entre projets et les onglets de l'espace de travail se comportent.",
+  "settings.general.fileTabs.label": "Onglets de fichiers",
+  "settings.general.fileTabs.description":
+    "Ouvrez les fichiers à côté de la discussion active, ou donnez à chaque fichier un onglet classique dans la barre du haut. Les fichiers de la barre du haut peuvent quand même être combinés en vues scindées.",
+  "settings.general.fileTabs.besideChat": "À côté de la discussion",
+  "settings.general.fileTabs.topBar": "Barre du haut",
+  "settings.general.tabAnimations.label": "Animations des onglets",
+  "settings.general.tabAnimations.description":
+    "Anime les onglets à l'ouverture et à la fermeture. Désactivez pour des changements d'onglets instantanés.",
+  "settings.general.notes.label": "Notes",
+  "settings.general.notes.description":
+    "Un carnet markdown global sur la barre latérale des projets. Enregistrez un tour terminé depuis la transcription, puis mentionnez-le plus tard avec @note ou ajoutez-le à la discussion.",
+  "settings.general.quickComposer.label": "Quick Composer",
+  "settings.general.quickComposer.description":
+    "Appuyez sur {shortcut} dans n'importe quelle app pour faire flotter un prompt au-dessus et démarrer une session sans basculer vers MonoCode. Changez le raccourci dans Raccourcis clavier. Entrée la démarre en arrière-plan ; ⌘Entrée la démarre et ramène la session au premier plan.",
+  "settings.general.workingAgents.label": "Agents en cours",
+  "settings.general.workingAgents.description":
+    "Quand deux discussions ou plus sont en cours, une carte sur la barre latérale des projets les liste pour naviguer entre les projets. Les tours terminés restent jusqu'à ce que vous ouvriez cette session.",
+  "settings.general.closeToTray.label": "Fermer dans la barre système",
+  "settings.general.closeToTray.description":
+    "Fermer une fenêtre la cache dans la barre système au lieu de quitter, pour que les agents en cours continuent de tourner. Rouvrez depuis l'icône de la barre système, et quittez réellement depuis son menu. Désactivez pour que fermer termine la fenêtre.",
+
+  "settings.general.about.title": "À propos",
+
+  "rail.search": "Rechercher",
+  "rail.inbox": "Inbox",
+  "rail.inboxNewItems": "Inbox, nouveaux éléments",
+  "rail.notes": "Notes",
+  "rail.automations": "Automatisations",
+  "rail.settings": "Réglages",
+  "rail.projects": "Projets",
+  "rail.noProjectsYet": "Pas encore de projet",
+
+  "workspace.tab.sessions": "Sessions",
+  "workspace.tab.explorer": "Explorateur",
+  "workspace.tab.changes": "Modifications",
+  "workspace.tab.stagedChanges": "Staged changes",
+  "workspace.searchConversations": "Rechercher dans les conversations...",
+
+  "workspace.currentCheckout": "Checkout actuel",
+  "workspace.newWorktree": "Nouveau worktree",
+
+  "branchPicker.noRepo": "Pas de dépôt",
+  "branchPicker.noGitRepository": "Pas de dépôt git",
+  "branchPicker.loadingBranch": "Chargement de la branch…",
+
+  "composer.placeholder":
+    "Demandez, construisez, / pour les commandes, @ pour les références... ",
+  "composer.placeholder.worktreeRemoved":
+    "Sélectionnez une branch ou un worktree pour continuer…",
+  "composer.placeholder.inboxCard":
+    "Ajoutez une note, ou envoyez pour commencer…",
+  "composer.placeholder.noteCard": "Ajoutez un message, ou envoyez…",
+  "composer.placeholder.handoffCard":
+    "Ajoutez du contexte, ou envoyez pour continuer…",
+
+  "appearance.theme.title": "Thème",
+  "appearance.theme.description":
+    "Les thèmes sombre et clair partagent la même teinte, donc les réglages de couleur ci-dessous s'appliquent aux deux.",
+  "appearance.theme.label": "Thème",
+  "appearance.theme.description.row":
+    "Système suit l'apparence du système d'exploitation.",
+  "appearance.theme.system": "Système",
+  "appearance.theme.dark": "Sombre",
+  "appearance.theme.light": "Clair",
+  "appearance.accentColor.label": "Couleur d'accent",
+  "appearance.accentColor.description":
+    "Utilisée pour le bouton d'envoi du compositeur et vos bulles de message.",
+  "appearance.diffColors.label": "Couleurs des diffs",
+  "appearance.diffColors.description":
+    "Couleurs pour les lignes ajoutées et supprimées. Daltonien et Contraste élevé utilisent du bleu et de l'orange au lieu du vert et du rouge ; Contraste élevé ajoute des teintes et du texte plus marqués.",
+  "appearance.diffColors.default": "Par défaut",
+  "appearance.diffColors.colorblind": "Daltonien",
+  "appearance.diffColors.highContrast": "Contraste élevé",
+
+  "appearance.color.title": "Couleur",
+  "appearance.color.description":
+    "La teinte et la saturation colorent chaque surface. La luminosité n'affecte que le thème sombre.",
+  "appearance.hue.label": "Teinte",
+  "appearance.hue.description":
+    "Teinte de base pour les accents et les surfaces colorées.",
+  "appearance.saturation.label": "Saturation",
+  "appearance.saturation.description":
+    "À quel point la teinte colore l'interface. Zéro la garde neutre.",
+  "appearance.darkLightness.label": "Luminosité du mode sombre",
+  "appearance.darkLightness.description.glassDisabled":
+    "Ceci n'affecte que le mode sombre. Votre valeur du mode sombre est préservée.",
+  "appearance.darkLightness.description":
+    "Luminosité de base du thème sombre. Des valeurs plus basses sont plus sombres ; zéro est noir pur.",
+
+  "appearance.translucency.title": "Translucidité",
+  "appearance.translucency.description.glassDisabled":
+    "Le mode clair utilise toujours une fenêtre opaque, donc ces réglages sont désactivés. Vos valeurs du mode sombre sont préservées.",
+  "appearance.translucency.description":
+    "Quelle part du bureau transparaît à travers MonoCode. Le flou coûte plus cher à afficher plus il est élevé.",
+  "appearance.sidebarOpacity.label": "Opacité de la barre latérale",
+  "appearance.sidebarOpacity.description":
+    "S'applique à la barre des projets et aux autres surfaces vitrées.",
+  "appearance.blur.label": "Rayon de flou",
+  "appearance.blur.description": "Flou d'arrière-plan derrière la fenêtre.",
+  "appearance.mainPaneGlass.label": "Verre du panneau principal",
+  "appearance.mainPaneGlass.description":
+    "Étend l'effet translucide au panneau principal derrière les sessions et les éditeurs.",
+
+  "appearance.layout.title": "Mise en page",
+  "appearance.collapsedProjectRail.label": "Barre de projets repliée",
+  "appearance.collapsedProjectRail.description":
+    "Garder la navigation des projets disponible sous forme de barre d'icônes compacte, ou masquer complètement la barre.",
+  "appearance.collapsedProjectRail.iconRail": "Barre d'icônes",
+  "appearance.collapsedProjectRail.hidden": "Masquée",
+  "appearance.interfaceScale.label": "Échelle de l'interface",
+  "appearance.interfaceScale.description":
+    "Zoome toute l'interface. Vous pouvez aussi utiliser Ctrl+=, Ctrl+- et Ctrl+0 (Cmd sur macOS).",
+  "appearance.showExcludedFiles.label": "Afficher les fichiers exclus",
+  "appearance.showExcludedFiles.description":
+    "Afficher les fichiers et dossiers exclus par Git, comme les fichiers de build et les dépendances, dans l'explorateur.",
+
+  "keybindings.title": "Raccourcis",
+  "keybindings.description":
+    "Cliquez sur un raccourci pour enregistrer de nouvelles touches. Appuyez sur Suppr pendant l'enregistrement pour le désactiver.",
+  "keybindings.bindingCount.one": "raccourci",
+  "keybindings.bindingCount.other": "raccourcis",
+  "keybindings.filter.placeholder": "Filtrer",
+  "keybindings.filter.ariaLabel": "Filtrer les raccourcis",
+  "keybindings.column.command": "Commande",
+  "keybindings.column.keybinding": "Raccourci",
+  "keybindings.column.when": "Quand",
+  "keybindings.noMatches": "Aucun raccourci correspondant",
+
+  "chat.transcript.title": "Transcription",
+  "chat.transcript.description":
+    "Comment une conversation se lit en grandissant.",
+  "chat.transcriptLayout.label": "Mise en page de la transcription",
+  "chat.transcriptLayout.description":
+    "Pleine largeur garde les prompts utilisateur comme une carte étendue. Discussion les aligne à droite avec une largeur maximale, comme une app de messagerie.",
+  "chat.transcriptLayout.full": "Pleine largeur",
+  "chat.transcriptLayout.chat": "Discussion",
+  "chat.anchorPrompts.label": "Ancrer les prompts en haut",
+  "chat.anchorPrompts.description":
+    "Quand vous envoyez, le nouveau prompt se place en haut de la transcription et la réponse grandit dans l'espace en dessous. Désactivez pour garder la mise en page classique, avec le dernier message posé sur le compositeur.",
+
+  "chat.composer.title": "Compositeur",
+  "chat.composer.description":
+    "Ce que fait le compositeur avec ce que vous tapez.",
+  "chat.followUp.label": "Comportement du suivi",
+  "chat.followUp.description":
+    "Mettez les suivis en file jusqu'à la fin du tour actif, ou orientez le tour actif immédiatement.",
+  "chat.followUp.queue": "File",
+  "chat.followUp.steer": "Orienter",
+  "chat.modelControls.label": "Contrôles du modèle",
+  "chat.modelControls.description":
+    "Affiche les options du modèle à côté du sélecteur plutôt que dans le menu du modèle.",
+  "chat.modelControls.menu": "Menu",
+  "chat.modelControls.beside": "À côté",
+
+  "chat.editor.title": "Éditeur",
+  "chat.editor.description":
+    "Ce qui se passe quand vous enregistrez un fichier dans l'éditeur de l'espace de travail.",
+  "chat.formatOnSave.label": "Formater à l'enregistrement",
+  "chat.formatOnSave.description":
+    "Exécute Prettier sur les fichiers pris en charge avant d'écrire. Désactivé garde le texte que vous avez tapé, y compris le style de guillemets.",
+
+  "chat.codeReview.title": "Revue de code",
+  "chat.codeReview.description":
+    "Où s'ouvrent les modifications d'un tour quand vous allez les lire.",
+  "chat.diffView.label": "Vue des diffs",
+  "chat.diffView.description":
+    "Éditeur garde les modifications de l'arbre de travail dans le fichier. Unifié empile chaque fichier modifié dans une seule revue, avec des en-têtes collants et les lignes inchangées repliées.",
+  "chat.diffView.editor": "Éditeur",
+  "chat.diffView.unified": "Unifié",
+
+  "chat.extras.title": "Extras",
+  "chat.extras.description":
+    "Animation au repos, et rien d'autre. Désactivez les deux pour un espace de travail immobile.",
+  "chat.composerMascot.label": "Mascotte du compositeur",
+  "chat.composerMascot.description":
+    "Quand un tour est en cours, la mascotte du projet court le long du compositeur, cogne le bouton de défilement vers le dernier message la première fois, puis le saute, et récupère parfois une pièce.",
+  "chat.emptySessionGames.label": "Jeux de session vide",
+  "chat.emptySessionGames.description":
+    "Pac-man et snake tournent au repos sur la grille de session vide. Survolez la bande pour prendre le contrôle de celui affiché. Désactivez pour garder le panneau immobile.",
+
+  "inbox.github.description":
+    "Pull requests, revues et issues, lues via le CLI GitHub.",
+  "inbox.gitlab.description":
+    "Merge requests depuis GitLab.com ou une instance auto-hébergée.",
+  "inbox.ado.description":
+    "Pull requests et éléments de travail Boards de votre organisation ADO.",
+  "inbox.jira.description":
+    "Issues Jira Cloud des projets que vous choisissez.",
+  "inbox.linear.description":
+    "Issues qui vous sont assignées, des équipes que vous choisissez.",
+
+  "archive.projects.title": "Projets archivés",
+  "archive.projects.description":
+    "Archivez un projet depuis la barre pour garder ses discussions sans le lister dans la barre latérale.",
+  "archive.projects.empty": "Aucun projet archivé.",
+  "archive.restore": "Restaurer",
+  "archive.delete": "Supprimer",
+  "archive.conversations.titleIn": "Archivées dans {project}",
+  "archive.conversations.title": "Conversations archivées",
+  "archive.showArchived.label": "Afficher les archives dans la barre latérale",
+  "archive.showArchived.description":
+    "Garder les conversations archivées listées avec les conversations actives.",
+  "archive.conversations.openProject":
+    "Ouvrez un projet pour voir ses conversations archivées.",
+  "archive.conversations.empty": "Aucune conversation archivée dans ce projet.",
+  "archive.unarchive": "Désarchiver",
+
+  "providers.scope.global": "Global",
+  "providers.agentClis.title": "CLI des agents",
+  "providers.scope.label": "Portée des réglages par défaut",
+  "providers.agentClis.description.project":
+    "Ces réglages par défaut s'appliquent uniquement à {project}. Un provider avec Afficher dans le sélecteur désactivé est aussi exclu des nouvelles conversations démarrées dans ce projet. Les chemins des CLI restent globaux pour MonoCode.",
+  "providers.agentClis.description.global":
+    "Un provider est listé comme installé dès que son CLI est trouvé dans votre PATH. Les CLI non installés restent listés mais sont exclus du sélecteur de modèle, comme les CLI installés avec Afficher dans le sélecteur désactivé. Le modèle à côté d'un provider est celui avec lequel ses nouvelles conversations démarrent ; Utiliser par défaut choisit le provider lui-même. Les chemins des CLI sont globaux pour MonoCode et s'appliquent à tous les projets.",
+  "providers.advanced.title": "Avancé",
+  "providers.claudeHooks.label": "Hooks Claude Code",
+  "providers.claudeHooks.description":
+    "Exécute les hooks configurés dans vos fichiers settings.json — réécritures de commandes PreToolUse, blocages, notifications, etc. — comme le ferait le CLI Claude Code. Désactivez si un hook se comporte mal et que vous devez récupérer la session. Prend effet au prochain tour.",
+
+  "mcp.addServer.title": "Ajouter un serveur MCP",
+  "mcp.addServer.description":
+    "Collez une configuration de serveur et choisissez où l'ajouter.",
+  "mcp.provider.label": "Provider",
+  "mcp.scope.label": "Portée",
+  "mcp.name.label": "Nom",
+  "mcp.name.optional": "(optionnel pour un bloc mcpServers)",
+  "mcp.config.label": "Configuration JSON",
+  "mcp.config.hint":
+    "Collez une entrée d'un bloc mcpServers, ou un objet serveur unique avec un nom ci-dessus.",
+  "mcp.cancel": "Annuler",
+  "mcp.addServer.submit": "Ajouter le serveur",
+  "mcp.addServer.adding": "Ajout en cours…",
+  "mcp.scope.local": "Local",
+  "mcp.scope.project": "Projet",
+  "mcp.scope.user": "Utilisateur",
+
+  "mcp.connections.title": "Connexions MCP",
+  "mcp.connections.description":
+    "Serveurs configurés pour le projet sélectionné et vos comptes providers.",
+  "mcp.refresh": "Actualiser",
+  "mcp.showAvailableProviders": "Afficher les providers disponibles",
+  "mcp.showAllProviders": "Afficher tous les providers",
+  "mcp.showingAllProviders": "Affiche tous les providers",
+  "mcp.showingAvailableProviders": "Affiche les providers disponibles",
+  "mcp.addServerAria": "Ajouter un serveur MCP",
+  "mcp.filterByProvider": "Filtrer les serveurs MCP par provider",
+  "mcp.all": "Tous",
+  "mcp.claudeStatusUnavailable":
+    "Statut de connexion Claude indisponible : {error}",
+  "mcp.checkingServers": "Vérification des serveurs…",
+  "mcp.noServersConfigured": "Aucun serveur MCP configuré pour ce provider.",
+  "mcp.signIn": "Se connecter",
+  "mcp.remove": "Supprimer",
+  "mcp.showConfig": "Afficher la config",
+  "mcp.footer":
+    "Le statut de Claude Code provient de son CLI. Les autres providers affichent les entrées configurées. Se connecter ouvre votre navigateur quand c'est possible.",
+  "mcp.removeConfirm": "Supprimer {name} de la portée {scope} ?",
+  "mcp.removeServer.title": "Supprimer le serveur MCP",
+
+  "worktrees.create": "Créer un worktree",
+  "worktrees.hint":
+    "Les sessions peuvent partager un worktree. En supprimer un garde ses sessions par défaut et abandonne les modifications non commitées. La branch et les commits associés sont conservés.",
+  "worktrees.refresh": "Actualiser",
+  "worktrees.refresh.title": "Actualiser les worktrees",
+  "worktrees.refreshFailed":
+    "Échec de l'actualisation : {error}. Cliquez pour réessayer.",
+  "worktrees.addProject": "Ajoutez un projet pour gérer ses worktrees.",
+  "worktrees.loading": "Chargement des worktrees…",
+  "worktrees.none.title": "Aucun worktree supplémentaire",
+  "worktrees.none.description":
+    "Créez un worktree pour travailler sur une autre branch dans un dossier séparé.",
+  "worktrees.selectedProjectFolder": "Dossier du projet sélectionné",
+  "worktrees.currentBranch": "Branch actuelle : {branch}",
+  "worktrees.detachedAt": "Détaché à {sha}",
+  "worktrees.sessionCount":
+    "{count, plural, one {# session} other {# sessions}} dans ce worktree",
+  "worktrees.missingFolder": "Dossier manquant",
+  "worktrees.statusUnavailable": "Statut indisponible",
+  "worktrees.uncommittedChanges": "Modifications non commitées",
+  "worktrees.clean": "Propre",
+  "worktrees.unpublishedCommits":
+    "{count, plural, one {# commit non publié} other {# commits non publiés}}",
+  "worktrees.locked": "Verrouillé",
+  "worktrees.reveal": "Révéler {branch}",
+  "worktrees.reveal.title": "Révéler le dossier",
+  "worktrees.unlockFirst": "Déverrouillez d'abord ce worktree dans Git",
+  "worktrees.createBranchFirst":
+    "Créez une branch avant de supprimer ce worktree détaché",
+  "worktrees.delete": "Supprimer {branch}",
+  "worktrees.delete.title": "Supprimer le worktree",
+  "worktrees.newRoot": "Les nouveaux worktrees sont créés dans {root}.",
+  "worktrees.sessionsStillUse":
+    "Des sessions utilisent encore ce worktree et n'ont pas pu être supprimées.",
+  "worktrees.someSessionsFailed":
+    "Certaines sessions n'ont pas pu être supprimées, le worktree a donc été conservé.",
+  "worktrees.sessionsDeletedButKept":
+    "Les sessions ont été supprimées, mais le worktree a été conservé. {error}",
+  "worktrees.worktreeFallback": "worktree",
+  "connections.title": "Vos machines",
+  "connections.description":
+    "Exécutez des agents sur un autre ordinateur et retrouvez-les depuis votre portable. L'hôte continue de fonctionner quand vous fermez MonoCode ici.",
+  "connections.addMachine": "Ajouter une machine",
+  "connections.checkingConnection": "Vérification de la connexion…",
+  "connections.connected": "Connecté",
+  "connections.connectedInstallProvider":
+    "Connecté · installez un provider pris en charge sur l'hôte",
+  "connections.connectedUpdateNeeded":
+    "Connecté · mise à jour de l'hôte requise pour Explorateur et Modifications",
+  "connections.offline": "Hors ligne · reconnectez-vous pour vérifier l'accès",
+  "connections.updateWarning":
+    "La mise à jour redémarre l'hôte et interrompt les tours d'agent en cours.",
+  "connections.updateHost": "Mettre à jour l'hôte",
+  "connections.updateHost.title":
+    "Télécharge le package hôte correspondant et redémarre l'hôte ; les tours d'agent en cours seront interrompus",
+  "connections.reconnect": "Reconnecter",
+  "connections.remove": "Supprimer {name}",
+  "connections.remove.title": "Supprimer la connexion…",
+  "connections.confirmRemove": "Confirmer la suppression de {name}",
+  "connections.removeQuestion": "Supprimer {name} de cet ordinateur ?",
+  "connections.removeExplain1":
+    "Ceci ferme la connexion de cet ordinateur à la machine. Ça n'arrête pas l'hôte, et ses sessions continuent de tourner sur cette machine. Vous pouvez la rajouter plus tard.",
+  "connections.removeExplain2":
+    "Supprimer seul laisse l'identifiant de cet ordinateur valide sur l'hôte. Révoquez l'accès pour l'invalider d'abord ; la machine doit être accessible.",
+  "connections.removeExplain3":
+    "Pour arrêter l'hôte et désactiver son service en arrière-plan, exécutez {unixCmd} sur cette machine ({windowsCmd} sous Windows). Ses sessions et son historique sont conservés.",
+  "connections.revokeAndRemove": "Révoquer l'accès et supprimer",
+  "connections.removeThisDesktopOnly": "Supprimer de cet ordinateur seulement",
+  "connections.cancel": "Annuler",
+  "connections.addFirst":
+    "Ajoutez votre machine Windows, Mac ou Linux toujours allumée pour commencer.",
+  "connections.connectViaSsh": "Se connecter via SSH",
+  "connections.sshAddress.label": "Adresse SSH",
+  "connections.sshAddress.placeholder": "user@my-mac-mini ou un alias SSH",
+  "connections.name.label": "Nom",
+  "connections.name.optional": "(optionnel)",
+  "connections.name.placeholder": "Optionnel, ex. Mac mini maison",
+  "connections.advanced": "Avancé",
+  "connections.sshPort.label": "Port SSH",
+  "connections.sshPort.placeholder": "Depuis la config SSH",
+  "connections.setupExplain1":
+    "MonoCode installe et démarre son hôte en arrière-plan, puis se connecte de façon sécurisée. Vos clés et config SSH sont utilisées automatiquement. Activez SSH sur l'hôte et connectez-vous à Codex ou Claude Code là-bas. Sur Windows et Mac, gardez le compte de bureau de l'hôte connecté et la machine éveillée. Verrouiller le bureau ne pose pas de problème.",
+  "connections.setupExplain2":
+    "Sur Linux, la configuration installe un service utilisateur systemd et active le lingering pour votre compte ({lingerCmd}), pour que l'hôte et vos autres services utilisateur continuent de tourner après déconnexion. L'hôte continue de tourner jusqu'à ce que vous l'arrêtiez sur cette machine ; le supprimer ici ne fait que déconnecter cet ordinateur.",
+  "connections.connecting": "Connexion en cours…",
+  "connections.connect": "Connecter",
+  "connections.startingConnection": "Démarrage de la connexion…",
+  "connections.sshPasswordAria": "Mot de passe ou phrase secrète SSH",
+  "connections.trustAndContinue": "Faire confiance à l'hôte et continuer",
+  "connections.continue": "Continuer",
+  "connections.reject": "Rejeter",
+  "connections.cancelConnection": "Annuler la connexion",
+  "connections.connectByUrl": "Se connecter à un hôte existant par URL",
+  "connections.hostUrl.label": "URL de l'hôte",
+  "connections.deviceToken.label": "Jeton de l'appareil",
+  "connections.connectByUrl.submit": "Connecter par URL",
+  "connections.machineUpdated": "{name} a été mise à jour et reconnectée.",
+  "connections.machineConnected":
+    "{name} est connectée. Pour y travailler, cliquez sur + à côté de Projets dans la barre des projets et choisissez Ouvrir un dossier sur une machine.",
+  "connections.machineConnectedByUrl": "{name} est connectée.",
+  "connections.removedAndRevoked":
+    "{name} a été supprimée et l'accès de cet ordinateur a été révoqué. L'hôte et ses sessions continuent de tourner.",
+  "connections.removedFromDesktop":
+    "{name} a été supprimée de cet ordinateur. L'hôte et ses sessions continuent de tourner, et il accepte toujours l'identifiant de cet ordinateur.",
+  "connections.revokeFailed":
+    "Impossible de révoquer l'accès, donc {name} n'a pas été supprimée : {error}. Reconnectez-vous et réessayez, ou supprimez-la de cet ordinateur seulement et révoquez-la sur l'hôte avec monocode-host devices et monocode-host revoke {deviceId}.",
+
+  "skills.readFailed": "Impossible de lire SKILL.md. {error}",
+  "skills.savePreferenceFailed":
+    "Impossible d'enregistrer la préférence du Skill. Réessayez.",
+  "skills.openFolderFailed": "Impossible d'ouvrir le dossier : {error}",
+  "skills.copyPathFailed":
+    "Impossible de copier le chemin dans le presse-papiers.",
+  "skills.count": "{count, plural, one {# Skill} other {# Skills}}",
+  "skills.filter": "Filtrer",
+  "skills.filterAria": "Filtrer les Skills",
+  "skills.refresh": "Actualiser les Skills",
+  "skills.rescan": "Analyser à nouveau les dossiers de Skills",
+  "skills.closeForm": "Fermer le formulaire de Skill",
+  "skills.add": "Ajouter un Skill",
+  "skills.addHint": "Créer un fichier SKILL.md de départ à modifier",
+  "skills.close": "Fermer",
+  "skills.loading": "Chargement des Skills…",
+  "skills.empty":
+    "Aucun Skill. Ajouter un Skill crée un fichier SKILL.md de départ.",
+  "skills.noMatches": "Aucun Skill correspondant",
+  "skills.preview": "Aperçu de {name}",
+  "skills.scope.personal": "Personnel",
+  "skills.scope.project": "Projet",
+  "skills.include": "Inclure {name} dans le catalogue MonoCode",
+  "skills.previewSkill": "Aperçu du Skill {name}",
+  "skills.previewTitle": "Aperçu du Skill",
+  "skills.copyPath": "Copier le chemin de {name}",
+  "skills.copyPathTitle": "Copier le chemin",
+  "skills.reveal": "Afficher {name} dans l'explorateur de fichiers",
+  "skills.revealTitle": "Afficher dans le gestionnaire de fichiers",
+  "skills.footer":
+    "Les Skills masqués restent sur le disque et sont exclus du catalogue de Skills de MonoCode. Les Skills gérés par les providers et les commandes natives ne changent pas. Les Skills se trouvent dans {projectPath} pour ce projet et dans {personalPath} pour vous ; les dossiers des harnesses sont également pris en compte.",
+  "skills.previewPanel": "Aperçu du Skill",
+  "skills.closePreview": "Fermer l'aperçu du Skill",
+  "skills.closePreviewTitle": "Fermer l'aperçu (Échap)",
+  "skills.loadingOne": "Chargement du Skill…",
+  "skills.new": "Nouveau Skill",
+  "skills.picker.noMatches": "Aucune commande ni aucun Skill correspondant",
+  "skills.picker.empty": "Aucune commande pour l'instant",
+  "skills.picker.ariaLabel": "Commandes et Skills",
+  "skills.form.description":
+    "Crée un fichier SKILL.md de départ que vous pouvez modifier.",
+  "skills.form.name": "Nom du Skill",
+  "skills.form.nameHint":
+    "Utilisez des lettres minuscules, des chiffres et des traits d'union.",
+  "skills.form.cancel": "Annuler",
+  "skills.form.creating": "Création…",
+  "skills.form.create": "Créer",
+  "skills.metadata": "Métadonnées du Skill",
+  "editor.opening": "Ouverture de {name}…",
+  "editor.openFailed": "Impossible d'ouvrir {name}",
+  "editor.retry": "Réessayer",
+  "editor.stagedLineEndings":
+    "Changements de fins de ligne staged. Les sauts de ligne sont normalisés dans cette vue.",
+  "editor.unstagedLineEndings":
+    "Changements de fins de ligne unstaged. Les sauts de ligne sont normalisés dans cette vue.",
+  "editor.properties": "Propriétés",
+  "editor.saving": "Enregistrement…",
+  "editor.saved": "Enregistré",
+  "editor.saveFailed": "Échec de l'enregistrement : {error}",
+  "editor.jumpChanges": "Passer d'un changement à l'autre",
+  "editor.previousChange": "Changement précédent",
+  "editor.nextChange": "Changement suivant",
+  "inbox.connection.label": "Connexion",
+  "inbox.connection.checking": "Vérification…",
+  "inbox.connection.connected": "Connecté",
+  "inbox.connection.checkAgain": "Vérifier à nouveau",
+  "inbox.connection.disconnect": "Déconnecter",
+  "inbox.connection.saving": "Enregistrement…",
+  "inbox.connection.connect": "Connecter",
+  "inbox.github.connected":
+    "GitHub CLI est installé et authentifié. MonoCode l'utilise pour les éléments GitHub de l'Inbox.",
+  "inbox.github.signInHint":
+    "Exécutez gh auth login dans un terminal, terminez la connexion, puis vérifiez à nouveau.",
+  "inbox.github.installHint":
+    "Installez GitHub CLI depuis cli.github.com, exécutez gh auth login dans un terminal, puis vérifiez à nouveau.",
+  "inbox.github.signInRequired": "Connexion requise",
+  "inbox.github.notInstalled": "Non installé",
+  "inbox.github.installGuide": "Guide d'installation",
+  "inbox.gitlab.connectionHint":
+    "Connectez GitLab.com ou une instance GitLab auto-hébergée. Utilisez un personal access token avec accès API ; le token est stocké localement et Déconnecter le supprime.",
+  "inbox.gitlab.tokenLabel": "GitLab access token",
+  "inbox.ado.connectionHint":
+    "Connectez votre organisation ADO avec un personal access token (accès en lecture et écriture à Boards et Repos pour les commentaires). Le token est stocké localement et Déconnecter le supprime.",
+  "inbox.ado.tokenLabel": "Azure DevOps personal access token",
+  "inbox.linear.apiKey": "API key",
+  "inbox.linear.apiKeyHint":
+    "Créez une API key personnelle dans Linear → Settings → Security & Access. Déconnecter la supprime.",
+  "inbox.linear.apiKeyLabel": "Linear API key",
+  "inbox.linear.teams": "Équipes",
+  "inbox.linear.teamsHint":
+    "Les équipes décochées n'apparaissent pas dans l'Inbox.",
+  "settings.search.placeholder": "Rechercher dans les réglages",
+  "settings.search.clear": "Effacer la recherche",
+  "settings.search.results": "Résultats de recherche des réglages",
+  "settings.search.noMatches": "Aucun réglage correspondant",
+  "settings.search.page": "Page",
+  "settings.search.row.language": "Langue",
+  "settings.search.row.remote-machines": "Vos machines",
+  "settings.search.row.mcp-servers": "Serveurs MCP",
+  "settings.search.row.project-worktrees": "Worktrees du projet",
+  "settings.search.row.update": "Version",
+  "settings.search.row.sounds": "Sons",
+  "settings.search.row.notifications": "Notifications",
+  "settings.search.row.notes": "Notes",
+  "settings.search.row.quick-composer": "Quick Composer",
+  "settings.search.row.working-agents": "Agents en cours",
+  "settings.search.row.file-tabs": "Onglets de fichiers",
+  "settings.search.row.tab-animations": "Animations des onglets",
+  "settings.search.row.close-to-tray": "Fermer dans la barre système",
+  "settings.search.row.theme": "Thème",
+  "settings.search.row.accent-color": "Couleur d'accent",
+  "settings.search.row.diff-colors": "Couleurs des diffs",
+  "settings.search.row.hue": "Teinte",
+  "settings.search.row.saturation": "Saturation",
+  "settings.search.row.dark-lightness": "Luminosité du mode sombre",
+  "settings.search.row.sidebar-opacity": "Opacité de la barre latérale",
+  "settings.search.row.blur": "Rayon de flou",
+  "settings.search.row.main-pane-glass": "Verre du panneau principal",
+  "settings.search.row.interface-scale": "Échelle de l'interface",
+  "settings.search.row.collapsed-project-rail": "Barre de projets repliée",
+  "settings.search.row.show-excluded-files": "Afficher les fichiers exclus",
+  "settings.search.row.chat-background": "Arrière-plan de la discussion",
+  "settings.search.row.transcript-layout": "Mise en page de la transcription",
+  "settings.search.row.anchor-prompts": "Ancrer les prompts en haut",
+  "settings.search.row.follow-up": "Comportement du suivi",
+  "settings.search.row.model-controls": "Contrôles du modèle",
+  "settings.search.row.composer-mascot": "Mascotte du compositeur",
+  "settings.search.row.format-on-save": "Formater à l'enregistrement",
+  "settings.search.row.diff-view": "Vue des diffs",
+  "settings.search.row.empty-session-games": "Jeux de session vide",
+  "settings.search.row.agent-clis": "CLI des agents",
+  "settings.search.row.provider-accounts": "Comptes providers",
+  "settings.search.row.show-remaining-usage": "Afficher l'utilisation restante",
+  "settings.search.row.mask-emails": "Masquer les e-mails des comptes",
+  "settings.search.row.claude-hooks": "Hooks Claude Code",
+  "settings.search.row.project-notifications": "Notifications du projet",
+  "settings.search.row.github": "GitHub",
+  "settings.search.row.gitlab": "GitLab",
+  "settings.search.row.azuredevops": "ADO",
+  "settings.search.row.jira": "Jira",
+  "settings.search.row.linear": "Linear",
+  "settings.search.row.show-archived":
+    "Afficher les archives dans la barre latérale",
+
+  "automations.title": "Automatisations",
+  "automations.filter": "Filtrer les automatisations",
+  "automations.new": "Nouvelle automatisation",
+  "automations.noMatches": "Aucune automatisation correspondante",
+  "automations.empty": "Aucune automatisation pour l'instant",
+  "automations.pauseNamed": "Mettre {name} en pause",
+  "automations.enableNamed": "Activer {name}",
+  "automations.picker.description": "Choisissez un exemple ou partez de zéro.",
+  "automations.picker.scratch": "Partir de zéro",
+  "automations.picker.scratchHint":
+    "Rédigez vos instructions et choisissez un trigger.",
+  "automations.templateCategory.popular": "Populaires",
+  "automations.templateCategory.review": "Code Review",
+  "automations.templateCategory.security": "Sécurité",
+  "automations.templateCategory.incidents": "Incidents et triage",
+  "automations.templateCategory.research": "Données et recherche",
+  "automations.templateCategory.environment": "Environnement",
+  "automations.openSession": "Ouvrir la session",
+  "automations.noSessionYet": "Cette exécution n'a pas encore de session",
+  "automations.status.succeeded": "Réussie",
+  "automations.status.failed": "Échouée",
+  "automations.status.skipped": "Ignorée",
+  "automations.status.cancelled": "Annulée",
+  "automations.status.running": "En cours",
+  "automations.status.pending": "En attente",
+  "automations.testRun": "Exécution de test",
+  "automations.category.time": "Planifié",
+  "automations.category.github": "GitHub",
+  "automations.category.linear": "Linear",
+  "automations.category.jira": "Jira",
+  "automations.category.gitlab": "GitLab",
+  "automations.category.azuredevops": "Azure DevOps",
+  "automations.none": "Aucun",
+  "automations.removedFolder": "Dossier supprimé",
+  "automations.name": "Nom de l'automatisation",
+  "automations.untitled": "Sans titre",
+  "automations.reset": "Réinitialiser",
+  "automations.cancel": "Annuler",
+  "automations.runNow": "Exécuter maintenant",
+  "automations.save": "Enregistrer",
+  "automations.create": "Créer",
+  "automations.pause": "Mettre l'automatisation en pause",
+  "automations.enable": "Activer l'automatisation",
+  "automations.active": "Active",
+  "automations.inactive": "Inactive",
+  "automations.actions": "Actions de l'automatisation",
+  "automations.delete": "Supprimer l'automatisation",
+  "automations.view": "Vue de l'automatisation",
+  "automations.settings": "Réglages",
+  "automations.history": "Historique des exécutions",
+  "automations.triggers": "Triggers",
+  "automations.addTrigger": "Ajouter un trigger",
+  "automations.chooseTrigger": "Choisir un trigger d'automatisation",
+  "automations.searchTriggers": "Rechercher des triggers",
+  "automations.connectProvider": "Connectez {provider} dans les réglages",
+  "automations.notConnected": "Non connecté",
+  "automations.noMatchingTriggers": "Aucun trigger correspondant",
+  "automations.providerEvents": "Événements {provider}",
+  "automations.instructions": "Instructions",
+  "automations.instructionsHint":
+    "Les Skills, les références @file et les commandes intégrées fonctionnent ici.",
+  "automations.session": "Session",
+  "automations.workingCopy": "Copie de travail",
+  "automations.workingCopyHint": "Ce dépôt ou un nouveau worktree",
+  "automations.workspace.current": "Actuelle",
+  "automations.workspace.worktree": "Nouveau worktree",
+  "automations.conversation": "Conversation",
+  "automations.conversationHint":
+    "Nouvelle discussion ou poursuite de la dernière exécution",
+  "automations.conversation.fresh": "Nouvelle conversation",
+  "automations.conversation.reuse": "Poursuivre la précédente",
+  "automations.sessionFolder": "Dossier de sessions",
+  "automations.sessionFolderHint":
+    "Où apparaissent les exécutions dans la barre latérale",
+  "automations.advanced": "Avancé",
+  "automations.catchUpHint": "Délai de rattrapage des exécutions manquées",
+  "automations.missedRunGrace": "Délai de rattrapage",
+  "automations.missedRunGraceHint": "Rattraper une exécution planifiée manquée",
+  "automations.grace.0": "Ne pas rattraper",
+  "automations.grace.30": "30 minutes",
+  "automations.grace.120": "2 heures",
+  "automations.grace.720": "12 heures",
+  "automations.grace.1440": "24 heures",
+  "automations.history.trigger": "Trigger",
+  "automations.history.triggered": "Déclenché",
+  "automations.history.status": "Statut",
+  "automations.history.duration": "Durée",
+  "automations.neverRun": "Cette automatisation n'a pas encore été exécutée.",
+  "automations.noTrigger": "Aucun trigger",
+  "automations.removeTrigger": "Supprimer le trigger",
+  "automations.schedule.hourly": "Toutes les heures à",
+  "automations.schedule.daily": "Tous les jours à",
+  "automations.schedule.weekdays": "Chaque jour ouvré à",
+  "automations.schedule.weekly": "Chaque semaine le",
+  "automations.day": "Jour",
+  "automations.at": "à",
+  "automations.minute": "Minute",
+  "automations.time": "Heure",
+  "automations.push": "Push",
+  "automations.on": "sur",
+  "automations.branch": "Branch",
+  "automations.selectBranch": "Choisir une branch",
+  "automations.noBranches": "Aucune branch trouvée",
+  "automations.chooseProject": "Choisissez d'abord un projet",
+  "automations.by": "par",
+  "automations.actor": "Auteur",
+  "automations.anyone": "N'importe qui",
+  "automations.scheduleLabel.hourly": "Toutes les heures à :{minute}",
+  "automations.scheduleLabel.daily": "Tous les jours à {time}",
+  "automations.scheduleLabel.weekdays": "Jours ouvrés à {time}",
+  "automations.scheduleLabel.weekly": "{day} à {time}",
+  "automations.nextRun": "Prochaine exécution : {date}",
+  "sourceControl.loading": "Chargement…",
+  "sourceControl.loadDiffFailed": "Impossible de charger le diff : {error}",
+  "sourceControl.noStaged": "Aucun changement staged",
+  "sourceControl.noUnstaged": "Aucun changement unstaged",
+  "sourceControl.noProject": "Aucun dossier de projet",
+  "sourceControl.loadChangesFailed": "Impossible de charger les changements",
+  "sourceControl.collapseGraph": "Réduire le graphe",
+  "sourceControl.expandGraph": "Développer le graphe",
+  "sourceControl.graph": "Graphe",
+  "sourceControl.noCommits": "Aucun commit pour l'instant",
+  "sourceControl.resizeGraph": "Redimensionner le graphe",
+  "sourceControl.newBranch": "Nouvelle branch",
+  "sourceControl.newBranchHint": "Créez et checkout une branch dans ce projet.",
+  "sourceControl.branchName": "Nom de la branch",
+  "sourceControl.cancel": "Annuler",
+  "sourceControl.createBranch": "Créer la branch",
+  "sourceControl.currentCommit": "Commit actuel{branch}",
+  "sourceControl.createWorktree": "Créer un worktree",
+  "sourceControl.worktreeHint":
+    "Une copie de travail indépendante de {cwd}. Les modifications non commitées restent dans leur copie de travail actuelle.",
+  "sourceControl.branch": "Branch",
+  "sourceControl.branchType": "Type de branch",
+  "sourceControl.createNewBranch": "Créer une nouvelle branch",
+  "sourceControl.useExistingBranch": "Utiliser une branch locale existante",
+  "sourceControl.searchOptions": "Rechercher des options…",
+  "sourceControl.existingBranch": "Branch existante",
+  "sourceControl.newBranchName": "Nom de la nouvelle branch",
+  "sourceControl.chooseBranch": "Choisir une branch…",
+  "sourceControl.searchLocalBranches": "Rechercher des branches locales…",
+  "sourceControl.noMatchingBranches": "Aucune branch locale correspondante",
+  "sourceControl.startFrom": "Partir de",
+  "sourceControl.searchRefs": "Rechercher des branches et des refs…",
+  "sourceControl.createdIn": "Créé dans {root}",
+  "sourceControl.deleteWorktreeQuestion": "Supprimer le worktree ?",
+  "sourceControl.deleteWorktreeHint":
+    "Cette action supprime définitivement la copie de travail et tout ce qu'elle contient.",
+  "sourceControl.sessionsDeleted":
+    "{count, plural, one {La session utilisant ce worktree est supprimée définitivement.} other {Les # sessions utilisant ce worktree sont supprimées définitivement.}}",
+  "sourceControl.sessionsKept":
+    "{count, plural, one {La session utilisant ce worktree est conservée. Choisissez une branch ou un worktree pour la poursuivre.} other {Les # sessions utilisant ce worktree sont conservées. Choisissez une branch ou un worktree pour les poursuivre.}}",
+  "sourceControl.discardUncommitted":
+    "Toutes les modifications non commitées et les fichiers untracked sont abandonnés.",
+  "sourceControl.discardUnchecked":
+    "Impossible de vérifier les modifications. Tout ce qui n'est pas commité ici sera abandonné.",
+  "sourceControl.branchKept":
+    "La branch {branch} et ses commits sont conservés.",
+  "sourceControl.detachedBranchKept": "La branch est conservée.",
+  "sourceControl.unpushedKept":
+    "{count, plural, one {# commit n'est pas sur un remote. Il reste sur la branch.} other {# commits ne sont pas sur un remote. Ils restent sur la branch.}}",
+  "sourceControl.alsoDeleteSessions": "Supprimer aussi les sessions associées",
+  "sourceControl.deleteWorktreeAndSessions":
+    "Supprimer le worktree et {count, plural, one {la session} other {les sessions}}",
+  "sourceControl.deleteWorktree": "Supprimer le worktree",
+  "sourceControl.createNamedBranch": "Créer {branch}",
+  "sourceControl.switchToBranch": "Passer sur {branch}",
+  "sourceControl.uncommittedChanges": "Modifications non commitées",
+  "sourceControl.createBranchOverwrite":
+    "Créer « {branch} » écraserait vos modifications locales. Mettez-les de côté avec stash ou commitez-les d'abord sur cette branch.",
+  "sourceControl.switchBranchOverwrite":
+    "Passer sur « {branch} » écraserait vos modifications locales. Mettez-les de côté avec stash ou commitez-les d'abord sur cette branch.",
+  "sourceControl.commitMessagePlaceholder": "Message ({shortcut} pour commit)",
+  "sourceControl.commitMessage": "Message du commit",
+  "sourceControl.cancelGenerateCommit":
+    "Annuler la génération du message de commit",
+  "sourceControl.generateCommit": "Générer un message de commit",
+  "sourceControl.commitSwitch": "Commit et changer de branch",
+  "sourceControl.stashSwitch": "Stash et changer de branch",
+  "automations.weekday.0": "Dimanche",
+  "automations.weekday.1": "Lundi",
+  "automations.weekday.2": "Mardi",
+  "automations.weekday.3": "Mercredi",
+  "automations.weekday.4": "Jeudi",
+  "automations.weekday.5": "Vendredi",
+  "automations.weekday.6": "Samedi",
+  "automations.event.github.draft_opened": "Draft ouverte",
+  "automations.event.github.pull_request_opened": "Pull request ouverte",
+  "automations.event.github.issue_opened": "Issue ouverte",
+  "automations.event.linear.issue_created": "Issue créée",
+  "automations.event.jira.issue_created": "Issue apparue",
+  "automations.event.gitlab.merge_request_opened": "Merge request ouverte",
+  "automations.event.gitlab.issue_opened": "Issue ouverte",
+  "automations.event.azuredevops.pull_request_appeared": "Pull request apparue",
+  "automations.event.azuredevops.work_item_appeared": "Work item apparu",
+  "automations.event.time.hourly": "Toutes les heures",
+  "automations.event.time.daily": "Tous les jours",
+  "automations.event.time.weekdays": "Jours ouvrés",
+  "automations.event.time.weekly": "Chaque semaine",
+
+  "automations.template.find-critical-bugs.name": "Trouver les bugs critiques",
+  "automations.template.find-critical-bugs.description":
+    "Analyser les commits récents pour repérer les bugs graves et proposer des corrections sûres",
+  "automations.template.find-critical-bugs.trigger": "Jours ouvrés à 09:00",
+  "automations.template.scan-vulnerabilities.name":
+    "Rechercher des vulnérabilités",
+  "automations.template.scan-vulnerabilities.description":
+    "Examiner régulièrement le dépôt et signaler les problèmes de sécurité graves confirmés",
+  "automations.template.scan-vulnerabilities.trigger": "Lundi à 10:00",
+  "automations.template.generate-docs.name": "Générer la documentation",
+  "automations.template.generate-docs.description":
+    "Créer et mettre à jour la documentation des parties récentes ou peu documentées",
+  "automations.template.generate-docs.trigger": "Lundi à 09:00",
+  "automations.template.add-test-coverage.name": "Ajouter des tests",
+  "automations.template.add-test-coverage.description":
+    "Examiner les changements récents et tester la logique à risque insuffisamment couverte",
+  "automations.template.add-test-coverage.trigger": "Jours ouvrés à 11:00",
+  "automations.template.review-pull-requests.name": "Revoir les pull requests",
+  "automations.template.review-pull-requests.description":
+    "À l'ouverture d'une pull request, examiner le diff pour détecter bugs, régressions et tests manquants",
+  "automations.template.review-pull-requests.trigger": "Pull request ouverte",
+  "automations.template.review-draft-prs.name": "Revoir les draft PRs",
+  "automations.template.review-draft-prs.description":
+    "Donner un premier avis à l'ouverture d'une draft pull request, avant la revue finale",
+  "automations.template.review-draft-prs.trigger": "Draft ouverte",
+  "automations.template.dependency-audit.name": "Auditer les dépendances",
+  "automations.template.dependency-audit.description":
+    "Vérifier les lockfiles et manifests pour repérer les packages vulnérables, abandonnés ou mis à jour de façon inattendue",
+  "automations.template.dependency-audit.trigger": "Lundi à 09:30",
+  "automations.template.secret-scan.name": "Rechercher des secrets",
+  "automations.template.secret-scan.description":
+    "Chercher dans la copie de travail et les commits récents des identifiants, tokens et clés",
+  "automations.template.secret-scan.trigger": "Lundi à 09:30",
+  "automations.template.triage-github-issues.name": "Trier les issues GitHub",
+  "automations.template.triage-github-issues.description":
+    "À l'ouverture d'une issue GitHub, examiner le dépôt et proposer une reproduction ou une prochaine étape",
+  "automations.template.triage-github-issues.trigger": "Issue ouverte",
+  "automations.template.triage-new-issues.name": "Trier les nouvelles issues",
+  "automations.template.triage-new-issues.description":
+    "À la création d'une issue Linear, examiner le dépôt et proposer une reproduction ou une prochaine étape",
+  "automations.template.triage-new-issues.trigger": "Issue créée",
+  "automations.template.failing-ci-watch.name":
+    "Surveiller les checks en échec",
+  "automations.template.failing-ci-watch.description":
+    "Chaque matin ouvré, lancer les tests du projet et diagnostiquer les échecs existants",
+  "automations.template.failing-ci-watch.trigger": "Jours ouvrés à 08:30",
+  "automations.template.weekly-changelog.name": "Changelog hebdomadaire",
+  "automations.template.weekly-changelog.description":
+    "Résumer les commits de la semaine dans un changelog lisible",
+  "automations.template.weekly-changelog.trigger": "Vendredi à 16:00",
+  "automations.template.repo-health.name": "Vérifier la santé du dépôt",
+  "automations.template.repo-health.description":
+    "Examiner régulièrement la copie de travail, les branches anciennes et la configuration du projet",
+  "automations.template.repo-health.trigger": "Lundi à 09:00",
+  "automations.template.install-doctor.name": "Diagnostiquer l’environnement",
+  "automations.template.install-doctor.description":
+    "Vérifier que le projet s’installe et démarre depuis une copie de travail propre",
+  "automations.template.install-doctor.trigger": "Lundi à 10:00",
+
+  "sourceControl.pullComplete": "Pull terminé",
+  "sourceControl.noProjectFolder": "Aucun dossier de projet",
+  "sourceControl.changes": "Modifications",
+  "sourceControl.branchActions": "Actions sur la branch",
+  "sourceControl.pullNeedsUpstream":
+    "Cette branch doit avoir un remote et un upstream pour lancer un pull",
+  "sourceControl.pulling": "Pull en cours…",
+  "sourceControl.prDefaultBranchConfirm":
+    "Créer une PR depuis la branch par défaut « {branch} » ?",
+  "sourceControl.pushDefaultBranchConfirm":
+    "Push vers la branch par défaut « {branch} » ?",
+  "sourceControl.deleteUntrackedConfirm":
+    "Supprimer le fichier untracked {name} ?",
+  "sourceControl.discardFileConfirm":
+    "Abandonner les modifications de {name} ? Cette action est irréversible.",
+  "sourceControl.discardAllConfirm":
+    "Abandonner les modifications non stagées dans {count} fichiers ? Cette action est irréversible.",
+  "sourceControl.delete": "Supprimer",
+  "sourceControl.discard": "Abandonner",
+  "sourceControl.amendPushedConfirm":
+    "Modifier un commit déjà poussé ? MonoCode ne pourra pas pousser le résultat. Un force push depuis le terminal sera nécessaire.",
+  "sourceControl.prContentError": "Impossible de préparer le contenu de la PR",
+  "sourceControl.amendMessagePlaceholder":
+    "Message ({shortcut} pour modifier le commit)",
+  "sourceControl.amendCommit": "Modifier le commit",
+  "sourceControl.commitOptions": "Options du commit",
+  "sourceControl.commitPushCreatePr": "Commit, Push et créer une PR",
+  "sourceControl.amendLastCommit": "Modifier le dernier commit",
+  "sourceControl.noUncommittedChanges": "Aucune modification non commitée",
+  "sourceControl.loadingChanges": "Chargement des modifications…",
+  "sourceControl.stagedChanges": "Modifications stagées",
+  "sourceControl.openAllChanges": "Ouvrir toutes les modifications",
+  "sourceControl.unstageAllChanges": "Unstage toutes les modifications",
+  "sourceControl.discardAllChanges": "Abandonner toutes les modifications",
+  "sourceControl.stageAllChanges": "Stage toutes les modifications",
+  "sourceControl.divergedFrom": "Divergence avec {upstream}",
+  "sourceControl.unpushedCommits":
+    "{count, plural, one {# commit non poussé} other {# commits non poussés}}",
+  "sourceControl.incomingCommits":
+    "{count, plural, one {# commit entrant} other {# commits entrants}}",
+  "sourceControl.noFiles": "Aucun fichier",
+  "sourceControl.synchronizing": "Synchronisation des modifications…",
+  "sourceControl.publishNamedBranch": "Publier la branch « {branch} »",
+  "sourceControl.publishBranch": "Publier la branch",
+  "sourceControl.pullAndPush":
+    "Pull {behind} et push {ahead} commits avec {dest}",
+  "sourceControl.pullCommits":
+    "Pull {count, plural, one {# commit} other {# commits}} depuis {dest}",
+  "sourceControl.pushCommits":
+    "Push {count, plural, one {# commit} other {# commits}} vers {dest}",
+  "sourceControl.createPrInto": "Créer une PR vers {branch}",
+  "sourceControl.createPr": "Créer une PR",
+  "sourceControl.viewPrDetails": "Voir la PR nº {number} : {title}",
+  "sourceControl.viewPr": "Voir la PR",
+  "sourceControl.syncChanges": "Synchroniser les modifications",
+  "sourceControl.createPrShort": "Créer une PR",
+  "sourceControl.viewPrNumber": "Voir la PR nº {number}",
+  "sourceControl.viewPrShort": "Voir la PR",
+  "sourceControl.viewAsList": "Afficher en liste",
+  "sourceControl.viewAsTree": "Afficher en arborescence",
+  "sourceControl.unstageFolder": "Unstage les modifications dans {path}",
+  "sourceControl.stageFolder": "Stage les modifications dans {path}",
+  "sourceControl.discardChanges": "Abandonner les modifications",
+  "sourceControl.unstageChanges": "Unstage les modifications",
+  "sourceControl.stageChanges": "Stage les modifications",
+  "sourceControl.noFileChanges": "Aucune modification de fichier",
+  "sourceControl.fileCount":
+    "{count, plural, one {# fichier} other {# fichiers}}",
+  "sourceControl.expandAllFiles": "Déplier tous les fichiers",
+  "sourceControl.collapseAllFiles": "Replier tous les fichiers",
+  "sourceControl.diffTruncated":
+    "Le diff est trop volumineux pour être affiché en entier. La liste des fichiers apparaît sans les modifications détaillées.",
+  "sourceControl.discardFile": "Abandonner les modifications du fichier",
+  "sourceControl.stageFile": "Stage le fichier",
+  "sourceControl.binaryFileChanged": "Fichier binaire modifié",
+  "sourceControl.diffTooLarge": "Diff trop volumineux pour être affiché",
+  "sourceControl.noTextualDiff": "Aucun diff textuel",
+  "sourceControl.expandUpward": "Déplier vers le haut",
+  "sourceControl.expandUnmodifiedUpward":
+    "Afficher les lignes non modifiées au-dessus",
+  "sourceControl.expandDownward": "Déplier vers le bas",
+  "sourceControl.expandUnmodifiedDownward":
+    "Afficher les lignes non modifiées en dessous",
+  "sourceControl.unmodifiedLines":
+    "{count, plural, one {# ligne non modifiée} other {# lignes non modifiées}}",
+  "sourceControl.commentOnLine": "Commenter la ligne {number}",
+  "sourceControl.stageHunk": "Stage ce bloc",
+  "sourceControl.addedCue": "Ajouté : ",
+  "sourceControl.removedCue": "Supprimé : ",
+  "settings.update.available": "La version {version} est disponible.",
+  "settings.update.downloading": "Téléchargement{progress}",
+  "settings.update.checking": "Recherche de mises à jour…",
+  "settings.update.current": "Vous utilisez la dernière version.",
+  "settings.update.failed": "La recherche de mises à jour a échoué.",
+  "settings.update.description":
+    "MonoCode se met à jour depuis le flux des versions publiées.",
+  "settings.update.version": "Version",
+  "settings.update.whatsNew": "Nouveautés",
+  "settings.update.download": "Télécharger",
+  "settings.update.check": "Rechercher les mises à jour",
+  "settings.chatBackground.title": "Arrière-plan des conversations",
+  "settings.chatBackground.description":
+    "Une image derrière les conversations, stockée sur cet appareil.",
+  "settings.chatBackground.preview":
+    "Aperçu d'une conversation vide à {percent} %",
+  "settings.chatBackground.choose": "Choisir une image",
+  "settings.chatBackground.change": "Changer",
+  "settings.chatBackground.remove": "Supprimer",
+  "settings.chatBackground.effect": "Effet d'arrière-plan",
+  "settings.chatBackground.effectName.none": "Aucun",
+  "settings.chatBackground.effectName.dither": "Tramage",
+  "settings.chatBackground.effectName.ascii": "ASCII",
+  "settings.chatBackground.effectName.halftone": "Demi-teinte",
+  "settings.chatBackground.effectName.scanlines": "Lignes de balayage",
+  "settings.chatBackground.effectName.gradient-blur": "Brume",
+  "settings.chatBackground.effectDescription.none":
+    "Affiche l'image d'origine.",
+  "settings.chatBackground.effectDescription.dither":
+    "Recompose l'image avec une palette de couleurs tramées.",
+  "settings.chatBackground.effectDescription.ascii":
+    "Recrée l'image avec des caractères colorés sur fond noir.",
+  "settings.chatBackground.effectDescription.halftone":
+    "Recrée l'image avec des points d'impression colorés sur fond noir.",
+  "settings.chatBackground.effectDescription.scanlines":
+    "Ajoute un effet marqué de lignes de balayage horizontales.",
+  "settings.chatBackground.effectDescription.gradient-blur":
+    "Floute et fond l'image dans l'arrière-plan inférieur.",
+  "settings.chatBackground.showOn": "Afficher sur",
+  "settings.chatBackground.showBackgroundOn": "Afficher l'arrière-plan sur",
+  "settings.chatBackground.showOnDescription":
+    "Les sessions vides seulement ou toutes les conversations.",
+  "settings.chatBackground.emptyOnly": "Sessions vides",
+  "settings.chatBackground.allSessions": "Toutes les sessions",
+  "settings.chatBackground.emptyVisibility":
+    "Visibilité sur une conversation vide",
+  "settings.chatBackground.emptyVisibilityDescription":
+    "Intensité de l'arrière-plan avant le premier message.",
+  "settings.chatBackground.sessionVisibility": "Visibilité pendant une session",
+  "settings.chatBackground.sessionVisibilityDescription":
+    "Intensité de l'arrière-plan après le premier message.",
+  "settings.usagePrivacy.title": "Utilisation et confidentialité",
+  "settings.usagePrivacy.remaining": "Afficher l'utilisation restante",
+  "settings.usagePrivacy.remainingDescription":
+    "Afficher ce qu'il reste de chaque limite dans les jauges plutôt que ce qui a déjà été utilisé.",
+  "settings.usagePrivacy.maskEmails": "Masquer les adresses e-mail des comptes",
+  "settings.usagePrivacy.maskEmailsDescription":
+    "Flouter les adresses e-mail dans les réglages et le panneau d'utilisation jusqu'au clic, pour les masquer dans les captures d'écran.",
+  "settings.accounts.saveError": "Impossible d'enregistrer ce compte",
+  "settings.accounts.removeConfirm":
+    "Supprimer « {account} » ? Ses identifiants enregistrés seront effacés et les échanges en cours avec ce compte seront arrêtés. Les conversations resteront dans l'historique, mais il faudra changer de compte pour les poursuivre.",
+  "settings.accounts.removeProvider": "Supprimer le compte {provider}",
+  "settings.accounts.remove": "Supprimer le compte",
+  "settings.accounts.cancel": "Annuler",
+  "settings.accounts.removeError": "Impossible de supprimer ce compte",
+  "settings.accounts.title": "Comptes",
+  "settings.accounts.description":
+    "Créez des connexions distinctes pour les providers qui prennent en charge plusieurs profils. Le changement de compte reste accessible depuis le contrôle d'utilisation en bas de la fenêtre.",
+  "settings.accounts.count": "{count, plural, one {compte} other {comptes}}",
+  "settings.accounts.add": "Ajouter un compte",
+  "settings.accounts.providerCliProfile": "Profil CLI du provider",
+  "settings.accounts.isolatedProfile": "Profil distinct",
+  "settings.accounts.default": "Par défaut",
+  "settings.accounts.renameNamed": "Renommer {account}",
+  "settings.accounts.rename": "Renommer le compte",
+  "settings.accounts.removeNamed": "Supprimer {account}",
+  "settings.accounts.name": "Nom du compte",
+  "settings.accounts.namePlaceholder": "Travail ou personnel",
+  "settings.accounts.newProvider": "Nouveau compte {provider}",
+  "settings.accounts.renameProvider": "Renommer le compte {provider}",
+  "settings.accounts.waitingBrowser": "En attente du navigateur…",
+  "settings.accounts.signInAdd": "Se connecter et ajouter",
+  "settings.accounts.save": "Enregistrer",
+  "sourceControl.commentOnLocation": "Commenter {location}",
+  "sourceControl.cancelComment": "Annuler le commentaire",
+  "sourceControl.leaveComment": "Laisser un commentaire…",
+  "sourceControl.shortcutToAdd": "{shortcut} pour ajouter",
+  "sourceControl.addToChat": "Ajouter à la conversation",
+  "settings.shortcuts.change": "Modifier le raccourci {name}",
+  "settings.shortcuts.record": "Saisir…",
+  "settings.shortcuts.disabled": "Désactivé",
+  "settings.shortcuts.reset": "Réinitialiser le raccourci {name}",
+  "settings.shortcuts.recordHint": "Suppr pour désactiver · Échap pour annuler",
+  "settings.shortcuts.quickComposerModifier":
+    "Le Quick Composer nécessite ⌘ ou Ctrl pour un raccourci global",
+  "settings.cli.codexInvalidVersion":
+    "Codex CLI a renvoyé une version invalide.",
+  "settings.cli.openCodeInvalidVersion":
+    "OpenCode CLI a renvoyé une version invalide.",
+  "settings.cli.openCodeTooOld":
+    "OpenCode v{version} est trop ancien. Installez la version v{minimum} ou une version plus récente.",
+  "settings.cli.savePathError":
+    "Impossible d'enregistrer le chemin du binaire.",
+  "settings.cli.showDetailsRestart":
+    "Afficher les détails de {provider} CLI ; redémarrage nécessaire",
+  "settings.cli.showDetails": "Afficher les détails de {provider} CLI",
+  "settings.cli.pathRestart":
+    "Chemin de {provider} CLI — redémarrage nécessaire",
+  "settings.cli.path": "Chemin de {provider} CLI",
+  "settings.cli.globalPath": "Chemin global",
+  "settings.cli.needsAttention": "À vérifier",
+  "settings.cli.restartRequired": "Redémarrage nécessaire",
+  "settings.cli.configured": "Configuré",
+  "settings.cli.autoDetected": "Détecté automatiquement",
+  "settings.cli.pathLabel": "Chemin du CLI",
+  "settings.cli.autoDetectedPath": "Chemin détecté automatiquement",
+  "settings.cli.pathHint":
+    "Saisissez le chemin absolu de l'exécutable CLI. Le changement prendra effet après le redémarrage de MonoCode.",
+  "settings.cli.useAutoPath": "Utiliser le chemin détecté automatiquement",
+  "settings.cli.savePath": "Enregistrer le chemin",
+  "settings.cli.notResolved": "CLI introuvable",
+  "settings.cli.checkingSelected": "Vérification du CLI sélectionné…",
+  "settings.cli.retryCheck": "Réessayer de vérifier ce CLI",
+  "settings.cli.checkingVersion": "Vérification de la version…",
+  "settings.cli.openLocationError":
+    "Impossible d'ouvrir l'emplacement du CLI : {error}",
+  "settings.cli.retryConfiguredNamed":
+    "Revérifier le chemin configuré de {provider}",
+  "settings.cli.retryAutoNamed": "Relancer la détection de {provider}",
+  "settings.cli.retryConfigured": "Revérifier le chemin configuré",
+  "settings.cli.retryAuto": "Relancer la détection automatique",
+  "settings.cli.openNamedLocation": "Ouvrir l'emplacement de {provider} CLI",
+  "settings.cli.openLocation": "Ouvrir l'emplacement",
+  "settings.cli.editNamedPath": "Modifier le chemin de {provider} CLI",
+  "settings.cli.editPath": "Modifier le chemin",
+  "settings.providers.availableModels":
+    "{count, plural, one {# modèle disponible.} other {# modèles disponibles.}}",
+  "settings.providers.modelLabel": "Modèle {provider}",
+  "settings.providers.useByDefault": "Utiliser par défaut",
+  "settings.providers.hiddenGlobally": "Masqué globalement",
+  "settings.providers.showInPicker": "Afficher dans le sélecteur",
+  "settings.providers.showNamedInPicker":
+    "Afficher {provider} dans le sélecteur de modèles",
+  "settings.color.default": "Par défaut",
+  "settings.color.blue": "Bleu",
+  "settings.color.violet": "Violet",
+  "settings.color.pink": "Rose",
+  "settings.color.red": "Rouge",
+  "settings.color.orange": "Orange",
+  "settings.color.green": "Vert",
+  "inbox.source": "Source de l'Inbox",
+  "inbox.connectSource": "Connecter une source à l'Inbox",
+  "inbox.addConnection": "Ajouter une connexion",
+  "inbox.filter": "Filtrer l'Inbox",
+  "inbox.markAllRead": "Tout marquer comme lu",
+  "inbox.readStatusError":
+    "Impossible d'enregistrer l'état de lecture. Réessayez.",
+  "inbox.refresh": "Actualiser",
+  "inbox.connectHint": "Ajoutez une connexion pour utiliser l'Inbox.",
+  "inbox.noMatchingTrackerIssues": "Aucune issue {source} correspondante",
+  "inbox.noMatchingMergeRequests":
+    "Aucune issue ni merge request correspondante",
+  "inbox.noMatchingPullRequests": "Aucune issue ni pull request correspondante",
+  "inbox.noTrackerIssuesFilter":
+    "Aucune issue {source} ne correspond à ces filtres",
+  "inbox.nothingNeedsAttention": "Aucun élément ne requiert votre attention",
+  "inbox.noGitlabFilter": "Aucun élément GitLab ne correspond à ces filtres",
+  "inbox.noAdoFilter": "Aucun élément ADO ne correspond à ces filtres",
+  "inbox.noPullRequestsFilter":
+    "Aucune issue ni pull request ne correspond à ces filtres",
+  "inbox.noTrackerIssues": "Aucune issue {source}",
+  "inbox.openProjectHint": "Ouvrez un projet pour remplir l'Inbox",
+  "inbox.resizeList": "Redimensionner la liste de l'Inbox",
+  "inbox.title": "Inbox",
+  "inbox.selectItem": "Sélectionnez un élément de l'Inbox",
+  "inbox.reviewOnGitlab": "Examiner sur GitLab",
+  "inbox.reviewOnAdo": "Examiner sur ADO",
+  "inbox.reviewOnGithub": "Examiner sur GitHub",
+  "inbox.openInLinear": "Ouvrir dans Linear",
+  "inbox.openInJira": "Ouvrir dans Jira",
+  "inbox.openOnGitlab": "Ouvrir sur GitLab",
+  "inbox.openOnAdo": "Ouvrir sur ADO",
+  "inbox.openOnGithub": "Ouvrir sur GitHub",
+  "inbox.mergeRequest": "Merge request",
+  "inbox.pullRequest": "Pull request",
+  "inbox.noLink": "Aucun lien disponible",
+  "inbox.unassigned": "Non assigné",
+  "inbox.created": "Créé {time}",
+  "inbox.updated": "Mis à jour {time}",
+  "inbox.relatedThreads":
+    "{count, plural, one {Conversation liée} other {Conversations liées}}",
+  "inbox.openThread": "Ouvrir la conversation : {title}",
+  "inbox.archived": "Archivé",
+  "inbox.sending": "Envoi…",
+  "inbox.sendToAgent": "Envoyer à l'agent",
+  "inbox.ask": "Demander",
+  "inbox.mergeRequestSections": "Sections de la merge request",
+  "inbox.pullRequestSections": "Sections de la pull request",
+  "inbox.summary": "Résumé",
+  "inbox.code": "Code",
+  "inbox.diffContext": "Contexte du diff",
+  "inbox.hunks": "Blocs",
+  "inbox.fullFile": "Fichier complet",
+  "inbox.noDescription": "Aucune description",
+  "inbox.copied": "Copié",
+  "inbox.copyBranchName": "Copier le nom de la branch",
+  "inbox.chooseProject": "Choisir un projet",
+  "inbox.linkedItem": "{kind} liée nº {number}",
+  "inbox.resizeLinkedPanel": "Redimensionner le panneau de {kind} liée",
+  "inbox.closeLinkedPanel": "Fermer le panneau de {kind} liée",
+  "inbox.pr.thisBranch": "cette branch",
+  "inbox.pr.baseBranch": "la branch de base",
+  "inbox.pr.mergeQuestion": "Merger cette pull request ?",
+  "inbox.pr.mergeDetail":
+    "Chaque commit de {source} sera ajouté à {destination} dans un merge commit.",
+  "inbox.pr.merge": "Merger la pull request",
+  "inbox.pr.merging": "Merge en cours…",
+  "inbox.pr.squashQuestion": "Squash et merger ?",
+  "inbox.pr.squashDetail":
+    "Les commits de {source} seront réunis en un seul commit sur {destination}.",
+  "inbox.pr.squash": "Squash et merger",
+  "inbox.pr.rebaseQuestion": "Rebase et merger ?",
+  "inbox.pr.rebaseDetail":
+    "Les commits de {source} seront rebasés un par un sur {destination}.",
+  "inbox.pr.rebase": "Rebase et merger",
+  "inbox.pr.draftQuestion": "Convertir en draft ?",
+  "inbox.pr.draftDetail":
+    "Les reviewers verront que cette pull request n'est pas prête à être mergée.",
+  "inbox.pr.convertDraft": "Convertir en draft",
+  "inbox.pr.converting": "Conversion…",
+  "inbox.pr.readyQuestion": "Marquer comme prête pour la review ?",
+  "inbox.pr.readyDetail":
+    "Les reviewers verront que cette pull request est prête à recevoir leurs commentaires.",
+  "inbox.pr.ready": "Prête pour la review",
+  "inbox.pr.updating": "Mise à jour…",
+  "inbox.pr.closeQuestion": "Fermer cette pull request ?",
+  "inbox.pr.closeDetail":
+    "La pull request sera fermée sans être mergée. Vous pourrez la rouvrir plus tard.",
+  "inbox.pr.close": "Fermer la pull request",
+  "inbox.pr.closing": "Fermeture…",
+  "inbox.pr.reopenQuestion": "Rouvrir cette pull request ?",
+  "inbox.pr.reopenDetail": "La pull request retrouvera son état ouvert.",
+  "inbox.pr.reopen": "Rouvrir la pull request",
+  "inbox.pr.reopening": "Réouverture…",
+  "inbox.pr.mergeQueued": "Merge en attente ou auto-merge activé.",
+  "inbox.pr.mergeOptions": "Options de merge",
+  "inbox.pr.mergeMethod": "Méthode de merge",
+  "inbox.pr.option.merge": "Créer un merge commit",
+  "inbox.pr.option.squash": "Squash et merger",
+  "inbox.pr.option.rebase": "Rebase et merger",
+  "inbox.pr.optionDescription.merge":
+    "Ajouter chaque commit à la branch de base.",
+  "inbox.pr.optionDescription.squash": "Réunir les commits en un seul.",
+  "inbox.pr.optionDescription.rebase": "Ajouter les commits sans merge commit.",
+  "inbox.status.open": "Ouvert",
+  "inbox.status.closed": "Fermé",
+  "inbox.status.draft": "Draft",
+  "inbox.status.merged": "Mergé",
+  "inbox.newCue": ", nouveau",
+  "inbox.relatedThreadsCount":
+    "{count, plural, one {# conversation liée} other {# conversations liées}}",
+  "notes.filter": "Filtrer les notes",
+  "notes.new": "Nouvelle note",
+  "notes.noMatches": "Aucune note correspondante",
+  "notes.empty":
+    "Aucune note pour le moment. Enregistrez un échange depuis la conversation ou créez une note ici.",
+  "notes.resizeList": "Redimensionner la liste des notes",
+  "notes.title": "Notes",
+  "notes.select": "Sélectionnez une note",
+  "notes.singular": "Note",
+  "notes.noteTitle": "Titre de la note",
+  "notes.untitled": "Sans titre",
+  "notes.delete": "Supprimer",
+  "notes.saveError": "Impossible d'enregistrer la note : {error}",
+  "notes.retry": "Réessayer",
+  "notes.sections": "Sections de la note",
+  "notes.preview": "Aperçu",
+  "notes.source": "Source",
+  "notes.addingImages": "Ajout des images…",
+  "notes.dropImages": "Déposez les images ici",
+  "notes.writeMarkdown": "Écrire en markdown…",
+  "notes.tags": "Tags",
+  "notes.removeTag": "Supprimer #{tag}",
+  "notes.addTag": "Ajouter un tag à la note",
+  "notes.addTagPlaceholder": "Ajouter un tag…",
+  "inbox.filters.needsAttention": "À traiter",
+  "inbox.filters.assignedToMe": "Assigné à moi",
+  "inbox.filters.status": "Statut",
+  "inbox.filters.time": "Période",
+  "inbox.filters.time.all": "Toutes les périodes",
+  "inbox.filters.time.today": "Aujourd'hui",
+  "inbox.filters.time.7d": "7 derniers jours",
+  "inbox.filters.time.30d": "30 derniers jours",
+  "inbox.filters.type": "Type",
+  "inbox.filters.mergeRequests": "Merge requests",
+  "inbox.filters.pullRequests": "Pull requests",
+  "inbox.filters.issues": "Issues",
+  "inbox.filters.teams": "Équipes",
+  "inbox.filters.projects": "Projets",
+  "inbox.filters.clear": "Effacer les filtres",
+  "inbox.descriptionMediaOnly": "La description ne contient que des médias",
+  "inbox.showLess": "Réduire",
+  "inbox.showFullDescription": "Afficher toute la description",
+  "inbox.imageCount": "{count, plural, one {# image} other {# images}}",
+  "inbox.changedFiles": "Fichiers modifiés",
+  "inbox.viewAllFiles": "Voir les {count} fichiers",
+  "inbox.viewDiff": "Voir le diff",
+  "inbox.comments.count":
+    "{count, plural, one {# commentaire} other {# commentaires}}",
+  "inbox.comments.commitCount":
+    "{count, plural, one {# commit} other {# commits}}",
+  "inbox.comments.activity": "Activité",
+  "inbox.comments.latestMore": "Derniers commentaires · suite sur {source}",
+  "inbox.comments.replyingTo": "Réponse à {author}",
+  "inbox.comments.comment": "Commentaire",
+  "inbox.comments.cancelReply": "Annuler la réponse",
+  "inbox.comments.writeReply": "Écrire une réponse ({shortcut})",
+  "inbox.comments.leaveComment": "Laisser un commentaire ({shortcut})",
+  "inbox.comments.posting": "Publication…",
+  "inbox.comments.reply": "Répondre",
+  "inbox.comments.loading": "Chargement des commentaires",
+  "inbox.comments.resolved": "Résolu",
+  "inbox.comments.showMore": "Afficher plus",
+  "inbox.comments.approved": "a approuvé",
+  "inbox.comments.requestedChanges": "a demandé des modifications",
+  "inbox.comments.reviewDismissed": "a vu sa review rejetée",
+  "inbox.comments.reviewed": "a effectué une review",
+  "inbox.comments.addedCommits":
+    "a ajouté {count, plural, one {un commit} other {# commits}}",
+  "inbox.comments.openCommit": "Ouvrir le commit",
+  "inbox.checks.title": "Checks",
+  "inbox.checks.tabLabel": "Checks : {description}",
+  "inbox.checks.loading": "Chargement des checks",
+  "inbox.checks.loadError": "Impossible de charger les checks",
+  "inbox.checks.state.pass": "Réussi",
+  "inbox.checks.state.fail": "Échoué",
+  "inbox.checks.state.pending": "En cours",
+  "inbox.checks.state.cancel": "Annulé",
+  "inbox.checks.state.unknown": "Inconnu",
+  "inbox.checks.state.skipping": "Ignoré",
+  "inbox.checks.stateCount.pass":
+    "{count, plural, one {# réussi} other {# réussis}}",
+  "inbox.checks.stateCount.fail":
+    "{count, plural, one {# échoué} other {# échoués}}",
+  "inbox.checks.stateCount.pending": "{count} en cours",
+  "inbox.checks.stateCount.cancel":
+    "{count, plural, one {# annulé} other {# annulés}}",
+  "inbox.checks.stateCount.unknown":
+    "{count, plural, one {# inconnu} other {# inconnus}}",
+  "inbox.checks.stateCount.skipping":
+    "{count, plural, one {# ignoré} other {# ignorés}}",
+  "inbox.checks.failedAt": "Échec à l'étape {step}",
+  "inbox.checks.rowTitle": "{name} · {status}{duration}{workflow}",
+  "inbox.checks.took": ", durée {duration}",
+  "inbox.checks.details": "Détails de {name}",
+  "inbox.checks.fixNamed": "Corriger {name} avec l'IA",
+  "inbox.checks.fixWithAi": "Corriger avec l'IA",
+  "inbox.checks.collapseDetails": "Replier les détails de {name}",
+  "inbox.checks.expandDetails": "Déplier les détails de {name}",
+  "inbox.checks.viewLog": "Voir le log complet sur GitHub",
+  "inbox.checks.viewNamed": "Voir {name} sur GitHub",
+  "inbox.checks.loadingSteps": "Chargement des étapes…",
+  "inbox.checks.loadDetailsError": "Impossible de charger les détails du job.",
+  "inbox.checks.retryDetails": "Réessayer de charger les détails",
+  "inbox.checks.viewSteps": "Voir les étapes du run",
+  "inbox.checks.namedSteps": "Étapes de {name}",
+  "inbox.checks.retryLoading": "Réessayer de charger les checks",
+  "inbox.checks.needsFix":
+    "{count, plural, one {# check à corriger} other {# checks à corriger}}",
+  "inbox.checks.running":
+    "{count, plural, one {# check en cours} other {# checks en cours}}",
+  "inbox.checks.needsAttention":
+    "{count, plural, one {# check à examiner} other {# checks à examiner}}",
+  "inbox.checks.passed": "Checks réussis",
+  "inbox.checks.noneRan": "Aucun check exécuté",
+  "inbox.checks.prChecks": "Checks de la pull request",
+  "inbox.checks.fixAllFailed": "Corriger tous les checks échoués",
+  "inbox.checks.refresh": "Actualiser les checks",
+  "inbox.checks.stale": "Les résultats enregistrés peuvent être obsolètes.",
+  "inbox.checks.filter": "Filtrer les checks",
+  "inbox.checks.attention": "À examiner",
+  "inbox.checks.all": "Tous les checks",
+  "inbox.checks.failuresFirst": "Échecs en premier",
+  "inbox.checks.noReported": "Aucun check signalé",
+  "inbox.notConnected": "Non connecté",
+  "inbox.connectNamed": "Connecter {source}",
+  "inbox.discussion.askAbout": "Question sur {item}",
+  "inbox.discussion.resize": "Redimensionner la discussion",
+  "inbox.discussion.title": "Question · {item}",
+  "inbox.discussion.restart": "Recommencer la conversation",
+  "inbox.discussion.close": "Fermer le panneau",
+  "inbox.openInProvider": "Ouvrir dans {provider}",
+  "inbox.openItemInProvider": "Ouvrir {kind} {identifier} dans {provider}",
+  "inbox.remove": "Retirer",
+  "inbox.removeItem": "Retirer {kind} {identifier}",
+  "inbox.notifications.muteAll": "Mettre tous les projets en sourdine",
+  "inbox.notifications.resume": "Réactiver les projets en sourdine",
+  "inbox.notifications.settings": "Réglages des notifications…",
+  "inbox.notifications.muteProject":
+    "Mettre les notifications du projet en sourdine",
+  "inbox.notifications.actions": "Actions de l'Inbox",
+  "inbox.notifications.summary":
+    "{count, plural, one {# projet} other {# projets}} · {muted} en sourdine",
+  "inbox.repair.newChat": "Nouvelle conversation du projet",
+  "inbox.repair.untitledChat": "Conversation sans titre",
+  "inbox.repair.fixWithAi": "Corriger avec l'IA",
+  "inbox.repair.fixChecksWithAi": "Corriger les checks avec l'IA",
+  "inbox.repair.closePicker": "Fermer le sélecteur de correction",
+  "inbox.repair.searchChats": "Rechercher les conversations du projet",
+  "inbox.repair.searchChatsPlaceholder": "Rechercher des conversations…",
+  "inbox.repair.projectChats": "Conversations du projet",
+  "inbox.repair.ciIncluded": "Détails CI inclus",
+  "inbox.repair.preparing": "Préparation…",
+  "inbox.repair.start": "Lancer la correction",
+  "inbox.repair.failedChecks": "{count} checks échoués",
+  "inbox.repair.noMatches": "Aucune conversation correspondante",
+  "inbox.repair.waitLatest":
+    "Attendez les derniers checks avant de lancer une correction.",
+  "inbox.evidence.showMore": "Afficher {count} annotations supplémentaires",
+  "inbox.evidence.viewSource": "Voir la source au commit vérifié",
+  "inbox.evidence.viewOnGithub": "Voir {location} sur GitHub",
+  "inbox.evidence.sourceAt": "Source au commit {commit}",
+  "quickComposer.drag": "Glisser pour déplacer",
+  "quickComposer.close": "Fermer le composeur",
+  "quickComposer.closeShortcut": "Fermer (Échap)",
+  "quickComposer.dropAttach": "Déposer pour joindre",
+  "quickComposer.projectShortcut": "Projet (⌘P)",
+  "quickComposer.noProject": "Aucun projet",
+  "quickComposer.attachments": "Pièces jointes",
+  "quickComposer.startSession":
+    "Démarrer une session {provider} dans {project}…",
+  "quickComposer.openProjectFirst": "Ouvrez d’abord un projet dans MonoCode",
+  "quickComposer.prompt": "Prompt",
+  "quickComposer.attachmentsUnsupported":
+    "Choisissez un provider compatible avec les pièces jointes ou retirez les fichiers joints.",
+  "quickComposer.addAttachment": "Ajouter une pièce jointe",
+  "quickComposer.attachHint":
+    "Joindre des fichiers ou prendre une capture d’écran",
+  "quickComposer.attachUnsupportedHint":
+    "Ce provider ne prend pas en charge les pièces jointes",
+  "quickComposer.modelShortcut": "Modèle (⌘.)",
+  "quickComposer.permissions": "Autorisations",
+  "quickComposer.addingAttachment": "Ajout de la pièce jointe…",
+  "quickComposer.start": "démarrer",
+  "quickComposer.startAndOpen": "démarrer et ouvrir",
+  "quickComposer.saveDraft": "Enregistrer le brouillon",
+  "quickComposer.startCapital": "Démarrer",
+  "quickComposer.chooseFiles": "Choisir des fichiers…",
+  "quickComposer.screenshot": "Prendre une capture d’écran…",
+  "quickComposer.commands": "Commandes",
+  "quickComposer.noCommands": "Aucune commande correspondante",
+  "quickComposer.findProject": "Rechercher un projet",
+  "quickComposer.projects": "Projets",
+  "quickComposer.noMatches": "Aucun résultat",
+  "quickComposer.loadingModel": "Chargement du modèle…",
+  "quickComposer.modelSelector": "Sélecteur de modèle",
+  "quickComposer.providers": "Providers",
+  "quickComposer.favorites": "Favoris",
+  "quickComposer.searchModels": "Rechercher des modèles",
+  "quickComposer.searchModelsPlaceholder": "Rechercher des modèles…",
+  "quickComposer.models": "Modèles",
+  "quickComposer.removeFavorite": "Retirer des favoris",
+  "quickComposer.addFavorite": "Ajouter aux favoris",
+  "quickComposer.removeModelFavorite": "Retirer {model} des favoris",
+  "quickComposer.addModelFavorite": "Ajouter {model} aux favoris",
+  "quickComposer.noMatchingModels": "Aucun modèle correspondant",
+  "quickComposer.noFavoriteModels": "Aucun modèle favori",
+  "quickComposer.loadingModels": "Chargement des modèles…",
+  "quickComposer.fastMode": "Mode rapide",
+  "quickComposer.fastOff": "Désactiver le mode rapide",
+  "quickComposer.fastOn": "Activer le mode rapide",
+  "quickComposer.resetDefaults": "Rétablir les valeurs enregistrées",
+  "projectSearch.noProject": "Aucun dossier de projet",
+  "projectSearch.backToFiles": "Retour aux fichiers",
+  "projectSearch.title": "Rechercher dans les fichiers",
+  "projectSearch.search": "Rechercher",
+  "projectSearch.matchCase": "Respecter la casse",
+  "projectSearch.wholeWord": "Mot entier",
+  "projectSearch.regex": "Utiliser une expression régulière",
+  "projectSearch.include": "fichiers à inclure",
+  "projectSearch.exclude": "fichiers à exclure",
+  "projectSearch.searching": "Recherche…",
+  "projectSearch.noResults": "Aucun résultat",
+  "projectSearch.resultCount":
+    "{matches, plural, one {# résultat} other {# résultats}} dans {files, plural, one {# fichier} other {# fichiers}}",
+  "projectSearch.limited": " (limité)",
+  "projectSearch.hint": "Saisissez du texte pour rechercher dans le projet",
+  "composer.queue.paused": "File d’attente en pause après votre interruption",
+  "composer.queue.resume": "Reprendre",
+  "composer.queue.attachments":
+    "{count, plural, one {# pièce jointe} other {# pièces jointes}}",
+  "composer.queue.edit": "Modifier le message en attente",
+  "composer.queue.save": "Enregistrer le message en attente",
+  "composer.queue.cancelEdit": "Annuler la modification du message en attente",
+  "composer.queue.steer": "Orienter",
+  "composer.queue.remove": "Retirer le message en attente",
+  "composer.addFilesOrMode": "Ajouter des fichiers ou choisir un mode",
+  "composer.addToMessage": "Ajouter au message",
+  "composer.uploadFile": "Importer un fichier",
+  "composer.attachFiles": "Joindre des fichiers ou des images",
+  "composer.updateHostAttachments":
+    "Mettez à jour le host de cette machine pour joindre des fichiers",
+  "composer.unsupportedAttachments":
+    "{provider} ne prend pas en charge les pièces jointes",
+  "composer.planMode": "Mode Plan",
+  "composer.planHint": "Examiner un plan avant de commencer",
+  "composer.operatorHint": "Donner à cette conversation accès à MonoCode",
+  "composer.orchestratorHint": "Planifier et coordonner le travail des agents",
+  "composer.draft": "Brouillon",
+  "composer.draftHint": "Enregistrer ce message sans démarrer l’agent",
+  "composer.stopEditing": "Arrêter de modifier le dernier message",
+  "composer.cancelEdit": "Annuler la modification",
+  "quickComposer.permission.supervised.label": "Supervisé",
+  "quickComposer.permission.supervised.hint":
+    "Demander avant les commandes et les modifications de fichiers.",
+  "quickComposer.permission.auto-accept-edits.label":
+    "Modifications acceptées automatiquement",
+  "quickComposer.permission.auto-accept-edits.hint":
+    "Approuver les modifications automatiquement ; demander pour les autres actions.",
+  "quickComposer.permission.auto.label": "Auto",
+  "quickComposer.permission.auto.hint":
+    "Un évaluateur IA peut approuver ou refuser les actions.",
+  "quickComposer.permission.full-access.label": "Accès complet",
+  "quickComposer.permission.full-access.hint":
+    "Autoriser les commandes, modifications et confirmations MCP compatibles sans demande hors du mode Plan.",
+  "quickComposer.newWorktree": "Nouveau worktree",
+  "quickComposer.workspaceLabel": "Espace de travail {label}",
+  "quickComposer.fromBase": "Depuis {base}",
+  "quickComposer.noRepo": "Aucun dépôt",
+  "quickComposer.loading": "Chargement…",
+  "quickComposer.createWorktreeFrom": "Créer un worktree depuis {base}",
+  "quickComposer.chooseBranch": "Choisir une branch",
+  "workspacePicker.existingWorktree": "Worktree existant…",
+  "workspacePicker.openSettings": "Ouvrir les réglages des worktrees",
+  "workspacePicker.settings": "Réglages des worktrees",
+  "workspacePicker.existingWorktrees": "Worktrees existants",
+  "workspacePicker.createFrom": "Créer depuis {branch}",
+  "workspacePicker.createWorktreeFrom": "Créer un worktree depuis {branch}",
+  "workspacePicker.from": "Depuis {branch}",
+  "workspacePicker.baseBranch": "Branch de base du worktree",
+  "workspacePicker.searchBaseBranchesPlaceholder":
+    "Rechercher des branches de base…",
+  "workspacePicker.searchBaseBranches": "Rechercher des branches de base",
+  "workspacePicker.baseBranches": "Branches de base",
+  "projectRail.pinned": "Épinglés",
+  "projectRail.groups": "Groupes",
+  "projectRail.resize": "Redimensionner la barre latérale des projets",
+  "projectRail.newGroup": "Nouveau groupe de projets",
+  "projectRail.openProject": "Ouvrir un projet",
+  "workspace.title": "Espace de travail",
+  "fileTree.newFile": "Nouveau fichier",
+  "fileTree.newFolder": "Nouveau dossier",
+  "fileTree.collapseAll": "Tout replier",
+  "worktrees.notGitRepository":
+    "Ce projet n’est pas un dépôt Git. Sélectionnez un projet Git pour créer des worktrees.",
+  "projectMenu.newGroup": "Nouveau groupe…",
+  "projectMenu.ungrouped": "Sans groupe",
+  "projectMenu.background": "Image d’arrière-plan",
+  "projectMenu.moveToGroup": "Déplacer vers un groupe",
+  "projectMenu.unpin": "Désépingler le projet",
+  "projectMenu.pin": "Épingler le projet",
+  "projectMenu.revealFinder": "Afficher dans le Finder",
+  "projectMenu.revealExplorer": "Afficher dans l’Explorateur de fichiers",
+  "projectMenu.revealFolder": "Ouvrir le dossier contenant",
+  "projectMenu.openInEditor": "Ouvrir dans un éditeur",
+  "projectMenu.lookingForEditors": "Recherche des éditeurs…",
+  "projectMenu.noEditors": "Aucun éditeur compatible trouvé",
+  "projectMenu.muteNotifications": "Mettre les notifications en sourdine",
+  "projectMenu.notificationSettings": "Réglages des notifications…",
+  "projectMenu.archive": "Archiver",
+  "projectMenu.delete": "Supprimer",
+  "projectMenu.notificationSaveError":
+    "Impossible d’enregistrer les préférences de notification. Réessayez.",
+  "projectMenu.resumeNotifications": "Réactiver les notifications",
+  "projectMenu.groupActions": "Actions du groupe de projets",
+  "projectMenu.deleteGroup": "Supprimer le groupe",
+  "projectMenu.deleteGroupDescription":
+    "Les projets se retrouveront sans groupe",
+  "projectMenu.muteProjectNotifications":
+    "Mettre les notifications du projet en sourdine",
+  "projectMenu.tabGroupActions": "Actions du groupe d’onglets",
+  "projectMenu.groupName": "Nom du groupe",
+  "projectMenu.changeLogo": "Changer le logo du projet",
+  "projectMenu.addLogo": "Ajouter un logo au projet",
+  "projectMenu.logo": "Logo du projet",
+  "projectMenu.logoShown": "Affiché dans les onglets et le compositeur",
+  "projectMenu.logoOptional": "Facultatif — remplace l’icône du dossier",
+  "projectMenu.removeLogo": "Supprimer le logo du projet",
+  "projectMenu.mascot": "Mascotte",
+  "projectMenu.mascotNamed": "Mascotte {name}",
+  "projectMenu.action.new-tab": "Nouvel onglet dans le groupe",
+  "projectMenu.action.new-window":
+    "Déplacer le groupe dans une nouvelle fenêtre",
+  "projectMenu.action.close-group": "Fermer le groupe",
+  "projectMenu.action.ungroup": "Dissocier",
+  "projectMenu.action.delete-group": "Supprimer le groupe",
+  "projectMenu.mutedUntilResumed": "En sourdine jusqu’à réactivation",
+  "projectMenu.mutedUntil": "En sourdine jusqu’au {date}",
+  "projectMenu.untilResumed": "Jusqu’à réactivation",
+  "projectMenu.chooseDateTime": "Choisir une date et une heure",
+  "projectMenu.tomorrow": "Demain, ",
+  "projectMenu.hours": "{count, plural, one {# heure} other {# heures}}",
+  "projectBackground.title": "Image d’arrière-plan",
+  "projectBackground.description":
+    "Choisissez une image d’arrière-plan pour {name}",
+  "projectBackground.none": "Aucun arrière-plan sélectionné",
+  "projectBackground.changeImage": "Changer l’image",
+  "projectBackground.chooseImage": "Choisir une image",
+  "projectBackground.overrideHint":
+    "Cette image remplace l’arrière-plan global pour ce projet.",
+  "projectBackground.globalHint":
+    "Ce projet utilise actuellement le réglage global d’apparence.",
+  "projectBackground.effectLabel": "Effet de l’arrière-plan du projet",
+  "projectBackground.showOnLabel": "Afficher l’arrière-plan du projet sur",
+  "projectBackground.emptyVisibilityLabel":
+    "Visibilité de l’arrière-plan dans les conversations vides",
+  "projectBackground.sessionVisibilityLabel":
+    "Visibilité de l’arrière-plan pendant les sessions",
+  "projectBackground.removeImage": "Supprimer l’image d’arrière-plan",
+  "removeProject.aria": "Supprimer {name}",
+  "removeProject.title": "Supprimer « {name} » ?",
+  "removeProject.description":
+    "Toutes les conversations de ce projet seront supprimées et il disparaîtra de la barre latérale. Le dossier sur le disque sera conservé ; le rouvrir rétablira un projet vide.",
+  "removeProject.sessionCount":
+    "{count, plural, one {# conversation enregistrée sera supprimée.} other {# conversations enregistrées seront supprimées.}}",
+  "removeProject.cancel": "Annuler",
+  "removeProject.delete": "Supprimer",
+  "projectNotification.projectsMuted":
+    "{muted} projets sur {total} en sourdine",
+  "projectNotification.changeMuteDuration":
+    "Modifier la durée de mise en sourdine",
+  "projectNotification.muteHint":
+    "La mise en sourdine suspend les notifications du projet sans changer les catégories choisies.",
+  "projectNotification.muted": "En sourdine",
+  "projectNotification.mute": "Mettre en sourdine",
+  "projectNotification.muteAllFor":
+    "Mettre toutes les notifications en sourdine pour",
+  "projectNotification.validDateTime":
+    "Choisissez une date et une heure valides.",
+  "projectNotification.futureDateTime":
+    "Choisissez une date et une heure futures.",
+  "projectNotification.muteUntil":
+    "Mettre toutes les notifications en sourdine jusqu’au",
+  "projectNotification.muteUntilThen": "Mettre en sourdine jusque-là",
+  "projectNotification.title": "Notifications des projets",
+  "projectNotification.description":
+    "Choisissez les sons, bannières et indicateurs de la barre latérale par catégorie. La mise en sourdine les suspend sans modifier vos choix. Les éléments non lus restent marqués dans Inbox.",
+  "projectNotification.done": "Terminé",
+  "projectNotification.selectProjects": "Sélectionner des projets",
+  "projectNotification.empty":
+    "Ouvrez un projet ou connectez un provider Inbox pour configurer ses notifications.",
+  "projectNotification.selectAll": "Sélectionner tous les projets",
+  "projectNotification.selectedCount": "{count} sélectionnés",
+  "projectNotification.muteSelected":
+    "Mettre les projets sélectionnés en sourdine",
+  "projectNotification.selectNamed": "Sélectionner {name}",
+  "projectNotification.categoriesFor": "Catégories de notification pour {name}",
+  "projectNotification.localProject": "Projet local · ",
+  "projectNotification.allPaused": "Toutes les notifications en pause",
+  "projectNotification.allEnabled": "Toutes les catégories activées",
+  "projectNotification.enabledCount": "{count} sur {total} activées",
+  "projectNotification.mutedHint":
+    "Vos choix de catégories s’appliqueront à la reprise des notifications. Vous pouvez les modifier pendant la mise en sourdine.",
+  "projectNotification.categoryFor": "{category} pour {name}",
+  "projectNotification.category.pullRequests": "Pull requests / Merge requests",
+  "projectNotification.category.issues": "Issues et tâches Linear",
+  "projectNotification.category.agentFinished": "Agent terminé",
+  "projectNotification.category.agentInput":
+    "Approbations et questions de l’agent",
+  "projectNotification.category.reminders": "Rappels",
+  "fileTree.cut": "Couper",
+  "fileTree.copy": "Copier",
+  "fileTree.paste": "Coller",
+  "fileTree.duplicate": "Dupliquer",
+  "fileTree.copyPath": "Copier le chemin",
+  "fileTree.copyRelativePath": "Copier le chemin relatif",
+  "fileTree.rename": "Renommer",
+  "fileTree.delete": "Supprimer",
+  "fileTree.openInTerminal": "Ouvrir dans le terminal",
+  "dateTime.previousMonth": "Mois précédent",
+  "dateTime.nextMonth": "Mois suivant",
+  "dateTime.day.monday": "Lu",
+  "dateTime.day.tuesday": "Ma",
+  "dateTime.day.wednesday": "Me",
+  "dateTime.day.thursday": "Je",
+  "dateTime.day.friday": "Ve",
+  "dateTime.day.saturday": "Sa",
+  "dateTime.day.sunday": "Di",
+  "dateTime.time": "Heure",
+  "dateTime.timeHint": "Heure locale, format 24 heures",
+
+  "composer.queue.failed":
+    "Un message n’a pas pu être envoyé",
+  "composer.queue.messagesPaused":
+    "Messages en pause",
+  "composer.queue.retry":
+    "Réessayer",
+  "composer.queue.sending":
+    "Envoi…",
+  "composer.queue.waiting":
+    "En attente d’envoi",
+  "composer.queue.sessionsFinished":
+    "{count, plural, one {# session terminée} other {# sessions terminées}}",
+  "composer.queue.sessionStatus":
+    "{status, select, completed {Session terminée : {title}} failed {Session échouée : {title}} cancelled {Session annulée : {title}} other {Session {status} : {title}}}",
+
+  "transcript.jumpToLatest":
+    "Aller au dernier message",
+
+  "worktreeSwitcher.projectFolder":
+    "Dossier du projet",
+  "worktreeSwitcher.projectFolderDetail":
+    "Dossier du projet · toutes les sessions",
+  "worktreeSwitcher.detachedSha":
+    "Détaché {sha}",
+  "worktreeSwitcher.detachedWorktree":
+    "Worktree détaché",
+  "worktreeSwitcher.detached":
+    "détaché",
+  "worktreeSwitcher.switch":
+    "Changer de copie de travail",
+  "worktreeSwitcher.creating":
+    "Création du worktree",
+  "worktreeSwitcher.switching":
+    "Changement de copie de travail",
+  "worktreeSwitcher.list":
+    "Copies de travail",
+  "worktreeSwitcher.search":
+    "Rechercher des copies de travail",
+  "worktreeSwitcher.placeholder":
+    "Rechercher ou créer un worktree…",
+  "worktreeSwitcher.loading":
+    "Chargement des copies de travail…",
+  "worktreeSwitcher.noMatch":
+    "Aucune copie de travail correspondante",
+  "worktreeSwitcher.create":
+    "Créer le worktree {name}",
+  "worktreeSwitcher.openTabs":
+    "{count, plural, one {# onglet ouvert} other {# onglets ouverts}}{busy, select, true {, en cours} other {}}",
+
+  "projectBackground.lockedHint":
+    "Affiché derrière la discussion de {name}, atténué avec l’effet Brume.",
+
+  "monos.intro.aria":
+    "Découvrir les Monos",
+  "monos.intro.title":
+    "Découvrez les Monos",
+  "monos.experimental":
+    "Expérimental",
+  "monos.intro.body":
+    "Vos propres agents, qui vivent dans la barre des projets et travaillent sur l’ensemble de vos projets. Ils retiennent l’essentiel et prennent des habitudes qu’ils exécutent seuls.",
+  "monos.intro.create":
+    "Créer votre mono",
+  "monos.intro.later":
+    "Pas maintenant",
+  "monos.header.greetingProjects":
+    "Je vois toutes les sessions, notes et dossiers de {projects}. Demandez-moi où on en est, ou confiez-moi du travail.",
+  "monos.header.greetingNoProjects":
+    "Ajoutez depuis mes détails les projets sur lesquels je dois travailler, ou posez-moi simplement une question.",
+  "monos.status.working":
+    "En cours",
+  "monos.status.needs-you":
+    "Besoin de vous",
+  "monos.status.idle":
+    "Au repos",
+  "monos.activity.label":
+    "Activité de {name}",
+  "monos.activity.title":
+    "Activité",
+  "monos.activity.working":
+    "En cours",
+  "monos.activity.finished":
+    "Terminé",
+  "monos.sidebar.hide":
+    "Masquer {title}",
+  "monos.sidebar.resize":
+    "{kind, select, activity {Redimensionner l’activité du Mono} other {Redimensionner les détails du Mono}}",
+  "monos.projects.remove":
+    "Retirer {name}",
+  "monos.projects.add":
+    "Ajouter un projet",
+  "monos.projects.addLabel":
+    "Ajouter un projet",
+  "monos.projects.all":
+    "Il travaille déjà sur tous les projets.",
+  "monos.confirm.cancel":
+    "Annuler",
+  "monos.confirm.resetting":
+    "Réinitialisation…",
+
+  "monos.back":
+    "Retour",
+  "monos.color.blue":
+    "Bleu",
+  "monos.color.coral":
+    "Corail",
+  "monos.color.yellow":
+    "Jaune",
+  "monos.color.green":
+    "Vert",
+  "monos.color.pink":
+    "Rose",
+  "monos.color.purple":
+    "Violet",
+  "monos.color.teal":
+    "Turquoise",
+  "monos.color.orange":
+    "Orange",
+  "monos.color.indigo":
+    "Indigo",
+  "monos.file.conflict":
+    "{author} a modifié ceci pendant que vous le modifiiez.",
+  "monos.file.useTheirs":
+    "Garder sa version",
+  "monos.file.keepMine":
+    "Garder la mienne",
+  "monos.memory.notLoading":
+    "{count, plural, one {# ligne non chargée} other {# lignes non chargées}}",
+  "monos.memory.lines":
+    "{used} / {max} lignes",
+  "monos.details.title":
+    "Détails",
+  "monos.details.label":
+    "Détails de {name}",
+  "monos.details.model":
+    "Modèle",
+  "monos.details.projects":
+    "Projets",
+  "monos.habits.title":
+    "Habits",
+  "monos.habits.atMost":
+    "{max} Habits au maximum",
+  "monos.habits.new":
+    "Nouveau Habit",
+
+  "monos.settings.title":
+    "Réglages",
+  "monos.settings.soul":
+    "Soul",
+  "monos.settings.soulDescription":
+    "Définit qui est ce bot et les règles qu’il suit. Toujours inclus dans son contexte.",
+  "monos.settings.habits":
+    "Habits",
+  "monos.settings.habitsDescription":
+    "Tâches récurrentes que ce bot exécute seul.",
+  "monos.settings.memory":
+    "Memory",
+  "monos.settings.memoryDescription":
+    "Faits et préférences dont ce bot se souvient.",
+  "monos.reset.label":
+    "Réinitialiser la conversation",
+  "monos.reset.title":
+    "Réinitialiser la conversation de {name} ?",
+  "monos.reset.body":
+    "Tous les messages de la conversation de ce Mono seront supprimés et toute réponse en cours sera interrompue. Cette action est irréversible.",
+  "monos.reset.kept":
+    "Sa Soul, sa Memory et ses Habits seront conservés.",
+  "monos.reset.failure":
+    "Impossible de réinitialiser la conversation.",
+  "monos.reset.hint":
+    "Effacer tous les messages et repartir de zéro",
+  "monos.name":
+    "Nom",
+  "monos.habit.runningNow":
+    "En cours d’exécution ·",
+  "monos.habit.starting":
+    "Démarrage…",
+  "monos.habit.pausedSchedule":
+    "En pause · {schedule}",
+  "monos.habit.alreadyRunning":
+    "Déjà en cours d’exécution",
+  "monos.habit.startingShort":
+    "Démarrage",
+  "monos.habit.runNow":
+    "Exécuter maintenant",
+  "monos.habit.pause":
+    "Mettre en pause",
+  "monos.habit.resume":
+    "Reprendre",
+  "monos.habit.remove":
+    "Supprimer",
+  "monos.habit.loading":
+    "Chargement…",
+  "monos.habit.none":
+    "Aucun Habit pour l’instant",
+  "monos.habit.upcoming":
+    "À venir",
+  "monos.habit.done":
+    "Terminées",
+
+  "monos.run.posted":
+    "Vous a écrit",
+  "monos.run.quiet":
+    "Rien à signaler",
+  "monos.run.failed":
+    "N’a pas pu terminer",
+  "monos.when.today":
+    "Aujourd’hui {time}",
+  "monos.habit.paused":
+    "En pause",
+  "monos.habit.runs":
+    "Exécution",
+  "monos.habit.next":
+    "Prochaine",
+  "monos.habit.whatItDoes":
+    "Ce qu’elle fait",
+  "monos.habit.recentRuns":
+    "Exécutions récentes",
+  "monos.habit.neverRan":
+    "Elle ne s’est pas encore exécutée.",
+  "monos.habit.runningNowRow":
+    "En cours d’exécution",
+  "monos.habit.create":
+    "Créer",
+  "monos.habit.kind.daily":
+    "Tous les jours",
+  "monos.habit.kind.weekdays":
+    "Jours ouvrés",
+  "monos.habit.kind.weekly":
+    "Chaque semaine",
+  "monos.habit.kind.hourly":
+    "Toutes les heures",
+  "monos.habit.repeats":
+    "Répétition",
+  "monos.habit.on":
+    "le",
+  "monos.habit.day":
+    "Jour",
+  "monos.habit.at":
+    "à",
+  "monos.habit.minute":
+    "Minute",
+  "monos.habit.time":
+    "Heure",
+  "monos.habit.instructionsPlaceholder":
+    "Ce qu’elle doit faire à chaque exécution, et quand elle doit vous prévenir.",
+  "monos.habit.addFailed":
+    "Impossible d’ajouter l’habitude.",
+
+  "monos.soul.label":
+    "Soul de {name}",
+  "monos.soul.placeholder":
+    "Qui il est, et ce qu’il doit toujours garder en tête",
+  "monos.memory.changed":
+    "Cette mémoire a changé ou est ambiguë. Vérifiez-la avant de réessayer.",
+  "monos.memory.conflict":
+    "La mémoire a continué de changer pendant l’enregistrement. Votre modification n’a pas été enregistrée ; réessayez.",
+  "monos.memory.add":
+    "Ajouter à la Memory",
+  "monos.memory.nothing":
+    "Rien dans la Memory pour l’instant",
+  "monos.memory.new":
+    "Nouvelle entrée de Memory",
+  "monos.memory.newPlaceholder":
+    "Quelque chose dont il doit se souvenir",
+  "monos.memory.edit":
+    "Modifier l’entrée de Memory",
+  "monos.memory.editShort":
+    "Modifier",
+  "monos.memory.forget":
+    "Oublier : {text}",
+  "monos.usage.chooseModel":
+    "Choisir un autre modèle",
+  "monos.usage.chooseAccount":
+    "Choisir un autre compte",
+
+  "monos.composer.dropFiles":
+    "Déposez des fichiers pour les joindre",
+  "monos.composer.nothingDropped":
+    "Rien à joindre dans ce dépôt — le fichier a peut-être été déplacé, renommé ou supprimé.",
+  "monos.composer.message":
+    "Écrire à {name}",
+  "monos.composer.send":
+    "Envoyer",
+  "monos.composer.reading":
+    "Lecture des pièces jointes…",
+  "monos.rail.title":
+    "Monos",
+  "monos.rail.new":
+    "Nouveau mono",
+  "monos.rail.noProjects":
+    "Aucun projet pour l’instant",
+  "monos.rail.options":
+    "Options du mono",
+  "monos.rail.optionsNamed":
+    "Options de {name}",
+  "monos.rail.nameLabel":
+    "Nom du mono",
+  "monos.rail.delete":
+    "Supprimer le mono…",
+
+  "monos.page.title":
+    "Monos",
+  "monos.page.show":
+    "Afficher les monos",
+  "monos.page.showDescription":
+    "Vos propres agents dans la barre des projets. Chacun travaille sur les projets que vous lui confiez, retient l’essentiel et prend des habitudes qu’il exécute seul. Désactivez cette option pour les masquer.",
+  "monos.page.yours":
+    "Vos monos",
+  "monos.page.yoursDescription":
+    "Ajoutez-en un avec le plus à côté de Monos dans la barre des projets. Choisissez ses projets depuis ses détails.",
+  "monos.page.none":
+    "Aucun mono pour l’instant.",
+  "monos.row.worksOn":
+    "Travaille sur {projects}",
+  "monos.row.resetLabel":
+    "Réinitialiser le Mono",
+  "monos.row.resetTitle":
+    "Réinitialiser {name} aux valeurs par défaut ?",
+  "monos.row.resetBody":
+    "Sa Soul revient à la valeur par défaut et son nom à {defaultName}. Les modifications de sa Soul sont irrécupérables.",
+  "monos.row.resetKept":
+    "Sa conversation, ses projets, sa Memory et ses Habits seront conservés.",
+  "monos.row.resetFailure":
+    "Impossible de réinitialiser le Mono.",
+  "monos.row.resetDefaults":
+    "Réinitialiser aux valeurs par défaut",
+  "monos.row.resetNamed":
+    "Réinitialiser {name} aux valeurs par défaut",
+  "settings.search.row.monos-enabled":
+    "Afficher les monos",
+  "settings.search.row.mono-list":
+    "Vos monos",
+
+  "monos.composer.attach":
+    "Joindre des fichiers",
+};

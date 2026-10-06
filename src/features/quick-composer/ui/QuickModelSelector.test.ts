@@ -3,6 +3,8 @@ import { act, createElement } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { QuickModelSelector } from "./QuickModelSelector";
+import { IntlProvider } from "react-intl";
+import { en } from "../../../shared/i18n/messages/en";
 import {
   resetHarnessModelOverlays,
   setHarnessModels,
@@ -63,14 +65,18 @@ beforeEach(() => {
   root = createRoot(container);
   act(() =>
     root.render(
-      createElement(QuickModelSelector, {
-        model: claude,
-        values: { effort: "low" },
-        availableHarnesses: ["claude", "grok"],
-        onChange,
-        onSettingsChange,
-        onClose,
-      }),
+      createElement(
+        IntlProvider,
+        { locale: "en", messages: en },
+        createElement(QuickModelSelector, {
+          model: claude,
+          values: { effort: "low" },
+          availableHarnesses: ["claude", "grok"],
+          onChange,
+          onSettingsChange,
+          onClose,
+        }),
+      ),
     ),
   );
 });
@@ -169,14 +175,18 @@ it("resets reasoning and fast mode to saved user defaults", () => {
   saveLastModelSettings({ effort: "high", fast: "false" });
   act(() =>
     root.render(
-      createElement(QuickModelSelector, {
-        model: claude,
-        values: { effort: "low", fast: "true", context: "256k" },
-        availableHarnesses: ["claude", "grok"],
-        onChange,
-        onSettingsChange,
-        onClose,
-      }),
+      createElement(
+        IntlProvider,
+        { locale: "en", messages: en },
+        createElement(QuickModelSelector, {
+          model: claude,
+          values: { effort: "low", fast: "true", context: "256k" },
+          availableHarnesses: ["claude", "grok"],
+          onChange,
+          onSettingsChange,
+          onClose,
+        }),
+      ),
     ),
   );
   const fast = container.querySelector<HTMLButtonElement>(
